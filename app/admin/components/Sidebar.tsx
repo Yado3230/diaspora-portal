@@ -34,7 +34,7 @@ const Sidebar = () => {
           <ModeToggle />
         </div> */}
       </div>
-      <aside className="fixed top-0 left-0 h-screen w-64 flex transition-transform -translate-x-full sm:translate-x-0 shadow-sm">
+      <aside className="fixed top-0 left-0 h-screen border-r w-64 flex transition-transform -translate-x-full sm:translate-x-0 shadow-sm">
         <div className="h-full w-full flex flex-col justify-between px-3 py-4 bg-gray-50 dark:bg-gray-800 overflow-hidden">
           <div className="flex flex-col overflow-y-auto">
             <div className="flex items-center justify-center pb-2 mb-2">

@@ -1,5 +1,5 @@
 "use client";
-import Logo from "@/app/users/components/Logo";
+import Logo from "@/app/admin/components/Logo";
 // import { ModeToggle } from "@/components/ThemeTogle";
 import React, { useState } from "react";
 import Avatars from "./Avatar";
