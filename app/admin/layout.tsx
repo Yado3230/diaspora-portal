@@ -30,7 +30,7 @@ export default function RootLayout({
       <div>
         <Navbar />
         <Sidebar />
-        <div className="m-8 md:ml-72 mt-20">{children}</div>
+        <div className="m-8 md:ml-72 mt-16 pt-4">{children}</div>
       </div>
     </div>
   );
