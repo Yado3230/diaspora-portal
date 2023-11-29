@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 import { NewSessionProvider } from "@/providers/session-provider";
+import { ToasterProvider } from "@/providers/toast-provider";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
         )}
       >
         <NewSessionProvider>
+          <ToasterProvider />
           <div>
             <div className="">{children}</div>
           </div>

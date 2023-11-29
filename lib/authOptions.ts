@@ -14,8 +14,6 @@ export const authOptions: NextAuthOptions = {
         if (!email || !password) {
           throw new Error("Missing username or password");
         }
-        // const user = await prismadb.user.findUnique({
-
         if (!email || !password) {
           console.log("Missing username or password");
           throw new Error("Missing username or password");
@@ -29,6 +27,7 @@ export const authOptions: NextAuthOptions = {
           },
           body: JSON.stringify({ username: email, password }),
         });
+        console.log(res.ok);
 
         // Check for successful login
         if (!res.ok) throw new Error("Invalid credentials");

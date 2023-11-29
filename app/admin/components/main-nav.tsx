@@ -17,10 +17,7 @@ import {
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
   const menuItems = [
@@ -78,16 +75,19 @@ export function MainNav({
       >
         <div className="font-semibold">Menu</div>
         {menuItems.map((route) => (
-          <div className="flex px-2 items-center space-x-2" key={route.href}>
+          <div
+            className={cn(
+              "flex px-2 items-center hover:text-cyan-500 rounded py-1 space-x-2",
+              route.active
+                ? "text-white bg-cyan-500 hover:text-white"
+                : "text-muted-foreground"
+            )}
+            key={route.href}
+          >
             <span className="">{route?.icon}</span>
             <Link
               href={route.href}
-              className={cn(
-                "text-base font-medium transition-colors hover:text-primary",
-                route.active
-                  ? "text-cyan-500 dark:text-white"
-                  : "text-muted-foreground"
-              )}
+              className={cn("text-base font-medium transition-colors")}
             >
               {route.label}
             </Link>
@@ -99,16 +99,19 @@ export function MainNav({
       >
         <div className="font-semibold">Administration</div>
         {AdministrationItems.map((route) => (
-          <div className="flex px-2 items-center space-x-2" key={route.href}>
+          <div
+            className={cn(
+              "flex px-2 items-center hover:text-cyan-500 rounded py-1 space-x-2",
+              route.active
+                ? "text-white bg-cyan-500 hover:text-white"
+                : "text-muted-foreground"
+            )}
+            key={route.href}
+          >
             <span className="">{route?.icon}</span>
             <Link
               href={route.href}
-              className={cn(
-                "text-base font-medium transition-colors hover:text-primary",
-                route.active
-                  ? "text-cyan-500 dark:text-white"
-                  : "text-muted-foreground"
-              )}
+              className={cn("text-base font-medium transition-colors")}
             >
               {route.label}
             </Link>

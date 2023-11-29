@@ -19,3 +19,33 @@ export interface Login {
   username: string;
   password: string;
 }
+
+export interface Account {
+  id: number;
+  fullName: string;
+  surname: string;
+  motherName: string;
+  email: string;
+  emailVerified: boolean;
+  phone: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  occupation: string;
+  initialDeposit: number;
+  monthlyIncome: number;
+  sex: string;
+  branch: string;
+  currency: string;
+  photo: string;
+  residenceCard: string;
+  passport: string;
+  confirmationForm: string;
+  signature: string;
+  accountType: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
