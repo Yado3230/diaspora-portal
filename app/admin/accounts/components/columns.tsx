@@ -47,14 +47,14 @@ export const columns: ColumnDef<Account>[] = [
     },
   },
   {
-    accessorKey: "surname",
+    accessorKey: "phone",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Sur Name
+          Phone Number
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

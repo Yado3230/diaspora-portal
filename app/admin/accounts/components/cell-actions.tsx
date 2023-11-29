@@ -8,12 +8,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Backpack, Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 // import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Account } from "@/types/types";
+import { useRouter } from "next/navigation";
+import { deleteAccount } from "@/actions/account-action";
 
 interface CellActionProps {
   data: Account;
@@ -23,24 +25,23 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     navigator.clipboard.writeText(id);
     toast.success("client ID copied to the clipboard");
   };
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const onDelete = async () => {
     console.log("deleted");
-    // try {
-    //   setLoading(true);
-    //   await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
-    //   router.refresh();
-    //   toast.success("Billboard deleted.");
-    // } catch (error) {
-    //   toast.error(
-    //     "Make sure you removed all categories using this billboard first."
-    //   );
-    // } finally {
-    //   setLoading(false);
-    //   setOpen(false);
-    // }
+    try {
+      setLoading(true);
+      await deleteAccount(data.id.toString());
+      router.refresh();
+      toast.success("Account deleted.");
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
   };
 
   return (
@@ -63,6 +64,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => onCopy(data.id.toString())}>
             <Copy className="mr-2 h-4 w-4" />
             Copy ID
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push(data.id.toString())}>
+            <Backpack className="mr-2 h-4 w-4" />
+            Preview
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" />
