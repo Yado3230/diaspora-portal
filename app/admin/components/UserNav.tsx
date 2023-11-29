@@ -11,13 +11,13 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 
 export function UserNav() {
   const router = useRouter();
-  //   const { data } = useSession({ required: true });
+  const { data: session } = useSession();
   return (
     <div className="">
       <DropdownMenu>
@@ -34,11 +34,10 @@ export function UserNav() {
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
                 {/* {data?.user?.name} */}
-                Yared Mesele
+                Coop Admin
               </p>
               <p className="text-xs leading-none text-muted-foreground">
-                {/* {data?.user?.email} */}
-                yaredmesele1@gmail.com
+                {session?.user?.email}
               </p>
             </div>
           </DropdownMenuLabel>
@@ -58,7 +57,7 @@ export function UserNav() {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={async () => {
-            //   await signOut();
+              await signOut();
               router.push("/");
             }}
           >

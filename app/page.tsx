@@ -1,7 +1,9 @@
+import LoginCard from "@/components/LoginCard";
+
 export default function Home() {
   return (
-    <main className="p-5">
-      <p>Home Page</p>
+    <main className="flex items-center justify-center min-h-screen mx-2">
+      <LoginCard />
     </main>
   );
 }

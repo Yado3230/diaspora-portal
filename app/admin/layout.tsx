@@ -30,7 +30,9 @@ export default function RootLayout({
       <div>
         <Navbar />
         <Sidebar />
-        <div className="m-8 md:ml-72 mt-20 border">{children}</div>
+        <div className="m-8 md:ml-72 mt-20 border border-2 border-dashed border-indingo-600">
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { SideBarItem } from "@/types/types";
 import {
   ArrowLeftRight,
   BadgeDollarSign,
+  BookA,
   LayoutDashboard,
   Users,
 } from "lucide-react";
@@ -16,12 +17,12 @@ export const sideBar: SideBarItem[] = [
     active: "/admin",
   },
   {
-    name: "requests",
-    label: "Requests",
-    icon: <BadgeDollarSign />,
+    name: "accounts",
+    label: "Accounts",
+    icon: <BookA />,
     hide: false,
-    path: "/admin/requests",
-    active: "/admin/requests",
+    path: "/admin/accounts",
+    active: "/admin/accounts",
   },
   {
     name: "users",

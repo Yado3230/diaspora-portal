@@ -14,3 +14,8 @@ export interface MenuItem {
   url: string;
   active: boolean;
 }
+
+export interface Login {
+  username: string;
+  password: string;
+}

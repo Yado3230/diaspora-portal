@@ -1,7 +1,7 @@
-export default function Home() {
+export default function Admin() {
   return (
     <main className="p-5">
-      <p>Overview Page</p>
+      <p>Dashboard Page</p>
     </main>
   );
 }
