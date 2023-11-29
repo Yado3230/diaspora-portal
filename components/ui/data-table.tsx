@@ -30,6 +30,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Input } from "./input";
 import { Button } from "./button";
 import { CheckCheck, Download, Trash } from "lucide-react";
+import exportDataToExcel from "../exportDataToExcel";
 // import { Loader } from "lucide-react";
 // import Loading from "@/app/loading";
 
@@ -110,7 +111,12 @@ export function DataTable<TData, TValue>({
                 <Button
                   className="ml-2 border"
                   size="sm"
-                  // onClick={handleProcessClick}
+                  onClick={() =>
+                    exportDataToExcel(
+                      "filtered",
+                      table.getFilteredSelectedRowModel().rows
+                    )
+                  }
                   variant="secondary"
                   disabled={loading}
                 >

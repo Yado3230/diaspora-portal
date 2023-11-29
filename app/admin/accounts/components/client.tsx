@@ -29,7 +29,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ data }) => {
           <Button
             size="sm"
             className="bg-cyan-500"
-            onClick={() => exportDataToExcel(data)}
+            onClick={() => exportDataToExcel("notfiltered", data)}
           >
             <Download className="mr-2 h-4 w-4" />
             Export All
