@@ -27,7 +27,6 @@ export const authOptions: NextAuthOptions = {
           },
           body: JSON.stringify({ username: email, password }),
         });
-        console.log(res.ok);
 
         // Check for successful login
         if (!res.ok) throw new Error("Invalid credentials");
