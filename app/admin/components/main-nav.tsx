@@ -108,7 +108,7 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
             )}
             key={route.href}
           >
-            <span className="">{route?.icon}</span>
+            <span>{route?.icon}</span>
             <Link
               href={route.href}
               className={cn("text-base font-medium transition-colors")}

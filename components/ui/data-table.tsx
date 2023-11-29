@@ -29,6 +29,7 @@ import { DataTablePagination } from "./data-table-pagination";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "./input";
 import { Button } from "./button";
+import { CheckCheck, Download, Trash } from "lucide-react";
 // import { Loader } from "lucide-react";
 // import Loading from "@/app/loading";
 
@@ -95,7 +96,17 @@ export function DataTable<TData, TValue>({
               <DataTableToolbar table={table} />
             </div>
             {table.getFilteredSelectedRowModel().rows.length > 0 && (
-              <div className="">
+              <div className="flex items-center justify-center">
+                <Button
+                  className="ml-2 border"
+                  size="sm"
+                  // onClick={handleProcessClick}
+                  variant="destructive"
+                  disabled={loading}
+                >
+                  <Trash className="mr-2 h-4 w-4" />
+                  Delete
+                </Button>
                 <Button
                   className="ml-2 border"
                   size="sm"
@@ -103,7 +114,18 @@ export function DataTable<TData, TValue>({
                   variant="secondary"
                   disabled={loading}
                 >
-                  Process
+                  <Download className="mr-2 h-4 w-4" />
+                  Export
+                </Button>
+                <Button
+                  className="ml-2 border"
+                  size="sm"
+                  // onClick={handleProcessClick}
+                  variant="secondary"
+                  disabled={loading}
+                >
+                  <CheckCheck className="mr-2 h-4 w-4" />
+                  Approve
                 </Button>
               </div>
             )}

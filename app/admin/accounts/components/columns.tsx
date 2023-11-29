@@ -113,7 +113,7 @@ export const columns: ColumnDef<Account>[] = [
           className={`flex w-[100px] items-center`}
           style={{ color: status.color }}
         >
-          {status.icon && <status.icon className="mr-2 h-4 w-4" />}
+          {/* {status.icon && <status.icon className="mr-2 h-4 w-4" />} */}
           <span>{status.label}</span>
         </div>
       );

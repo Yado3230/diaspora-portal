@@ -56,13 +56,13 @@ export const sex = [
     value: "MALE",
     label: "Male",
     color: "#5A5A5A",
-    icon: QuestionMarkCircledIcon,
+    // icon: QuestionMarkCircledIcon,
   },
   {
     value: "FEMALE",
     label: "Female",
     color: "#5A5A5A",
-    icon: StopwatchIcon,
+    // icon: StopwatchIcon,
   },
 ];
 

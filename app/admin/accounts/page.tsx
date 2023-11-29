@@ -1,10 +1,11 @@
 "use client";
 
 import { Account } from "@/types/types";
-import ClientReconciliation from "./components/client";
+import ClientAccount from "./components/client";
 import { useEffect, useState } from "react";
 import { getAllAccounts } from "@/actions/account-action";
 import { format } from "date-fns";
+import exportDataToExcel from "@/components/exportDataToExcel";
 
 const Page = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -48,7 +49,7 @@ const Page = () => {
   }));
   return (
     <div>
-      <ClientReconciliation data={formattedclients} />
+      <ClientAccount data={formattedclients} />
     </div>
   );
 };
