@@ -8,11 +8,11 @@ import { Account } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import exportDataToExcel from "@/components/exportDataToExcel";
 
-interface ClientAccountProps {
+interface VisitorClientProps {
   data: Account[];
 }
 
-const ClientAccount: React.FC<ClientAccountProps> = ({ data }) => {
+const VisitorClient: React.FC<VisitorClientProps> = ({ data }) => {
   // const clientModal = useClientModal();
 
   return (
@@ -44,4 +44,4 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ data }) => {
   );
 };
 
-export default ClientAccount;
+export default VisitorClient;

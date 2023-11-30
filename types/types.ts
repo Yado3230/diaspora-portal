@@ -68,3 +68,11 @@ export interface UserResponse {
   registeredAt: string;
   updatedAt: string;
 }
+
+export interface Role {
+  roleId: number;
+  roleName: string;
+  description: string;
+  registeredAt: string;
+  updatedAt: string;
+}
