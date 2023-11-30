@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import {
+  Activity,
   BookTemplate,
   DollarSign,
   DollarSignIcon,
@@ -43,7 +44,19 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
         />
       ),
     },
+    {
+      href: `/admin/visitors`,
+      label: "Visitors",
+      active: pathname === `/admin/visitors`,
+      icon: (
+        <Activity
+          size={15}
+          color={`${pathname === `/admin/visitors` ? "#0EB8D5" : "#707E94"}`}
+        />
+      ),
+    },
   ];
+
   const AdministrationItems = [
     {
       href: `/admin/users`,
