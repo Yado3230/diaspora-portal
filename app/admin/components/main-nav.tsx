@@ -9,6 +9,7 @@ import {
   Gamepad2,
   LayoutDashboard,
   LucideShovel,
+  Mail,
   Package,
   Settings,
   User,
@@ -70,6 +71,17 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
       ),
     },
     {
+      href: `/admin/emails`,
+      label: "Emails",
+      active: pathname === `/admin/emails`,
+      icon: (
+        <Mail
+          size={15}
+          color={`${pathname === `/admin/emails` ? "#0EB8D5" : "#707E94"}`}
+        />
+      ),
+    },
+    {
       href: `/admin/settings`,
       label: "Settings",
       active: pathname === `/admin/settings`,
@@ -86,7 +98,7 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
       <nav
         className={cn("flex flex-col justify-center space-y-2 mt-3", className)}
       >
-        <div className="font-semibold">Menu</div>
+        <div className="font-semibold opacity-50">Menu</div>
         {menuItems.map((route) => (
           <div
             className={cn(
@@ -110,7 +122,7 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
       <nav
         className={cn("flex flex-col justify-center space-y-2 mt-3", className)}
       >
-        <div className="font-semibold">Administration</div>
+        <div className="font-semibold opacity-50">Administration</div>
         {AdministrationItems.map((route) => (
           <div
             className={cn(

@@ -1,4 +1,3 @@
-import { Account } from "@/types/types";
 import * as XLSX from "xlsx";
 
 // Your dynamic data

@@ -11,7 +11,7 @@ const Page = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getAllAccounts();
+      const res = await getAllAccounts("include");
       setAccounts(res);
     };
     fetchData();

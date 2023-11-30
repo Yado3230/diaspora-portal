@@ -31,6 +31,7 @@ import { Input } from "./input";
 import { Button } from "./button";
 import { CheckCheck, Download, Trash } from "lucide-react";
 import exportDataToExcel from "../exportDataToExcel";
+import { EmailButton } from "@/app/admin/components/EmailButton";
 // import { Loader } from "lucide-react";
 // import Loading from "@/app/loading";
 
@@ -91,38 +92,39 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm ml-2"
         />
-        {!clickable && (
-          <div className="flex w-full items-center justify-between">
-            <div className="ml-2">
-              <DataTableToolbar table={table} />
-            </div>
-            {table.getFilteredSelectedRowModel().rows.length > 0 && (
-              <div className="flex items-center justify-center">
-                <Button
-                  className="ml-2 border"
-                  size="sm"
-                  // onClick={handleProcessClick}
-                  variant="destructive"
-                  disabled={loading}
-                >
-                  <Trash className="mr-2 h-4 w-4" />
-                  Delete
-                </Button>
-                <Button
-                  className="ml-2 border"
-                  size="sm"
-                  onClick={() =>
-                    exportDataToExcel(
-                      "filtered",
-                      table.getFilteredSelectedRowModel().rows
-                    )
-                  }
-                  variant="secondary"
-                  disabled={loading}
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Export
-                </Button>
+        {/* {!clickable && ( */}
+        <div className="flex w-full items-center justify-between">
+          <div className="ml-2">
+            <DataTableToolbar table={table} />
+          </div>
+          {table.getFilteredSelectedRowModel().rows.length > 0 && (
+            <div className="flex items-center justify-center">
+              <Button
+                className="ml-2 border"
+                size="sm"
+                // onClick={handleProcessClick}
+                variant="destructive"
+                disabled={loading}
+              >
+                <Trash className="mr-2 h-4 w-4" />
+                Delete
+              </Button>
+              <Button
+                className="ml-2 border"
+                size="sm"
+                onClick={() =>
+                  exportDataToExcel(
+                    "filtered",
+                    table.getFilteredSelectedRowModel().rows
+                  )
+                }
+                variant="secondary"
+                disabled={loading}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Export
+              </Button>
+              {clickable && (
                 <Button
                   className="ml-2 border"
                   size="sm"
@@ -133,10 +135,12 @@ export function DataTable<TData, TValue>({
                   <CheckCheck className="mr-2 h-4 w-4" />
                   Approve
                 </Button>
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
+          <EmailButton />
+        </div>
+        {/* )} */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -164,10 +168,11 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   className={`${clickable && "cursor-pointer"}`}
-                  onClick={() =>
-                    clickable &&
-                    router.push(`/dashboard/${row._valuesCache.id}`)
-                  }
+                  // onClick={() =>
+                  //   clickable &&
+                  //   // @ts-ignore
+                  //   router.push(`/admin/accounts/${row.original.phone}`)
+                  // }
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (

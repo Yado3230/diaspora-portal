@@ -5,7 +5,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { CellAction } from "./cell-actions";
 import { Checkbox } from "@/components/ui/checkbox";
-import { operations, sex, statuses } from "@/components/ui/data/data";
+import {
+  accountType,
+  operations,
+  sex,
+  statuses,
+} from "@/components/ui/data/data";
 import { Account } from "@/types/types";
 
 export const columns: ColumnDef<Account>[] = [
@@ -136,7 +141,7 @@ export const columns: ColumnDef<Account>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = sex.find(
+      const status = accountType.find(
         (status) => status.value === row.getValue("accountType")
       );
 
@@ -146,7 +151,7 @@ export const columns: ColumnDef<Account>[] = [
 
       return (
         <div
-          className={`flex w-[100px] items-center`}
+          className={`flex w-[100px] items-center whitespace-nowrap`}
           style={{ color: status.color }}
         >
           {/* {status.icon && <status.icon className="mr-2 h-4 w-4" />} */}

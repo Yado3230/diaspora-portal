@@ -12,7 +12,7 @@ const Page = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getAllAccounts();
+      const res = await getAllAccounts("exclude");
       setAccounts(res);
     };
     fetchData();
