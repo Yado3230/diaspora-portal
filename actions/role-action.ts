@@ -1,6 +1,6 @@
 import { Role } from "@/types/types";
 
-const API_URL = "http://10.1.177.121:8881/";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const getAllRoles = async (): Promise<Role[]> => {
   try {

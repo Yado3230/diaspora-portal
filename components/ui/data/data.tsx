@@ -26,26 +26,20 @@ export const labels = [
 
 export const statuses = [
   {
-    value: "pending",
-    label: "Pending",
+    value: "PENDING",
+    label: "PENDING",
     color: "#5A5A5A",
     icon: QuestionMarkCircledIcon,
   },
   {
-    value: "inprogress",
-    label: "In Progress",
-    color: "#5A5A5A",
-    icon: StopwatchIcon,
-  },
-  {
-    value: "success",
-    label: "Success",
+    value: "APPROVED",
+    label: "APPROVED",
     color: "#0000FF",
     icon: CheckCircledIcon,
   },
   {
-    value: "failure",
-    label: "Failure",
+    value: "REJECTED",
+    label: "REJECTED",
     color: "#FF0000",
     icon: CrossCircledIcon,
   },
@@ -61,6 +55,50 @@ export const sex = [
   {
     value: "FEMALE",
     label: "Female",
+    color: "#5A5A5A",
+    // icon: StopwatchIcon,
+  },
+];
+export const accountType = [
+  {
+    value: "Deposit Account",
+    label: "Deposit Account",
+    color: "#5A5A5A",
+    // icon: QuestionMarkCircledIcon,
+  },
+  {
+    value: "Fixed Time Deposit Account",
+    label: "Fixed Time Deposit Account",
+    color: "#5A5A5A",
+    // icon: StopwatchIcon,
+  },
+  {
+    value: "Non-Repatriable Birr Account",
+    label: "Non-Repatriable Birr Account",
+    color: "#5A5A5A",
+    // icon: StopwatchIcon,
+  },
+  {
+    value: "ECOLFL",
+    label: "ECOLFL",
+    color: "#5A5A5A",
+    // icon: StopwatchIcon,
+  },
+  {
+    value: "Diaspora Wadia Saving Account",
+    label: "Diaspora Wadia Saving Account",
+    color: "#5A5A5A",
+    // icon: StopwatchIcon,
+  },
+  {
+    value: "Diaspora Mudarabah Saving Account",
+    label: "Diaspora Mudarabah Saving Account",
+    color: "#5A5A5A",
+    // icon: StopwatchIcon,
+  },
+  {
+    value: "Diaspora Mudarabah Fixed Time",
+    label: "Diaspora Mudarabah Fixed Time",
     color: "#5A5A5A",
     // icon: StopwatchIcon,
   },

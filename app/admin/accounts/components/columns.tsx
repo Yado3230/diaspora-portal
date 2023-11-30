@@ -60,20 +60,20 @@ export const columns: ColumnDef<Account>[] = [
       );
     },
   },
-  {
-    accessorKey: "motherName",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Mother Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "motherName",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Mother Name
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -114,6 +114,67 @@ export const columns: ColumnDef<Account>[] = [
           style={{ color: status.color }}
         >
           {/* {status.icon && <status.icon className="mr-2 h-4 w-4" />} */}
+          <span>{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "accountType",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Account Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status = sex.find(
+        (status) => status.value === row.getValue("accountType")
+      );
+
+      if (!status) {
+        return null;
+      }
+
+      return (
+        <div
+          className={`flex w-[100px] items-center`}
+          style={{ color: status.color }}
+        >
+          {/* {status.icon && <status.icon className="mr-2 h-4 w-4" />} */}
+          <span>{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "status",
+    cell: ({ row }) => {
+      const status = statuses.find(
+        (status) => status.value === row.getValue("status")
+      );
+
+      if (!status) {
+        return null;
+      }
+
+      return (
+        <div
+          className={`flex w-[100px] items-center`}
+          style={{ color: status.color }}
+        >
+          {status.icon && <status.icon className="mr-2 h-4 w-4" />}
           <span>{status.label}</span>
         </div>
       );

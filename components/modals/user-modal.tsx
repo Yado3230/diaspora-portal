@@ -14,20 +14,39 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUserModal } from "@/hooks/use-user-modal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Role } from "@/types/types";
+import { getAllRoles } from "@/actions/role-action";
+import { createUser } from "@/actions/user-action";
 
 const formSchema = z.object({
   fullName: z.string().min(1),
   email: z.string().default(""),
   password: z.string().default(""),
-  roleId: z.number(),
+  roleId: z.string(),
 });
 
 export const UserModal = () => {
   const userModal = useUserModal();
+  const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAllRoles();
+      setRoles(res);
+    };
+    fetchData();
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,7 +54,7 @@ export const UserModal = () => {
       fullName: "",
       email: "",
       password: "",
-      roleId: 0,
+      roleId: "",
     },
   });
 
@@ -43,12 +62,9 @@ export const UserModal = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(`api/clients`, {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
+      const response = await createUser(values);
       if (response) {
-        toast.success("Client Created");
+        toast.success("User Created");
         window.location.reload();
       }
       userModal.onClose();
@@ -105,6 +121,41 @@ export const UserModal = () => {
                   <FormControl>
                     <Input type="password" placeholder="password" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="roleId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role:</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value.toString()}
+                    defaultValue={field.value.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a role"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {roles.map((role) => (
+                        <SelectItem
+                          key={role.roleId}
+                          value={role.roleId?.toString() || ""}
+                        >
+                          {role.roleName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

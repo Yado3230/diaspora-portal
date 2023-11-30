@@ -3,7 +3,7 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 
-import { sex } from "./data/data";
+import { accountType, sex, statuses } from "./data/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Button } from "./button";
 import { DataTableViewOptions } from "./data-table-view-options";
@@ -20,13 +20,20 @@ export function DataTableToolbar<TData>({
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        {/* {table.getColumn("status") && (
+        {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
             options={statuses}
           />
-        )} */}
+        )}
+        {table.getColumn("accountType") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("accountType")}
+            title="Account Type"
+            options={accountType}
+          />
+        )}
         {table.getColumn("sex") && (
           <DataTableFacetedFilter
             column={table.getColumn("sex")}
@@ -34,13 +41,7 @@ export function DataTableToolbar<TData>({
             options={sex}
           />
         )}
-        {/* {table.getColumn("operation") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("operation")}
-            title="Operation"
-            options={operations}
-          />
-        )} */}
+
         {isFiltered && (
           <Button
             variant="ghost"

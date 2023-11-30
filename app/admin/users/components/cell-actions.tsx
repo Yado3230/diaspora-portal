@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { deleteUser } from "@/actions/user-action";
 import { useUserModal } from "@/hooks/use-user-modal";
 import { UserModal } from "@/components/modals/user-modal";
+import { useSession } from "next-auth/react";
 
 interface CellActionProps {
   data: UserResponse;
@@ -30,6 +31,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const userModal = useUserModal();
+  const { data: session } = useSession();
 
   const onDelete = async () => {
     console.log("deleted");
@@ -68,14 +70,20 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className="mr-2 h-4 w-4" />
             Copy ID
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => userModal.onOpen()}>
-            <Edit className="mr-2 h-4 w-4" />
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
+          {/* @ts-ignore */}
+          {session?.user?.role === "ADMIN" && (
+            <DropdownMenuItem onClick={() => userModal.onOpen()}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
+            </DropdownMenuItem>
+          )}
+          {/* @ts-ignore */}
+          {session?.user?.role === "ADMIN" && (
+            <DropdownMenuItem onClick={() => setOpen(true)}>
+              <Trash className="mr-2 h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

@@ -51,7 +51,7 @@ export interface Account {
 }
 
 export interface UserRequest {
-  roleId: number;
+  roleId: number | string;
   fullName: string;
   email: string;
   password: string;
