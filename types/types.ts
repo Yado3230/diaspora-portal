@@ -49,3 +49,22 @@ export interface Account {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UserRequest {
+  roleId: number;
+  fullName: string;
+  email: string;
+  password: string;
+}
+
+export interface UserResponse {
+  userId: number;
+  fullName: string;
+  email: string;
+  role: string;
+  status: string;
+  registeredBy: string;
+  lastLoggedIn: string;
+  registeredAt: string;
+  updatedAt: string;
+}

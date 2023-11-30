@@ -60,7 +60,7 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
   const AdministrationItems = [
     {
       href: `/admin/users`,
-      label: "Admin Users",
+      label: "Users",
       active: pathname === `/admin/users`,
       icon: (
         <Users

@@ -6,7 +6,6 @@ import { UserNav } from "./UserNav";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const role = "merchant";
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };

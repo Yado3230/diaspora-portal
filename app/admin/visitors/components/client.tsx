@@ -20,7 +20,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ data }) => {
       <div className="flex border-b pb-2 items-center justify-between">
         <Heading
           title={`Visitors (${data.length})`}
-          description="Manage uncompleted account registration"
+          description="Manage uncompleted account registrations"
         />
         <div></div>
         <div>
