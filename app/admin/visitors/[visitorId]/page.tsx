@@ -5,12 +5,12 @@ import { Account } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import AccountPreview from "../../components/AccountPreview";
 
-const AccountPage = ({ params }: { params: { accountId: string } }) => {
+const VisitorPage = ({ params }: { params: { visitorId: string } }) => {
   const [accounts, setAccounts] = useState<Account>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getAccountById(params.accountId);
+      const res = await getAccountById(params.visitorId);
       setAccounts(res);
     };
     fetchData();
@@ -26,4 +26,4 @@ const AccountPage = ({ params }: { params: { accountId: string } }) => {
   );
 };
 
-export default AccountPage;
+export default VisitorPage;

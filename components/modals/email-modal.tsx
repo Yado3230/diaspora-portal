@@ -14,11 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
-import { Role } from "@/types/types";
-import { getAllRoles } from "@/actions/role-action";
-import { createUser } from "@/actions/user-action";
+import { useState } from "react";
+
 import { useEmailModal } from "@/hooks/use-email-modal";
 import { Textarea } from "../ui/textarea";
 
@@ -30,16 +27,7 @@ const formSchema = z.object({
 
 export const EmailModal = () => {
   const emailModal = useEmailModal();
-  const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getAllRoles();
-      setRoles(res);
-    };
-    fetchData();
-  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

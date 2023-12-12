@@ -12,7 +12,8 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAllAccounts("include");
-      setAccounts(res);
+      const data = res instanceof Array ? res : [];
+      setAccounts(data);
     };
     fetchData();
   }, []);
@@ -40,6 +41,7 @@ const Page = () => {
     residenceCard: item.residenceCard,
     passport: item.passport,
     confirmationForm: item.confirmationForm,
+    percentageCompleted: item.percentageCompleted,
     signature: item.signature,
     accountType: item.accountType,
     status: item.status,

@@ -12,7 +12,8 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAllUsers();
-      setAccounts(res);
+      const data = res instanceof Array ? res : [];
+      setAccounts(data);
     };
     fetchData();
   }, []);

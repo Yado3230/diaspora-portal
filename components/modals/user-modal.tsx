@@ -43,7 +43,8 @@ export const UserModal = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAllRoles();
-      setRoles(res);
+      const data = res instanceof Array ? res : [];
+      setRoles(data);
     };
     fetchData();
   }, []);

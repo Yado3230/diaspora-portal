@@ -8,7 +8,6 @@ import { DataTable } from "@/components/ui/data-table";
 import { Account } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import exportDataToExcel from "@/components/exportDataToExcel";
-import { EmailButton } from "../../components/EmailButton";
 
 interface ClientAccountProps {
   data: Account[];

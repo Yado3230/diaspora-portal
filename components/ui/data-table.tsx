@@ -98,47 +98,57 @@ export function DataTable<TData, TValue>({
             <DataTableToolbar table={table} />
           </div>
           {table.getFilteredSelectedRowModel().rows.length > 0 && (
-            <div className="flex items-center justify-center">
-              <Button
-                className="ml-2 border"
-                size="sm"
-                // onClick={handleProcessClick}
-                variant="destructive"
-                disabled={loading}
-              >
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
-              </Button>
-              <Button
-                className="ml-2 border"
-                size="sm"
-                onClick={() =>
-                  exportDataToExcel(
-                    "filtered",
-                    table.getFilteredSelectedRowModel().rows
-                  )
-                }
-                variant="secondary"
-                disabled={loading}
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Export
-              </Button>
-              {clickable && (
+            <div className="flex space-x-2">
+              <div className="flex items-center justify-center">
                 <Button
                   className="ml-2 border"
                   size="sm"
                   // onClick={handleProcessClick}
+                  variant="destructive"
+                  disabled={loading}
+                >
+                  <Trash className="mr-2 h-4 w-4" />
+                  Delete
+                </Button>
+                <Button
+                  className="ml-2 border"
+                  size="sm"
+                  onClick={() =>
+                    exportDataToExcel(
+                      "filtered",
+                      table.getFilteredSelectedRowModel().rows
+                    )
+                  }
                   variant="secondary"
                   disabled={loading}
                 >
-                  <CheckCheck className="mr-2 h-4 w-4" />
-                  Approve
+                  <Download className="mr-2 h-4 w-4" />
+                  Export
                 </Button>
-              )}
+                {clickable &&
+                  !table.getFilteredSelectedRowModel().rows.map((item) =>
+                    // @ts-ignore
+                    item.original.status.includes("APPROVED")
+                  )[0] &&
+                  !table.getFilteredSelectedRowModel().rows.map((item) =>
+                    // @ts-ignore
+                    item.original.status.includes("REJECTED")
+                  )[0] && (
+                    <Button
+                      className="ml-2 border"
+                      size="sm"
+                      // onClick={handleProcessClick}
+                      variant="secondary"
+                      disabled={loading}
+                    >
+                      <CheckCheck className="mr-2 h-4 w-4" />
+                      Approve
+                    </Button>
+                  )}
+              </div>
+              <EmailButton />
             </div>
           )}
-          <EmailButton />
         </div>
         {/* )} */}
       </div>

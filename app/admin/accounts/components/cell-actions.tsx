@@ -65,7 +65,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className="mr-2 h-4 w-4" />
             Copy ID
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push(data.id.toString())}>
+          <DropdownMenuItem
+            onClick={() => router.push(`/admin/accounts/${data.id.toString()}`)}
+          >
             <Backpack className="mr-2 h-4 w-4" />
             Preview
           </DropdownMenuItem>

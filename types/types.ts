@@ -20,6 +20,11 @@ export interface Login {
   password: string;
 }
 
+export interface ReportType {
+  status: string;
+  totalData: number;
+}
+
 export interface Account {
   id: number;
   fullName: string;
@@ -43,6 +48,7 @@ export interface Account {
   residenceCard: string;
   passport: string;
   confirmationForm: string;
+  percentageCompleted: number;
   signature: string;
   accountType: string;
   status: string;

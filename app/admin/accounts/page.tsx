@@ -5,7 +5,6 @@ import ClientAccount from "./components/client";
 import { useEffect, useState } from "react";
 import { getAllAccounts } from "@/actions/account-action";
 import { format } from "date-fns";
-import exportDataToExcel from "@/components/exportDataToExcel";
 
 const Page = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -13,7 +12,8 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAllAccounts("exclude");
-      setAccounts(res);
+      const data = res instanceof Array ? res : [];
+      setAccounts(data);
     };
     fetchData();
   }, []);
@@ -41,6 +41,7 @@ const Page = () => {
     residenceCard: item.residenceCard,
     passport: item.passport,
     confirmationForm: item.confirmationForm,
+    percentageCompleted: item.percentageCompleted,
     signature: item.signature,
     accountType: item.accountType,
     status: item.status,

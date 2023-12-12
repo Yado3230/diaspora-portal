@@ -77,12 +77,24 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-export default function PieChart2() {
+interface PieChartProps {
+  pending: number;
+  visitors: number;
+  rejected: number;
+  approved: number;
+}
+
+export default function PieChart2({
+  pending,
+  visitors,
+  rejected,
+  approved,
+}: PieChartProps) {
   const data = [
-    { name: "Approved", value: 400 },
-    { name: "Pending", value: 800 },
-    { name: "Rejected", value: 600 },
-    { name: "Visitors", value: 600 },
+    { name: "Approved", value: approved },
+    { name: "Pending", value: pending },
+    { name: "Rejected", value: rejected },
+    { name: "Visitors", value: visitors },
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);

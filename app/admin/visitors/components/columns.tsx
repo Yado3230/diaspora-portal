@@ -7,6 +7,7 @@ import { CellAction } from "./cell-actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { operations, sex, statuses } from "@/components/ui/data/data";
 import { Account } from "@/types/types";
+import { Progress } from "@/components/ui/progress";
 
 export const columns: ColumnDef<Account>[] = [
   {
@@ -120,6 +121,31 @@ export const columns: ColumnDef<Account>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "percentageCompleted",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Completed
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("percentageCompleted"));
+      const formatted = (amount * 20).toString() + "%";
+
+      return (
+        <span className="flex items-center space-x-1 w-[120px]">
+          <Progress value={amount * 20} />
+          <span className="text-cyan-600 font-semibold">{formatted}</span>
+        </span>
+      );
     },
   },
   {

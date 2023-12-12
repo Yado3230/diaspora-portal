@@ -65,20 +65,6 @@ export const columns: ColumnDef<Account>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "motherName",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Mother Name
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -151,7 +137,7 @@ export const columns: ColumnDef<Account>[] = [
 
       return (
         <div
-          className={`flex w-[100px] items-center whitespace-nowrap`}
+          className={`flex items-center whitespace-nowrap`}
           style={{ color: status.color }}
         >
           {/* {status.icon && <status.icon className="mr-2 h-4 w-4" />} */}
