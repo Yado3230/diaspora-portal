@@ -34,7 +34,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const { data: session } = useSession();
 
   const onDelete = async () => {
-    console.log("deleted");
     try {
       setLoading(true);
       await deleteUser(data.userId.toString());

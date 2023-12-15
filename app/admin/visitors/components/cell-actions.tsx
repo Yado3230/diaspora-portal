@@ -30,7 +30,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
 
   const onDelete = async () => {
-    console.log("deleted");
     try {
       setLoading(true);
       await deleteAccount(data.id.toString());

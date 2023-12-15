@@ -110,7 +110,6 @@ export function EmailButton({ customers }: any) {
       }
       const responseData = await res.json();
       const data = responseData instanceof Array ? responseData : [];
-      console.log(res);
       setEmails(data);
     };
     fetchData();
@@ -119,7 +118,6 @@ export function EmailButton({ customers }: any) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       customers.map(async (customer: any) => {
-        console.log(values, customer);
         const emailDataToSend = {
           to: customer.original.email,
           name: customer.original.fullName,
@@ -136,7 +134,6 @@ export function EmailButton({ customers }: any) {
             body: JSON.stringify(emailDataToSend),
           });
           if (response.ok) {
-            console.log("Email sent successfully");
           } else {
             console.error("Error sending email:", await response.json());
           }
@@ -153,12 +150,9 @@ export function EmailButton({ customers }: any) {
   };
 
   React.useEffect(() => {
-    console.log("Value:", value);
     const foundEmail = emails.find(
       (email) => email.title.toLowerCase() === value.toLowerCase()
     );
-
-    console.log("Found Email:", foundEmail);
 
     if (value.length > 0 && foundEmail) {
       setSelectedLabel(foundEmail);
@@ -166,8 +160,6 @@ export function EmailButton({ customers }: any) {
       // Handle the case when no matching email is found or value is empty
       setSelectedLabel(undefined); // or provide a default value
     }
-
-    console.log("Label:", selectedLabel);
   }, [value]);
 
   return (

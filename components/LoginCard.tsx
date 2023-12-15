@@ -59,7 +59,6 @@ function LoginCard() {
         }
       });
 
-      // console.log(response);
     } catch (error: any) {
       console.error("Error:", error);
 

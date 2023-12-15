@@ -70,8 +70,6 @@ const exportDataToExcel = (filtered: string, data: any) => {
 
   // Save the workbook to a file
   XLSX.writeFile(wb, "output.xlsx", { bookSST: true });
-
-  console.log("Excel file written successfully");
 };
 
 export default exportDataToExcel;

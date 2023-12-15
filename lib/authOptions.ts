@@ -15,7 +15,6 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Missing username or password");
         }
         if (!email || !password) {
-          console.log("Missing username or password");
           throw new Error("Missing username or password");
         }
 

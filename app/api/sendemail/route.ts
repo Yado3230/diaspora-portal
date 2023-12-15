@@ -33,8 +33,6 @@ export async function POST(req: Request) {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error(error);
-      } else {
-        console.log("Email sent: ", info.messageId);
       }
     });
     return NextResponse.json("sent");

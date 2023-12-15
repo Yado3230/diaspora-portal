@@ -63,8 +63,6 @@ export async function PATCH(req: Request) {
   try {
     const body = await req.json();
 
-    console.log("body", body);
-
     const templates = await readTemplates();
     const index = templates.findIndex((template) => template.id === body.id);
     if (index > -1) {

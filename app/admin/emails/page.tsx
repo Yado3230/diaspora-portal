@@ -73,7 +73,6 @@ const EmailPage = () => {
       }
       const responseData = await res.json();
       const data = responseData instanceof Array ? responseData : [];
-      console.log(res);
       setEmails(data);
     };
     fetchData();
@@ -94,7 +93,6 @@ const EmailPage = () => {
   const [open, setOpen] = useState(false);
 
   const onDelete = async () => {
-    console.log("deleted");
     // try {
     //   setLoading(true);
     //   await deleteAccount(data.id.toString());

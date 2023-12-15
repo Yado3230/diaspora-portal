@@ -44,7 +44,6 @@ export const EmailModal: React.FC<EmailProps> = ({
   updated,
   setUpdated,
 }) => {
-  console.log("first", invoice);
   const emailModal = useEmailModal();
   const [loading, setLoading] = useState(false);
 
@@ -115,7 +114,6 @@ export const EmailModal: React.FC<EmailProps> = ({
       return data;
     } catch (error) {
       toast.error("Something went wrong!");
-      console.log(error);
     } finally {
       setLoading(false);
     }
