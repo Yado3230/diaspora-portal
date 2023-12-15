@@ -63,6 +63,7 @@ const EmailPage = () => {
   const emailModal = useEmailModal();
 
   const [emails, setEmails] = useState<EmailTemplate[]>([]);
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +77,7 @@ const EmailPage = () => {
       setEmails(data);
     };
     fetchData();
-  }, []);
+  }, [updated]);
 
   const [loading, setLoading] = useState(false);
   const [invoice, setInvoice] = useState<{
@@ -107,33 +108,6 @@ const EmailPage = () => {
     // }
   };
 
-  const [emailData, setEmailData] = useState({
-    to: "yaredbest81@gmail.com",
-    subject: "Test Email",
-    text: "This is a test email sent from Next.js! and i need to know where are you",
-    html: `hello there`,
-  });
-
-  const sendEmail = async () => {
-    try {
-      const response = await fetch("/api/sendemail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailData),
-      });
-
-      if (response.ok) {
-        console.log("Email sent successfully");
-      } else {
-        console.error("Error sending email:", await response.json());
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-    }
-  };
-
   return (
     <>
       <AlertModal
@@ -142,16 +116,13 @@ const EmailPage = () => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <EmailModal invoice={invoice} />
+      <EmailModal invoice={invoice} updated={updated} setUpdated={setUpdated} />
       <div className="flex border-b pb-2 mb-5 items-center justify-between">
         <Heading
           title={`Emails (${emails.length})`}
           description="Manage email formats from here and use it anywhere"
         />
-        {/* <div></div> */}
-        <div>
-          <button onClick={sendEmail}>Send Email</button>
-        </div>
+        <div></div>
         <div>
           <Button
             size="sm"

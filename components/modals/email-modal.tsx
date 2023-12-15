@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useEmailModal } from "@/hooks/use-email-modal";
 import { Textarea } from "../ui/textarea";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   id: z.string().default(""),
@@ -34,9 +35,15 @@ interface EmailProps {
     body: string;
     subject: string;
   };
+  updated: boolean;
+  setUpdated: (updated: boolean) => void;
 }
 
-export const EmailModal: React.FC<EmailProps> = ({ invoice }) => {
+export const EmailModal: React.FC<EmailProps> = ({
+  invoice,
+  updated,
+  setUpdated,
+}) => {
   console.log("first", invoice);
   const emailModal = useEmailModal();
   const [loading, setLoading] = useState(false);
@@ -52,6 +59,7 @@ export const EmailModal: React.FC<EmailProps> = ({ invoice }) => {
           body: "",
         },
   });
+
   function getDefaultValues() {
     return invoice
       ? {
@@ -78,33 +86,23 @@ export const EmailModal: React.FC<EmailProps> = ({ invoice }) => {
   }, [defaultValues]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // try {
-    //   setLoading(true);
-    //   const response = await createUser(values);
-    //   if (response) {
-    //     toast.success("User Created");
-    //     window.location.reload();
-    //   }
-    //   emailModal.onClose();
-    // } catch (error) {
-    //   toast.error("Something went wrong!");
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
-
     try {
       setLoading(true);
-      const response = invoice
+      const response = invoice.id.length
         ? await fetch("/api/emails", {
-            method: "POST",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(values),
+            body: JSON.stringify({
+              id: invoice.id,
+              subject: values.subject,
+              title: values.title,
+              body: values.body,
+            }),
           })
         : await fetch("/api/emails", {
-            method: "PATCH",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
@@ -112,7 +110,8 @@ export const EmailModal: React.FC<EmailProps> = ({ invoice }) => {
           });
       emailModal.onClose();
       const data = await response.json();
-      toast.success(invoice ? "Edited" : "Saved");
+      setUpdated(!updated);
+      toast.success(invoice.id.length ? "Updated" : "Saved");
       return data;
     } catch (error) {
       toast.error("Something went wrong!");
@@ -180,7 +179,7 @@ export const EmailModal: React.FC<EmailProps> = ({ invoice }) => {
                 Cancel
               </Button>
               <Button type="submit" disabled={loading} className="bg-cyan-500">
-                Continue
+                {invoice.id.length ? "Update" : "Add"}
               </Button>
             </div>
           </form>
