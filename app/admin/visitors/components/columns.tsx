@@ -5,7 +5,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { CellAction } from "./cell-actions";
 import { Checkbox } from "@/components/ui/checkbox";
-import { operations, sex, statuses } from "@/components/ui/data/data";
+import {
+  completed,
+  operations,
+  sex,
+  statuses,
+} from "@/components/ui/data/data";
 import { Account } from "@/types/types";
 import { Progress } from "@/components/ui/progress";
 
@@ -139,13 +144,23 @@ export const columns: ColumnDef<Account>[] = [
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("percentageCompleted"));
       const formatted = (amount * 20).toString() + "%";
+      const status = completed.find((status) => status.value === formatted);
+
+      if (!status) {
+        return null;
+      }
 
       return (
         <span className="flex items-center space-x-1 w-[120px]">
           <Progress value={amount * 20} />
-          <span className="text-cyan-600 font-semibold">{formatted}</span>
+          <span className="text-cyan-600 font-semibold">{status.label}</span>
         </span>
       );
+    },
+    filterFn: (row, id, value) => {
+      const amount = parseFloat(row.getValue(id));
+      const formatted = (amount * 20).toString() + "%";
+      return value.includes(formatted);
     },
   },
   {

@@ -1,62 +1,85 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const data = [
   {
     name: "Jan",
-    total: 2010,
+    approved: 2010,
+    rejected: 1010,
   },
   {
     name: "Feb",
-    total: 6500,
+    approved: 6500,
+    rejected: 7500,
   },
   {
     name: "Mar",
-    total: 4300,
+    approved: 4300,
+    rejected: 3300,
   },
   {
     name: "Apr",
-    total: 4750,
+    approved: 4750,
+    rejected: 2750,
   },
   {
     name: "May",
-    total: 5230,
+    approved: 5230,
+    rejected: 2230,
   },
   {
     name: "Jun",
-    total: 3600,
+    approved: 3600,
+    rejected: 1600,
   },
   {
     name: "Jul",
-    total: 5420,
+    approved: 5420,
+    rejected: 6420,
   },
   {
     name: "Aug",
-    total: 5500,
+    approved: 5500,
+    rejected: 3500,
   },
   {
     name: "Sep",
-    total: 6300,
+    approved: 6300,
+    rejected: 4300,
   },
   {
     name: "Oct",
-    total: 3510,
+    approved: 3510,
+    rejected: 4510,
   },
   {
     name: "Nov",
-    total: 5700,
+    approved: 5700,
+    rejected: 3700,
   },
   {
     name: "Dec",
-    total: 2900,
+    approved: 2900,
+    rejected: 900,
   },
 ];
 
 export function Barchart() {
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
+      {/* <BarChart data={data}>
         <XAxis
           dataKey="name"
           stroke="#888888"
@@ -72,7 +95,31 @@ export function Barchart() {
           tickFormatter={(value) => `${value}`}
         />
         <Bar dataKey="total" fill="#02B3F3" radius={[4, 4, 0, 0]} />
-      </BarChart>
+      </BarChart> */}
+      <LineChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line
+          type="monotone"
+          dataKey="approved"
+          stroke="#8884d8"
+          activeDot={{ r: 8 }}
+        />
+        <Line type="monotone" dataKey="rejected" stroke="#82ca9d" />
+      </LineChart>
     </ResponsiveContainer>
   );
 }

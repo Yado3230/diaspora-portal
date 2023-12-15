@@ -25,6 +25,13 @@ export interface ReportType {
   totalData: number;
 }
 
+export interface EmailTemplate {
+  id: string;
+  title: string;
+  body: string;
+  subject: string;
+}
+
 export interface Account {
   id: number;
   fullName: string;

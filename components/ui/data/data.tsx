@@ -59,6 +59,39 @@ export const sex = [
     // icon: StopwatchIcon,
   },
 ];
+
+export const completed = [
+  {
+    value: "20%",
+    label: "20%",
+    color: "#5A5A5A",
+    // icon: QuestionMarkCircledIcon,
+  },
+  {
+    value: "40%",
+    label: "40%",
+    color: "#5A5A5A",
+    // icon: QuestionMarkCircledIcon,
+  },
+  {
+    value: "60%",
+    label: "60%",
+    color: "#5A5A5A",
+    // icon: QuestionMarkCircledIcon,
+  },
+  {
+    value: "80%",
+    label: "80%",
+    color: "#5A5A5A",
+    // icon: QuestionMarkCircledIcon,
+  },
+  {
+    value: "100%",
+    label: "100%",
+    color: "#5A5A5A",
+    // icon: QuestionMarkCircledIcon,
+  },
+];
 export const accountType = [
   {
     value: "Deposit Account",

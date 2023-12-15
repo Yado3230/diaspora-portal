@@ -3,7 +3,7 @@
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 
-import { accountType, sex, statuses } from "./data/data";
+import { accountType, completed, sex, statuses } from "./data/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Button } from "./button";
 import { DataTableViewOptions } from "./data-table-view-options";
@@ -25,6 +25,13 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("status")}
             title="Status"
             options={statuses}
+          />
+        )}
+        {table.getColumn("percentageCompleted") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("percentageCompleted")}
+            title="Completed"
+            options={completed}
           />
         )}
         {table.getColumn("accountType") && (

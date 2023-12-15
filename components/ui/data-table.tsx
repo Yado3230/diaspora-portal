@@ -146,7 +146,9 @@ export function DataTable<TData, TValue>({
                     </Button>
                   )}
               </div>
-              <EmailButton />
+              <EmailButton
+                customers={table.getFilteredSelectedRowModel().rows}
+              />
             </div>
           )}
         </div>

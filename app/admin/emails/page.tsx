@@ -1,5 +1,7 @@
 "use client";
 
+import fs from "fs";
+import path from "path";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { EmailModal } from "@/components/modals/email-modal";
 import { Button } from "@/components/ui/button";
@@ -16,50 +18,78 @@ import {
 } from "@/components/ui/table";
 import { useEmailModal } from "@/hooks/use-email-modal";
 import { Edit, Plus, Trash } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { EmailTemplate } from "@/types/types";
 
-const emails = [
-  {
-    emailName: "Email 001",
-    subject: "Subject 001",
-    body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-  },
-  {
-    emailName: "Email 002",
-    subject: "Subject 001",
-    body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-  },
-  {
-    emailName: "Email 003",
-    subject: "Subject 001",
-    body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-  },
-  {
-    emailName: "Email 004",
-    subject: "Subject 001",
-    body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-  },
-  {
-    emailName: "Email 005",
-    subject: "Subject 001",
-    body: "Hello, I was looking at your site and wanted to ask if you  would be interested in getting two-hundred and fifty thousand (250,000) emails sent",
-  },
-  {
-    emailName: "Email 006",
-    subject: "Subject 001",
-    body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-  },
-  {
-    emailName: "Email 007",
-    subject: "Subject 001",
-    body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-  },
-];
+// const emails = [
+//   {
+//     emailName: "Email 001",
+//     subject: "Subject 001",
+//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
+//   },
+//   {
+//     emailName: "Email 002",
+//     subject: "Subject 001",
+//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
+//   },
+//   {
+//     emailName: "Email 003",
+//     subject: "Subject 001",
+//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
+//   },
+//   {
+//     emailName: "Email 004",
+//     subject: "Subject 001",
+//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
+//   },
+//   {
+//     emailName: "Email 005",
+//     subject: "Subject 001",
+//     body: "Hello, I was looking at your site and wanted to ask if you  would be interested in getting two-hundred and fifty thousand (250,000) emails sent",
+//   },
+//   {
+//     emailName: "Email 006",
+//     subject: "Subject 001",
+//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
+//   },
+//   {
+//     emailName: "Email 007",
+//     subject: "Subject 001",
+//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
+//   },
+// ];
 
 const EmailPage = () => {
   const emailModal = useEmailModal();
 
+  const [emails, setEmails] = useState<EmailTemplate[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("/api/emails");
+      if (!res.ok) {
+        throw new Error(`Request failed with status: ${res.status}`);
+      }
+      const responseData = await res.json();
+      const data = responseData instanceof Array ? responseData : [];
+      console.log(res);
+      setEmails(data);
+    };
+    fetchData();
+  }, []);
+
   const [loading, setLoading] = useState(false);
+  const [invoice, setInvoice] = useState<{
+    id: string;
+    title: string;
+    body: string;
+    subject: string;
+  }>({
+    id: "",
+    title: "",
+    body: "",
+    subject: "",
+  });
   const [open, setOpen] = useState(false);
 
   const onDelete = async () => {
@@ -77,6 +107,33 @@ const EmailPage = () => {
     // }
   };
 
+  const [emailData, setEmailData] = useState({
+    to: "yaredbest81@gmail.com",
+    subject: "Test Email",
+    text: "This is a test email sent from Next.js! and i need to know where are you",
+    html: `hello there`,
+  });
+
+  const sendEmail = async () => {
+    try {
+      const response = await fetch("/api/sendemail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      if (response.ok) {
+        console.log("Email sent successfully");
+      } else {
+        console.error("Error sending email:", await response.json());
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
   return (
     <>
       <AlertModal
@@ -85,13 +142,16 @@ const EmailPage = () => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <EmailModal />
+      <EmailModal invoice={invoice} />
       <div className="flex border-b pb-2 mb-5 items-center justify-between">
         <Heading
           title={`Emails (${emails.length})`}
           description="Manage email formats from here and use it anywhere"
         />
-        <div></div>
+        {/* <div></div> */}
+        <div>
+          <button onClick={sendEmail}>Send Email</button>
+        </div>
         <div>
           <Button
             size="sm"
@@ -115,9 +175,9 @@ const EmailPage = () => {
         </TableHeader>
         <TableBody>
           {emails.map((invoice) => (
-            <TableRow key={invoice.emailName}>
+            <TableRow key={invoice.id}>
               <TableCell className="font-medium opacity-75">
-                {invoice.emailName}
+                {invoice.title}
               </TableCell>
               <TableCell className="opacity-75">{invoice.subject}</TableCell>
               <TableCell className="opacity-75">{invoice.body}</TableCell>
@@ -125,7 +185,10 @@ const EmailPage = () => {
                 <div className="flex whitespace-nowrap space-x-2 opacity-75">
                   <Edit
                     color="#06B6D4"
-                    onClick={() => emailModal.onOpen()}
+                    onClick={() => {
+                      setInvoice(invoice);
+                      emailModal.onOpen();
+                    }}
                     className="w-5 h-5 cursor-pointer"
                   />
                   <Trash

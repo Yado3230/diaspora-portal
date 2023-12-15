@@ -14,29 +14,68 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { useEmailModal } from "@/hooks/use-email-modal";
 import { Textarea } from "../ui/textarea";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
-  emailName: z.string().default(""),
+  id: z.string().default(""),
+  title: z.string().default(""),
   subject: z.string().default(""),
   body: z.string().default(""),
 });
 
-export const EmailModal = () => {
+interface EmailProps {
+  invoice: {
+    id: string;
+    title: string;
+    body: string;
+    subject: string;
+  };
+}
+
+export const EmailModal: React.FC<EmailProps> = ({ invoice }) => {
+  console.log("first", invoice);
   const emailModal = useEmailModal();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      emailName: "",
-      subject: "",
-      body: "",
-    },
+    defaultValues: invoice
+      ? invoice
+      : {
+          id: "",
+          title: "",
+          subject: "",
+          body: "",
+        },
   });
+  function getDefaultValues() {
+    return invoice
+      ? {
+          id: invoice?.id,
+          title: invoice?.title,
+          body: invoice?.body,
+          subject: invoice?.subject,
+        }
+      : {
+          id: "",
+          title: "",
+          subject: "",
+          body: "",
+        };
+  }
+
+  const defaultValues = React.useMemo(() => getDefaultValues(), [invoice]);
+
+  React.useEffect(() => {
+    const { setValue } = form;
+    setValue("title", defaultValues?.title ?? "");
+    setValue("subject", defaultValues?.subject ?? "");
+    setValue("body", defaultValues?.body ?? "");
+  }, [defaultValues]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // try {
@@ -53,6 +92,34 @@ export const EmailModal = () => {
     // } finally {
     //   setLoading(false);
     // }
+
+    try {
+      setLoading(true);
+      const response = invoice
+        ? await fetch("/api/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          })
+        : await fetch("/api/emails", {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          });
+      emailModal.onClose();
+      const data = await response.json();
+      toast.success(invoice ? "Edited" : "Saved");
+      return data;
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,13 +133,13 @@ export const EmailModal = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
-              name="emailName"
+              name="title"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Name:</FormLabel>
+                  <FormLabel>Email Title:</FormLabel>
                   <FormControl>
-                    <Input placeholder="email name" {...field} />
+                    <Input placeholder="email title" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,7 +165,7 @@ export const EmailModal = () => {
                 <FormItem>
                   <FormLabel>Email Body:</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="email body" {...field} />
+                    <Textarea placeholder="email body" rows={7} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
