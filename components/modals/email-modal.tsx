@@ -17,9 +17,10 @@ import { Button } from "../ui/button";
 import React, { useState } from "react";
 
 import { useEmailModal } from "@/hooks/use-email-modal";
-import { Textarea } from "../ui/textarea";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { DialogFooter } from "../ui/dialog";
 
 const formSchema = z.object({
   id: z.string().default(""),
@@ -162,24 +163,53 @@ export const EmailModal: React.FC<EmailProps> = ({
                 <FormItem>
                   <FormLabel>Email Body:</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="email body" rows={7} {...field} />
+                    {/* <Textarea placeholder="email body" rows={7} {...field} /> */}
+                    <ReactQuill
+                      theme="snow"
+                      style={{
+                        height: "160px",
+                        // width: "620px",
+                        fontFamily: "Arial, sans-serif",
+                      }}
+                      modules={{
+                        toolbar: [
+                          [{ font: [] }],
+                          [{ header: [1, 2, 3] }],
+                          ["bold", "italic", "underline", "strike"],
+                          [{ color: [] }, { background: [] }],
+                          [{ script: "sub" }, { script: "super" }],
+                          ["blockquote", "code-block"],
+                          [{ list: "ordered" }, { list: "bullet" }],
+                          [{ indent: "-1" }, { indent: "+1" }, { align: [] }],
+                          ["link", "image", "video"],
+                          ["clean"],
+                        ],
+                      }}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-              <Button
-                variant="outline"
-                type="button"
-                onClick={emailModal.onClose}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={loading} className="bg-cyan-500">
-                {invoice.id.length ? "Update" : "Add"}
-              </Button>
-            </div>
+            <DialogFooter>
+              <div className="pt-6 space-x-2 flex items-center justify-end w-full mt-12">
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={emailModal.onClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-cyan-500"
+                >
+                  {invoice.id.length ? "Update" : "Add"}
+                </Button>
+              </div>
+            </DialogFooter>
           </form>
         </Form>
       </div>

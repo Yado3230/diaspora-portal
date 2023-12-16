@@ -1,7 +1,5 @@
 "use client";
 
-import fs from "fs";
-import path from "path";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { EmailModal } from "@/components/modals/email-modal";
 import { Button } from "@/components/ui/button";
@@ -20,44 +18,7 @@ import { useEmailModal } from "@/hooks/use-email-modal";
 import { Edit, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { EmailTemplate } from "@/types/types";
-
-// const emails = [
-//   {
-//     emailName: "Email 001",
-//     subject: "Subject 001",
-//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-//   },
-//   {
-//     emailName: "Email 002",
-//     subject: "Subject 001",
-//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-//   },
-//   {
-//     emailName: "Email 003",
-//     subject: "Subject 001",
-//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-//   },
-//   {
-//     emailName: "Email 004",
-//     subject: "Subject 001",
-//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-//   },
-//   {
-//     emailName: "Email 005",
-//     subject: "Subject 001",
-//     body: "Hello, I was looking at your site and wanted to ask if you  would be interested in getting two-hundred and fifty thousand (250,000) emails sent",
-//   },
-//   {
-//     emailName: "Email 006",
-//     subject: "Subject 001",
-//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-//   },
-//   {
-//     emailName: "Email 007",
-//     subject: "Subject 001",
-//     body: "hdsahfdsfjd fdsfadkfdsa fsdkjfasdfhsdf fahds fsdfhsd fsdfhsa fdsfdsf dsfkds fdhfds",
-//   },
-// ];
+import MyQuillEditor from "./../components/EmailTest";
 
 const EmailPage = () => {
   const emailModal = useEmailModal();
@@ -125,7 +86,15 @@ const EmailPage = () => {
           <Button
             size="sm"
             className="bg-cyan-500"
-            onClick={() => emailModal.onOpen()}
+            onClick={() => {
+              setInvoice({
+                id: "",
+                title: "",
+                body: "",
+                subject: "",
+              });
+              emailModal.onOpen();
+            }}
           >
             <Plus className="mr-2 h-4 w-4" />
             Add New
@@ -136,9 +105,9 @@ const EmailPage = () => {
         <TableCaption>A list of your email formats.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[150px]">Email Name</TableHead>
+            <TableHead className="">Email Name</TableHead>
             <TableHead>Subject</TableHead>
-            <TableHead>Email Body</TableHead>
+            {/* <TableHead>Email Body</TableHead> */}
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -149,7 +118,7 @@ const EmailPage = () => {
                 {invoice.title}
               </TableCell>
               <TableCell className="opacity-75">{invoice.subject}</TableCell>
-              <TableCell className="opacity-75">{invoice.body}</TableCell>
+              {/* <TableCell className="opacity-75">{invoice.body}</TableCell> */}
               <TableCell>
                 <div className="flex whitespace-nowrap space-x-2 opacity-75">
                   <Edit
@@ -171,6 +140,7 @@ const EmailPage = () => {
           ))}
         </TableBody>
       </Table>
+      {/* <MyQuillEditor /> */}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Account } from "@/types/types";
+import { Account, ReportTypeByMonth } from "@/types/types";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -34,6 +34,25 @@ export const getDashboardReports = async (
 ): Promise<[]> => {
   try {
     const url = new URL(`${API_URL}api/v1/accounts/dashboard-report`);
+
+    if (year) {
+      url.searchParams.append("year", year.toString());
+    }
+
+    const res = await fetch(url.toString());
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
+
+export const getReportMonthlyByYear = async (
+  year: string | number
+): Promise<ReportTypeByMonth[]> => {
+  try {
+    const url = new URL(`${API_URL}api/v1/accounts/monthly-dashboard-report`);
 
     if (year) {
       url.searchParams.append("year", year.toString());

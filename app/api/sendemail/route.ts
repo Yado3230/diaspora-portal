@@ -4,7 +4,7 @@ import fs from "fs";
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { to, subject, body: emailBody, title, name } = body;
+  const { to, subject, body: emailBody, title, name, userId } = body;
 
   const emailContent = fs.readFileSync(
     "./app/api/sendemail/email.html",
@@ -13,6 +13,7 @@ export async function POST(req: Request) {
   const replacedContent = emailContent.replaceAll("{{title}}", title);
   const replacedName = replacedContent.replaceAll("{{name}}", name);
   const replacedBody = replacedName.replaceAll("{{body}}", emailBody);
+  const linkReplace = replacedBody.replaceAll("{{open-account-id}}", userId);
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
     from: "Cooperative Bank of Oromia<yaredmesele1@gmail.com>",
     to,
     subject,
-    html: replacedBody,
+    html: linkReplace,
   };
 
   try {

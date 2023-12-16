@@ -31,6 +31,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import toast from "react-hot-toast";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const formSchema = z.object({
   id: z.string().default(""),
@@ -124,6 +126,7 @@ export function EmailButton({ customers }: any) {
           subject: values.subject,
           title: values.title,
           body: values.body,
+          userId: btoa(customer.original.id),
         };
         try {
           const response = await fetch("/api/sendemail", {
@@ -169,7 +172,7 @@ export function EmailButton({ customers }: any) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[200px] justify-between overflow-hidden"
           onClick={() => setValue("")}
         >
           {value &&
@@ -179,7 +182,7 @@ export function EmailButton({ customers }: any) {
           <Mail className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[350px] p-0 mr-7">
+      <PopoverContent className="w-[450px] p-0 mr-7">
         <Command>
           {value.length === 0 && <CommandInput placeholder="Search email..." />}
           {value.length === 0 && <CommandEmpty>No email found.</CommandEmpty>}
@@ -223,9 +226,36 @@ export function EmailButton({ customers }: any) {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Textarea
+                              {/* <Textarea
                                 placeholder="Type your body here..."
                                 rows={7}
+                                {...field}
+                              /> */}
+                              <ReactQuill
+                                theme="snow"
+                                style={{
+                                  height: "160px",
+                                  // width: "620px",
+                                  fontFamily: "Arial, sans-serif",
+                                }}
+                                modules={{
+                                  toolbar: [
+                                    [{ font: [] }],
+                                    [{ header: [1, 2, 3] }],
+                                    ["bold", "italic", "underline", "strike"],
+                                    [{ color: [] }, { background: [] }],
+                                    [{ script: "sub" }, { script: "super" }],
+                                    ["blockquote", "code-block"],
+                                    [{ list: "ordered" }, { list: "bullet" }],
+                                    [
+                                      { indent: "-1" },
+                                      { indent: "+1" },
+                                      { align: [] },
+                                    ],
+                                    ["link", "image", "video"],
+                                    ["clean"],
+                                  ],
+                                }}
                                 {...field}
                               />
                             </FormControl>
@@ -234,7 +264,7 @@ export function EmailButton({ customers }: any) {
                         )}
                       />
                     </div>
-                    <div className="w-full flex space-x-2 mt-1">
+                    <div className="w-full flex space-x-2 mt-24">
                       <Button
                         onClick={() => {
                           setValue("");
@@ -277,6 +307,25 @@ export function EmailButton({ customers }: any) {
                   </div>
                 </CommandItem>
               ))}
+              <CommandItem
+                key={1252525252525}
+                value="other"
+                onSelect={(currentValue) => {
+                  setSelectedEmail({
+                    id: "",
+                    title: "other",
+                    body: "",
+                    subject: "",
+                  });
+                  setValue(currentValue === value ? "" : currentValue);
+                  setOpen(value.length ? false : true);
+                }}
+              >
+                <div className="flex justify-between items-center w-full">
+                  Other
+                  <SendHorizonal className={cn("mr-2 h-4 w-4")} />
+                </div>
+              </CommandItem>
             </CommandGroup>
           )}
         </Command>

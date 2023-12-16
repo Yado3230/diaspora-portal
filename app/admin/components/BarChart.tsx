@@ -1,5 +1,6 @@
 "use client";
 
+import { ReportTypeByMonth } from "@/types/types";
 import {
   Bar,
   BarChart,
@@ -76,26 +77,113 @@ const data = [
   },
 ];
 
-export function Barchart() {
+interface BarChartProps {
+  dateFilterByMonth: ReportTypeByMonth[] | undefined;
+}
+
+export const Barchart: React.FC<BarChartProps> = ({ dateFilterByMonth }) => {
+  const approvedObject = dateFilterByMonth?.find(
+    (item) => item.status === "APPROVED"
+  );
+  const rejectedObject = dateFilterByMonth?.find(
+    (item) => item.status === "REJECTED"
+  );
+  const pendingObject = dateFilterByMonth?.find(
+    (item) => item.status === "PENDING"
+  );
+  const visitorsObject = dateFilterByMonth?.find(
+    (item) => item.status === "INITIAL"
+  );
+
+  const data = [
+    {
+      name: "Jan",
+      approved: approvedObject?.data.JANUARY,
+      rejected: rejectedObject?.data.JANUARY,
+      pending: pendingObject?.data.JANUARY,
+      visitors: visitorsObject?.data.JANUARY,
+    },
+    {
+      name: "Feb",
+      approved: approvedObject?.data.FEBRUARY,
+      rejected: rejectedObject?.data.FEBRUARY,
+      pending: pendingObject?.data.FEBRUARY,
+      visitors: visitorsObject?.data.FEBRUARY,
+    },
+    {
+      name: "Mar",
+      approved: approvedObject?.data.MARCH,
+      rejected: rejectedObject?.data.MARCH,
+      pending: pendingObject?.data.MARCH,
+      visitors: visitorsObject?.data.MARCH,
+    },
+    {
+      name: "Apr",
+      approved: approvedObject?.data.APRIL,
+      rejected: rejectedObject?.data.APRIL,
+      pending: pendingObject?.data.APRIL,
+      visitors: visitorsObject?.data.APRIL,
+    },
+    {
+      name: "May",
+      approved: approvedObject?.data.MAY,
+      rejected: rejectedObject?.data.MAY,
+      pending: pendingObject?.data.MAY,
+      visitors: visitorsObject?.data.MAY,
+    },
+    {
+      name: "Jun",
+      approved: approvedObject?.data.JUNE,
+      rejected: rejectedObject?.data.JUNE,
+      pending: pendingObject?.data.JUNE,
+      visitors: visitorsObject?.data.JUNE,
+    },
+    {
+      name: "Jul",
+      approved: approvedObject?.data.JULY,
+      rejected: rejectedObject?.data.JULY,
+      pending: pendingObject?.data.JULY,
+      visitors: visitorsObject?.data.JULY,
+    },
+    {
+      name: "Aug",
+      approved: approvedObject?.data.AUGUST,
+      rejected: rejectedObject?.data.AUGUST,
+      pending: pendingObject?.data.AUGUST,
+      visitors: visitorsObject?.data.AUGUST,
+    },
+    {
+      name: "Sep",
+      approved: approvedObject?.data.SEPTEMBER,
+      rejected: rejectedObject?.data.SEPTEMBER,
+      pending: pendingObject?.data.SEPTEMBER,
+      visitors: visitorsObject?.data.SEPTEMBER,
+    },
+    {
+      name: "Oct",
+      approved: approvedObject?.data.OCTOBER,
+      rejected: rejectedObject?.data.OCTOBER,
+      pending: pendingObject?.data.OCTOBER,
+      visitors: visitorsObject?.data.OCTOBER,
+    },
+    {
+      name: "Nov",
+      approved: approvedObject?.data.NOVEMBER,
+      rejected: rejectedObject?.data.NOVEMBER,
+      pending: pendingObject?.data.NOVEMBER,
+      visitors: visitorsObject?.data.NOVEMBER,
+    },
+    {
+      name: "Dec",
+      approved: approvedObject?.data.DECEMBER,
+      rejected: rejectedObject?.data.DECEMBER,
+      pending: pendingObject?.data.DECEMBER,
+      visitors: visitorsObject?.data.DECEMBER,
+    },
+  ];
+
   return (
     <ResponsiveContainer width="100%" height={350}>
-      {/* <BarChart data={data}>
-        <XAxis
-          dataKey="name"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `${value}`}
-        />
-        <Bar dataKey="total" fill="#02B3F3" radius={[4, 4, 0, 0]} />
-      </BarChart> */}
       <LineChart
         width={500}
         height={300}
@@ -115,11 +203,13 @@ export function Barchart() {
         <Line
           type="monotone"
           dataKey="approved"
-          stroke="#8884d8"
+          stroke="#06B6D4"
           activeDot={{ r: 8 }}
         />
-        <Line type="monotone" dataKey="rejected" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="pending" stroke="#8080A9" />
+        <Line type="monotone" dataKey="rejected" stroke="#DE8224" />
+        <Line type="monotone" dataKey="visitors" stroke="#505050" />
       </LineChart>
     </ResponsiveContainer>
   );
-}
+};
