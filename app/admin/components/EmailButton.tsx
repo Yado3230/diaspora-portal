@@ -118,6 +118,7 @@ export function EmailButton({ customers }: any) {
   }, []);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // console.log(customers);
     try {
       customers.map(async (customer: any) => {
         const emailDataToSend = {
@@ -127,6 +128,16 @@ export function EmailButton({ customers }: any) {
           title: values.title,
           body: values.body,
           userId: btoa(customer.original.id),
+          phoneNumber: customer.original.phone,
+          motherName: customer.original.motherName,
+          gender: customer.original.sex,
+          initialDeposit: customer.original.initialDeposit,
+          monthlyIncome: customer.original.monthlyIncome,
+          occupation: customer.original.occupation,
+          branch: customer.original.branch,
+          accountType: customer.original.accountType,
+          city: customer.original.city,
+          state: customer.original.state,
         };
         try {
           const response = await fetch("/api/sendemail", {

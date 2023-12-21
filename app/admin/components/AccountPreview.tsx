@@ -1,5 +1,6 @@
 "use client";
 
+import { changeAccountStatus } from "@/actions/account-action";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -8,9 +9,10 @@ import { CheckCheck, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 
 interface PreviewProps {
-  data?: Account;
+  data: Account;
 }
 const AccountPreview: React.FC<PreviewProps> = ({ data }) => {
   const router = useRouter();
@@ -29,6 +31,31 @@ const AccountPreview: React.FC<PreviewProps> = ({ data }) => {
       <p className="text-sm text-gray-600">{label}</p>
     </div>
   );
+
+  const handleApproveClick = async () => {
+    try {
+      await changeAccountStatus(data.id.toString(), "APPROVED");
+      router.refresh();
+      toast.success("Account Approved.");
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  const handleRejectClick = async () => {
+    try {
+      await changeAccountStatus(data.id.toString(), "REJECTED");
+      router.refresh();
+      toast.success("Account rejected.");
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      // setLoading(false);
+    }
+  };
+
   return (
     <div className="container mx-auto">
       <div className="max-w-full mx-auto bg-white p-8 border rounded shadow-lg">
@@ -253,7 +280,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data }) => {
             className="ml-2 border"
             size="sm"
             variant="destructive"
-            // onClick={handleProcessClick}
+            onClick={handleRejectClick}
           >
             <X className="mr-2 h-4 w-4" />
             Reject
@@ -261,7 +288,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data }) => {
           <Button
             className="ml-2 border bg-cyan-500"
             size="sm"
-            // onClick={handleProcessClick}
+            onClick={handleApproveClick}
           >
             <CheckCheck className="mr-2 h-4 w-4" />
             Approve

@@ -205,10 +205,26 @@ export const Barchart: React.FC<BarChartProps> = ({ dateFilterByMonth }) => {
           dataKey="approved"
           stroke="#06B6D4"
           activeDot={{ r: 8 }}
+          strokeWidth={3}
         />
-        <Line type="monotone" dataKey="pending" stroke="#8080A9" />
-        <Line type="monotone" dataKey="rejected" stroke="#DE8224" />
-        <Line type="monotone" dataKey="visitors" stroke="#505050" />
+        <Line
+          type="monotone"
+          dataKey="pending"
+          stroke="#8080A9"
+          strokeWidth={3}
+        />
+        <Line
+          type="monotone"
+          dataKey="rejected"
+          stroke="#DE8224"
+          strokeWidth={3}
+        />
+        <Line
+          type="monotone"
+          dataKey="visitors"
+          stroke="#505050"
+          strokeWidth={3}
+        />
       </LineChart>
     </ResponsiveContainer>
   );

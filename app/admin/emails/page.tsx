@@ -66,6 +66,20 @@ const EmailPage = () => {
     //   setOpen(false);
     // }
   };
+  const keys = [
+    "name",
+    "account-id",
+    "phone-number",
+    "mother-name",
+    "gender",
+    "initial-deposit",
+    "monthly-income",
+    "occupation",
+    "branch",
+    "state",
+    "city",
+    "account-type",
+  ];
 
   return (
     <>
@@ -76,6 +90,16 @@ const EmailPage = () => {
         loading={loading}
       />
       <EmailModal invoice={invoice} updated={updated} setUpdated={setUpdated} />
+      <div className="bg-gray-100 p-4">
+        <h1 className="text-2xl font-semibold mb-4">Replacement Keys</h1>
+        <ul className="grid grid-cols-3">
+          {keys.map((key) => (
+            <li key={key} className="mb-2">
+              <strong>{`{{${key}}}`}</strong>: for {key}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="flex border-b pb-2 mb-5 items-center justify-between">
         <Heading
           title={`Emails (${emails.length})`}

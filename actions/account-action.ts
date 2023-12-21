@@ -92,3 +92,25 @@ export const deleteAccount = async (id: string): Promise<Boolean> => {
     throw error; // Rethrow the error to handle it in the caller
   }
 };
+
+export const changeAccountStatus = async (
+  id: string,
+  status: String
+): Promise<Boolean> => {
+  try {
+    const res = await fetch(
+      `${API_URL}api/v1/accounts/${id}/update-status?status=${status}`,
+      {
+        method: "PUT",
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`Request failed with status: ${res.status}`);
+    }
+    const responseData = res.ok;
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
