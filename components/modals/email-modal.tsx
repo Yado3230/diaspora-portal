@@ -18,9 +18,11 @@ import React, { useState } from "react";
 
 import { useEmailModal } from "@/hooks/use-email-modal";
 import toast from "react-hot-toast";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import { DialogFooter } from "../ui/dialog";
+import dynamic from "next/dynamic";
 
 const formSchema = z.object({
   id: z.string().default(""),

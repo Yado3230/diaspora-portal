@@ -18,7 +18,6 @@ import { useEmailModal } from "@/hooks/use-email-modal";
 import { Edit, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { EmailTemplate } from "@/types/types";
-import MyQuillEditor from "./../components/EmailTest";
 
 const EmailPage = () => {
   const emailModal = useEmailModal();
