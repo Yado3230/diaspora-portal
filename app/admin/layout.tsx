@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import Sidebar from "@/app/admin/components/Sidebar";
 import Navbar from "@/app/admin/components/Navbar";
 import { useEffect, useState } from "react";
+import { useAuth } from "../api/auth/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,6 +29,20 @@ export default function RootLayout({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const { accessToken } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
+    if (!accessToken) {
+      // Redirect to login page if not authenticated
+      router.push("/");
+    }
+  }, [mounted, accessToken, router]);
 
   if (!mounted) {
     return null;

@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/app/api/auth/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,13 +12,14 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut, useSession } from "next-auth/react";
+// import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 
 export function UserNav() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { logout } = useAuth();
+  // const { data: session } = useSession();
   return (
     <div className="">
       <DropdownMenu>
@@ -37,7 +39,7 @@ export function UserNav() {
                 Coop Admin
               </p>
               <p className="text-xs leading-none text-muted-foreground">
-                {session?.user?.email}
+                john@gmail.com
               </p>
             </div>
           </DropdownMenuLabel>
@@ -53,12 +55,7 @@ export function UserNav() {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={async () => {
-              await signOut();
-              router.push("/");
-            }}
-          >
+          <DropdownMenuItem onClick={() => logout()}>
             Log out
             <DropdownMenuShortcut>⇧Q</DropdownMenuShortcut>
           </DropdownMenuItem>

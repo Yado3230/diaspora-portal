@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
-import { NewSessionProvider } from "@/providers/session-provider";
+// import { NewSessionProvider } from "@/providers/session-provider";
 import { ToasterProvider } from "@/providers/toast-provider";
+import { AuthProvider } from "./api/auth/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "Diaspora Admin Portal",
@@ -22,12 +23,12 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased bg-gray-50"
         )}
       >
-        <NewSessionProvider>
+        <AuthProvider>
           <ToasterProvider />
           <div>
             <div className="">{children}</div>
           </div>
-        </NewSessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );
