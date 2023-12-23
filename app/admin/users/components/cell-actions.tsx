@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { deleteUser } from "@/actions/user-action";
 import { useUserModal } from "@/hooks/use-user-modal";
 import { UserModal } from "@/components/modals/user-modal";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 
 interface CellActionProps {
   data: UserResponse;
@@ -31,20 +31,20 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const userModal = useUserModal();
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   const onDelete = async () => {
-    try {
-      setLoading(true);
-      await deleteUser(data.userId.toString());
-      router.refresh();
-      toast.success("User deleted.");
-    } catch (error) {
-      toast.error("Something went wrong!");
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
+    // try {
+    //   setLoading(true);
+    //   await deleteUser(data.userId.toString());
+    //   router.refresh();
+    //   toast.success("User deleted.");
+    // } catch (error) {
+    //   toast.error("Something went wrong!");
+    // } finally {
+    //   setLoading(false);
+    //   setOpen(false);
+    // }
   };
 
   return (
@@ -70,19 +70,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             Copy ID
           </DropdownMenuItem>
           {/* @ts-ignore */}
-          {session?.user?.role === "ADMIN" && (
+          {/* {session?.user?.role === "ADMIN" && (
             <DropdownMenuItem onClick={() => userModal.onOpen()}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
-          )}
+          )} */}
           {/* @ts-ignore */}
-          {session?.user?.role === "ADMIN" && (
-            <DropdownMenuItem onClick={() => setOpen(true)}>
-              <Trash className="mr-2 h-4 w-4" />
-              Delete
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem onClick={() => setOpen(true)}>
+            <Trash className="mr-2 h-4 w-4" />
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

@@ -7,7 +7,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { Account, UserResponse } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import { useUserModal } from "@/hooks/use-user-modal";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 
 interface UserClientProps {
   data: UserResponse[];
@@ -15,7 +15,7 @@ interface UserClientProps {
 
 const UserClient: React.FC<UserClientProps> = ({ data }) => {
   const userModal = useUserModal();
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   return (
     <>
@@ -24,16 +24,14 @@ const UserClient: React.FC<UserClientProps> = ({ data }) => {
         <div></div>
         <div>
           {/* @ts-ignore */}
-          {session?.user?.role === "ADMIN" && (
-            <Button
-              size="sm"
-              className="bg-cyan-500"
-              onClick={() => userModal.onOpen()}
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Add User
-            </Button>
-          )}
+          <Button
+            size="sm"
+            className="bg-cyan-500"
+            onClick={() => userModal.onOpen()}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add User
+          </Button>
         </div>
       </div>
       <DataTable

@@ -68,10 +68,10 @@ function LoginCard() {
         toast.success("Login success");
       }
     } catch (error: any) {
-      console.error("Error:", error);
+      console.error("Error is this:", error.message);
 
-      if (error.message === "Please check your email and password.") {
-        toast.error("Invalid email or password");
+      if (error.message === "Please check your username and password.") {
+        toast.error("Invalid username or password");
       } else if (
         error.message === "Network error: Unable to connect to the server."
       ) {
