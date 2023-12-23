@@ -63,7 +63,7 @@ function LoginCard() {
       // });
       if (response.access_token) {
         login(response.access_token, response.refresh_token);
-        router.push(`/dashboard`);
+        router.push(`/admin`);
         router.refresh();
         toast.success("Login success");
       }

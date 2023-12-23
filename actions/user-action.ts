@@ -63,7 +63,7 @@ export const deleteUser = async (id: string): Promise<Boolean> => {
 
 export const logUser = async (data: Login): Promise<LoginResponse> => {
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}login`, {
       method: "POST",
       body: JSON.stringify(data),
     });
