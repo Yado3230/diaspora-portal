@@ -49,6 +49,13 @@ export interface EmailTemplate {
   subject: string;
 }
 
+export interface PermissionTemplate {
+  permissionId: string;
+  permissionName: string;
+  assignedTo: string[];
+  createdAt: string;
+}
+
 export interface Account {
   id: number;
   fullName: string;

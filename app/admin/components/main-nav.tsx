@@ -7,7 +7,9 @@ import {
   DollarSign,
   DollarSignIcon,
   Gamepad2,
+  Key,
   LayoutDashboard,
+  Lock,
   LucideShovel,
   Mail,
   Package,
@@ -60,6 +62,28 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
 
   const AdministrationItems = [
     {
+      href: `/admin/permissions`,
+      label: "Permissions",
+      active: pathname === `/admin/permissions`,
+      icon: (
+        <Key
+          size={15}
+          color={`${pathname === `/admin/permissions` ? "#0EB8D5" : "#707E94"}`}
+        />
+      ),
+    },
+    {
+      href: `/admin/roles`,
+      label: "Roles",
+      active: pathname === `/admin/roles`,
+      icon: (
+        <Lock
+          size={15}
+          color={`${pathname === `/admin/roles` ? "#0EB8D5" : "#707E94"}`}
+        />
+      ),
+    },
+    {
       href: `/admin/users`,
       label: "Users",
       active: pathname === `/admin/users`,
@@ -70,6 +94,7 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
         />
       ),
     },
+
     {
       href: `/admin/emails`,
       label: "Emails",
