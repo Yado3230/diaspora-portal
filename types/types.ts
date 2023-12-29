@@ -50,10 +50,11 @@ export interface EmailTemplate {
 }
 
 export interface PermissionTemplate {
-  permissionId: string;
-  permissionName: string;
-  assignedTo: string[];
-  createdAt: string;
+  id: number;
+  resource: string;
+  action: string;
+  description: string;
+  authority: string;
 }
 
 export interface Account {
@@ -107,9 +108,7 @@ export interface UserResponse {
 }
 
 export interface Role {
-  roleId: number;
+  id: number;
   roleName: string;
-  description: string;
-  registeredAt: string;
-  updatedAt: string;
+  authorities: PermissionTemplate[] | [];
 }

@@ -14,138 +14,187 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import toast from "react-hot-toast";
 import { DialogFooter } from "../ui/dialog";
 import { useRoleModal } from "@/hooks/use-roles-modal";
 import { Separator } from "../ui/separator";
 import { Checkbox } from "../ui/checkbox";
-import { PermissionTemplate } from "@/types/types";
+import { PermissionTemplate, Role } from "@/types/types";
+import { createRole, editRole } from "@/actions/role-action";
 
 interface PermissionProps {
-  invoice: {
-    roleId: string;
-    roleName: string;
-    permissions: {};
-    createdAt: string;
-  };
+  invoice: Role;
   updated: boolean;
   setUpdated: (updated: boolean) => void;
-  permissions: PermissionTemplate[];
+  authorities: PermissionTemplate[];
 }
 
 export const RoleModal: React.FC<PermissionProps> = ({
   invoice,
   updated,
   setUpdated,
-  permissions,
+  authorities,
 }) => {
   const currentDate = new Date().toISOString().split("T")[0];
   const roleModal = useRoleModal();
   const [loading, setLoading] = useState(false);
+  const [groupedAuthorities, setGroupedAuthorities] = useState<
+    Record<string, PermissionTemplate[]>
+  >({});
+  const [groupedAuthoritiesUser, setGroupedAuthoritiesUser] = useState<
+    Record<string, PermissionTemplate[]>
+  >({});
 
   const formSchema = z.object({
-    roleId: z.string().default(""),
+    id: z.number().default(0),
     roleName: z.string().default(""),
-    permissions: z.any().default({}),
-    createdAt: z.string().default(""),
+    authorities: z.array(
+      z.object({
+        id: z.number().default(0),
+        resource: z.string().default(""),
+        action: z.string().default(""),
+        description: z.string().default(""),
+        authority: z.string().default(""),
+      })
+    ),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: invoice
       ? invoice
       : {
-          roleId: "",
+          id: 0,
           roleName: "",
-          permissions: {},
-          createdAt: currentDate,
+          authorities: [],
         },
   });
 
-  function getDefaultValues() {
+  const getDefaultValues = () => {
     return invoice
       ? {
-          roleId: invoice?.roleId,
-          roleName: invoice?.roleName,
-          permissions: invoice?.permissions,
-          createdAt: invoice?.createdAt,
+          id: invoice.id,
+          roleName: invoice.roleName,
+          authorities: invoice.authorities,
         }
       : {
-          roleId: "",
+          id: 0,
           roleName: "",
-          permissions: {},
-          createdAt: currentDate,
+          authorities: [],
         };
-  }
+  };
 
   const defaultValues = React.useMemo(() => getDefaultValues(), [invoice]);
 
   React.useEffect(() => {
     const { setValue } = form;
     setValue("roleName", defaultValues?.roleName ?? "");
-    setValue("permissions", defaultValues?.permissions ?? {});
-    setValue("createdAt", currentDate);
+    setValue("authorities", defaultValues?.authorities ?? []);
   }, [defaultValues]);
 
-  const handleCheckboxSelect = async (key: string, value: string) => {
+  const handleCheckboxSelect = (resource: string, action: string) => {
     const { setValue, getValues } = form;
-    const currentPermissions = getValues("permissions");
+    const currentPermissions = getValues("authorities");
 
-    const existingValues = currentPermissions[key] || [];
+    // Check if the selected authority already exists
+    const existingIndex = currentPermissions.findIndex(
+      (auth) => auth.resource === resource && auth.action === action
+    );
 
-    const index = existingValues.indexOf(value);
-    const updatedPermissions = [...existingValues];
-
-    if (index !== -1) {
-      // Value is already present, so remove it
-      updatedPermissions.splice(index, 1);
+    if (existingIndex !== -1) {
+      // If the authority already exists, remove it
+      const updatedPermissions = [...currentPermissions];
+      updatedPermissions.splice(existingIndex, 1);
+      setValue("authorities", updatedPermissions);
     } else {
-      // Value is not present, so add it
-      updatedPermissions.push(value);
+      // If the authority doesn't exist, add it with the id from the overall authorities
+      const updatedPermissions: any = [
+        ...currentPermissions,
+        {
+          ...authorities.find(
+            (auth) => auth.resource === resource && auth.action === action
+          ),
+        },
+      ];
+      if (updatedPermissions) setValue("authorities", updatedPermissions);
     }
-
-    setValue("permissions", {
-      ...currentPermissions,
-      [key]: updatedPermissions,
-    });
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
-    // try {
-    //   setLoading(true);
-    //   const response = invoice.roleId.length
-    //     ? await fetch("/api/permissions", {
-    //         method: "PATCH",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //           roleId: invoice.roleId,
-    //           roleName: values.roleName,
-    //           permissions: values.permissions,
-    //           createdAt: currentDate,
-    //         }),
-    //       })
-    //     : await fetch("/api/permissions", {
-    //         method: "POST",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(values),
-    //       });
-    //   roleModal.onClose();
-    //   const data = await response.json();
-    //   setUpdated(!updated);
-    //   toast.success(invoice.roleId.length ? "Updated" : "Saved");
-    //   return data;
-    // } catch (error) {
-    //   toast.error("Something went wrong!");
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      setLoading(true);
+      invoice.id
+        ? await editRole(values.authorities, invoice.id)
+        : await createRole(values);
+      roleModal.onClose();
+      setUpdated(!updated);
+      toast.success(invoice.id ? "Updated" : "Role Created");
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
   };
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const groupAuthorities = async () => {
+      setLoading(true);
+      try {
+        const groupedData: Record<string, PermissionTemplate[]> = {};
+        for (const authority of authorities) {
+          const { resource } = authority;
+          if (!groupedData[resource]) {
+            groupedData[resource] = [];
+          }
+          groupedData[resource].push(authority);
+        }
+
+        if (isMounted) {
+          setGroupedAuthorities(groupedData);
+        }
+      } catch (error) {
+        console.error("Error grouping authorities", error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+    const groupAuthoritiesFromUser = async () => {
+      setLoading(true);
+      try {
+        const groupedData: Record<string, PermissionTemplate[]> = {};
+        for (const authority of form.control._formValues.authorities) {
+          const { resource } = authority;
+          if (!groupedData[resource]) {
+            groupedData[resource] = [];
+          }
+          groupedData[resource].push(authority);
+        }
+
+        if (isMounted) {
+          setGroupedAuthoritiesUser(groupedData);
+        }
+      } catch (error) {
+        console.error("Error grouping authorities", error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    groupAuthorities();
+    groupAuthoritiesFromUser();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, [form.control._formValues.authorities, roleModal.isOpen, invoice]);
 
   return (
     <Modal
@@ -162,7 +211,7 @@ export const RoleModal: React.FC<PermissionProps> = ({
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Permission Name:</FormLabel>
+                  <FormLabel>Role Name:</FormLabel>
                   <FormControl>
                     <Input placeholder="name" {...field} />
                   </FormControl>
@@ -176,193 +225,48 @@ export const RoleModal: React.FC<PermissionProps> = ({
             <div>
               <div>
                 <h2 className="text-lg font-semibold mb-2">Role Permissions</h2>
-                {Object.keys(invoice.permissions).length > 0
-                  ? Object.entries(form.control._formValues.permissions).map(
-                      ([key, permission]) => {
-                        const selectedPermissions =
-                          form.control._formValues.permissions[key];
-                        return (
-                          <div className="flex items-center justify-between border-t border-b py-2">
-                            <div>{key}</div>
-                            <div className="flex space-x-5 whitespace-nowrap">
-                              <div className="flex items-center space-x-2">
-                                <Checkbox
-                                  id="read"
-                                  value="read"
-                                  checked={selectedPermissions.includes("read")}
-                                  onClick={(e) => {
-                                    handleCheckboxSelect(
-                                      key,
-                                      (e.target as HTMLInputElement).value
-                                    );
-                                    roleModal.onClose();
-                                    roleModal.onOpen();
-                                  }}
-                                />
-                                <label
-                                  htmlFor="read"
-                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                  Read
-                                </label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <Checkbox
-                                  id="write"
-                                  value="write"
-                                  checked={selectedPermissions?.includes(
-                                    "write"
-                                  )}
-                                  onClick={(e) => {
-                                    handleCheckboxSelect(
-                                      key,
-                                      (e.target as HTMLInputElement).value
-                                    );
-                                    roleModal.onClose();
-                                    roleModal.onOpen();
-                                  }}
-                                />
-                                <label
-                                  htmlFor="write"
-                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                  Write
-                                </label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <Checkbox
-                                  id="create"
-                                  value="create"
-                                  checked={selectedPermissions?.includes(
-                                    "create"
-                                  )}
-                                  onClick={(e) => {
-                                    handleCheckboxSelect(
-                                      key,
-                                      (e.target as HTMLInputElement).value
-                                    );
-                                    roleModal.onClose();
-                                    roleModal.onOpen();
-                                  }}
-                                />
-                                <label
-                                  htmlFor="create"
-                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                  Create
-                                </label>
-                              </div>
-                              <div className="flex items-center space-x-2 text-red-500">
-                                <Checkbox
-                                  id="delete"
-                                  color="#DE8224"
-                                  value="delete"
-                                  checked={selectedPermissions?.includes(
-                                    "delete"
-                                  )}
-                                  onClick={(e) => {
-                                    handleCheckboxSelect(
-                                      key,
-                                      (e.target as HTMLInputElement).value
-                                    );
-                                    roleModal.onClose();
-                                    roleModal.onOpen();
-                                  }}
-                                  className="bg-orange-500"
-                                />
-                                <label
-                                  htmlFor="terms"
-                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                  delete
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                    )
-                  : permissions.map((permission) => (
-                      <div className="flex items-center justify-between border-t border-b py-2">
-                        <div>{permission.permissionName}</div>
-                        <div className="flex space-x-5 whitespace-nowrap">
-                          <div className="flex items-center space-x-2">
+                {Object.entries(groupedAuthorities).map(
+                  ([resource, authorities], index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between border-t border-b py-2"
+                    >
+                      <div>{resource}</div>
+                      <div className="flex space-x-5 whitespace-nowrap">
+                        {["READ", "WRITE", "EDIT", "DELETE"].map((action) => (
+                          <div
+                            key={action}
+                            className="flex items-center space-x-2"
+                          >
                             <Checkbox
-                              id="read"
-                              value="read"
-                              onClick={(e) =>
-                                handleCheckboxSelect(
-                                  permission.permissionName,
-                                  (e.target as HTMLInputElement).value
-                                )
+                              disabled={
+                                invoice.roleName === "SUPER-ADMIN"
+                                  ? true
+                                  : false
                               }
+                              id={`${resource.toLowerCase()}-${action}`}
+                              value={action.toLowerCase()}
+                              checked={groupedAuthoritiesUser[resource]
+                                ?.map((auth) => auth.action === action)
+                                .includes(true)}
+                              onClick={(e) => {
+                                handleCheckboxSelect(resource, action);
+                                roleModal.onClose();
+                                roleModal.onOpen();
+                              }}
                             />
                             <label
-                              htmlFor="read"
+                              htmlFor={`${resource.toLowerCase()}-${action}`}
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              Read
+                              {action.charAt(0).toUpperCase() + action.slice(1)}
                             </label>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="write"
-                              value="write"
-                              onClick={(e) =>
-                                handleCheckboxSelect(
-                                  permission.permissionName,
-                                  (e.target as HTMLInputElement).value
-                                )
-                              }
-                            />
-                            <label
-                              htmlFor="write"
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              Write
-                            </label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="create"
-                              value="create"
-                              onClick={(e) =>
-                                handleCheckboxSelect(
-                                  permission.permissionName,
-                                  (e.target as HTMLInputElement).value
-                                )
-                              }
-                            />
-                            <label
-                              htmlFor="create"
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              Create
-                            </label>
-                          </div>
-                          <div className="flex items-center space-x-2 text-red-500">
-                            <Checkbox
-                              id="delete"
-                              value="delete"
-                              color="#DE8224"
-                              onClick={(e) =>
-                                handleCheckboxSelect(
-                                  permission.permissionName,
-                                  (e.target as HTMLInputElement).value
-                                )
-                              }
-                              className="bg-orange-500"
-                            />
-                            <label
-                              htmlFor="delete"
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              Delete
-                            </label>
-                          </div>
-                        </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+                  )
+                )}
               </div>
             </div>
             <DialogFooter>
@@ -376,10 +280,10 @@ export const RoleModal: React.FC<PermissionProps> = ({
                 </Button>
                 <Button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || invoice.roleName === "SUPER-ADMIN"}
                   className="bg-cyan-500"
                 >
-                  {invoice?.roleId?.length ? "Update" : "Add"}
+                  {invoice.id !== 0 ? "Update" : "Add"}
                 </Button>
               </div>
             </DialogFooter>
