@@ -13,9 +13,11 @@ import toast from "react-hot-toast";
 
 interface PreviewProps {
   data: Account;
+  accounts: boolean;
 }
-const AccountPreview: React.FC<PreviewProps> = ({ data }) => {
+const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
   const router = useRouter();
+  const userAuthorities = localStorage.getItem("authorities");
   const ImageCard: React.FC<{ src: string; label: string }> = ({
     src,
     label,
@@ -276,23 +278,69 @@ const AccountPreview: React.FC<PreviewProps> = ({ data }) => {
           >
             Cancel
           </Button>
-          <Button
-            className="ml-2 border"
-            size="sm"
-            variant="destructive"
-            onClick={handleRejectClick}
-          >
-            <X className="mr-2 h-4 w-4" />
-            Reject
-          </Button>
-          <Button
-            className="ml-2 border bg-cyan-500"
-            size="sm"
-            onClick={handleApproveClick}
-          >
-            <CheckCheck className="mr-2 h-4 w-4" />
-            Approve
-          </Button>
+          {accounts && (
+            <div className="flex items-center">
+              <div
+                className={`${
+                  !(
+                    userAuthorities?.includes("EDIT_ACCOUNT") ||
+                    userAuthorities?.includes("WRITE_ACCOUNT")
+                  ) && "cursor-not-allowed"
+                }`}
+                title={`${
+                  !(
+                    userAuthorities?.includes("EDIT_ACCOUNT") ||
+                    userAuthorities?.includes("WRITE_ACCOUNT")
+                  ) && "Not Authorized"
+                }`}
+              >
+                <Button
+                  disabled={
+                    !(
+                      userAuthorities?.includes("EDIT_ACCOUNT") ||
+                      userAuthorities?.includes("WRITE_ACCOUNT")
+                    )
+                  }
+                  className="ml-2 border"
+                  size="sm"
+                  variant="destructive"
+                  onClick={handleRejectClick}
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Reject
+                </Button>
+              </div>
+              <div
+                className={`${
+                  !(
+                    userAuthorities?.includes("EDIT_ACCOUNT") ||
+                    userAuthorities?.includes("WRITE_ACCOUNT")
+                  ) && "cursor-not-allowed"
+                }`}
+                title={`${
+                  !(
+                    userAuthorities?.includes("EDIT_ACCOUNT") ||
+                    userAuthorities?.includes("WRITE_ACCOUNT")
+                  ) && "Not Authorized"
+                }`}
+              >
+                <Button
+                  disabled={
+                    !(
+                      userAuthorities?.includes("EDIT_ACCOUNT") ||
+                      userAuthorities?.includes("WRITE_ACCOUNT")
+                    )
+                  }
+                  className="ml-2 border bg-cyan-500"
+                  size="sm"
+                  onClick={handleApproveClick}
+                >
+                  <CheckCheck className="mr-2 h-4 w-4" />
+                  Approve
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

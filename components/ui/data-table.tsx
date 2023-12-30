@@ -59,6 +59,8 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
   const params = useParams();
 
+  const userAuthorities = localStorage.getItem("authorities");
+
   const table = useReactTable({
     data,
     columns,
@@ -100,16 +102,37 @@ export function DataTable<TData, TValue>({
           {table.getFilteredSelectedRowModel().rows.length > 0 && (
             <div className="flex space-x-2">
               <div className="flex items-center justify-center">
-                <Button
-                  className="ml-2 border"
-                  size="sm"
-                  // onClick={handleProcessClick}
-                  variant="destructive"
-                  disabled={loading}
+                <div
+                  className={`${
+                    !(
+                      userAuthorities?.includes("DELETE_ACCOUNT") ||
+                      !userAuthorities?.includes("DELETE_VISITORS")
+                    ) && "cursor-not-allowed"
+                  }`}
+                  title={`${
+                    !(
+                      userAuthorities?.includes("DELETE_ACCOUNT") ||
+                      !userAuthorities?.includes("DELETE_VISITORS")
+                    ) && "Not Authorized"
+                  }`}
                 >
-                  <Trash className="mr-2 h-4 w-4" />
-                  Delete
-                </Button>
+                  <Button
+                    className="ml-2 border"
+                    size="sm"
+                    // onClick={handleProcessClick}
+                    variant="destructive"
+                    disabled={
+                      loading ||
+                      !(
+                        userAuthorities?.includes("DELETE_ACCOUNT") ||
+                        !userAuthorities?.includes("DELETE_VISITORS")
+                      )
+                    }
+                  >
+                    <Trash className="mr-2 h-4 w-4" />
+                    Delete
+                  </Button>
+                </div>
                 <Button
                   className="ml-2 border"
                   size="sm"
@@ -134,21 +157,70 @@ export function DataTable<TData, TValue>({
                     // @ts-ignore
                     item.original.status.includes("REJECTED")
                   )[0] && (
-                    <Button
-                      className="ml-2 border"
-                      size="sm"
-                      // onClick={handleProcessClick}
-                      variant="secondary"
-                      disabled={loading}
+                    <div
+                      className={`${
+                        !(
+                          userAuthorities?.includes("EDIT_ACCOUNT") ||
+                          !userAuthorities?.includes("READ_ACCOUNT")
+                        ) && "cursor-not-allowed"
+                      }`}
+                      title={`${
+                        !(
+                          userAuthorities?.includes("EDIT_ACCOUNT") ||
+                          !userAuthorities?.includes("READ_ACCOUNT")
+                        ) && "Not Authorized"
+                      }`}
                     >
-                      <CheckCheck className="mr-2 h-4 w-4" />
-                      Approve
-                    </Button>
+                      <Button
+                        className="ml-2 border"
+                        size="sm"
+                        // onClick={handleProcessClick}
+                        variant="secondary"
+                        disabled={
+                          loading ||
+                          !(
+                            userAuthorities?.includes("EDIT_ACCOUNT") ||
+                            !userAuthorities?.includes("READ_ACCOUNT")
+                          )
+                        }
+                      >
+                        <CheckCheck className="mr-2 h-4 w-4" />
+                        Approve
+                      </Button>
+                    </div>
                   )}
               </div>
-              <EmailButton
-                customers={table.getFilteredSelectedRowModel().rows}
-              />
+              <div
+                className={`${
+                  !(
+                    userAuthorities?.includes("WRITE_EMAIL") ||
+                    userAuthorities?.includes("EDIT_EMAIL")
+                  ) && "cursor-not-allowed"
+                }`}
+                title={`${
+                  !(
+                    userAuthorities?.includes("WRITE_EMAIL") ||
+                    userAuthorities?.includes("EDIT_EMAIL")
+                  )
+                    ? "Not Authorized"
+                    : ""
+                }`}
+              >
+                <Button
+                  disabled={
+                    !(
+                      userAuthorities?.includes("WRITE_EMAIL") ||
+                      userAuthorities?.includes("EDIT_EMAIL")
+                    )
+                  }
+                  className="border-none hover:bg-transparent"
+                  variant="outline"
+                >
+                  <EmailButton
+                    customers={table.getFilteredSelectedRowModel().rows}
+                  />
+                </Button>
+              </div>
             </div>
           )}
         </div>

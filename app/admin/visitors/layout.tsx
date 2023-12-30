@@ -18,7 +18,7 @@ export default function RootLayout({
   const userAuthorities = localStorage.getItem("authorities");
 
   useEffect(() => {
-    if (!(userAuthorities?.length === 214)) {
+    if (!userAuthorities?.includes("READ_VISITORS")) {
       router.push("/admin");
     }
   }, [userAuthorities]);

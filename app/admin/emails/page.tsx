@@ -79,6 +79,7 @@ const EmailPage = () => {
     "city",
     "account-type",
   ];
+  const userAuthorities = localStorage.getItem("authorities");
 
   return (
     <>
@@ -105,8 +106,16 @@ const EmailPage = () => {
           description="Manage email formats from here and use it anywhere"
         />
         <div></div>
-        <div>
+        <div
+          className={`${
+            !userAuthorities?.includes("WRITE_EMAIL") && "cursor-not-allowed"
+          }`}
+          title={`${
+            !userAuthorities?.includes("WRITE_EMAIL") && "Not Authorized"
+          }`}
+        >
           <Button
+            disabled={!userAuthorities?.includes("WRITE_EMAIL")}
             size="sm"
             className="bg-cyan-500"
             onClick={() => {
@@ -143,20 +152,56 @@ const EmailPage = () => {
               <TableCell className="opacity-75">{invoice.subject}</TableCell>
               {/* <TableCell className="opacity-75">{invoice.body}</TableCell> */}
               <TableCell>
-                <div className="flex whitespace-nowrap space-x-2 opacity-75">
-                  <Edit
-                    color="#06B6D4"
-                    onClick={() => {
-                      setInvoice(invoice);
-                      emailModal.onOpen();
-                    }}
-                    className="w-5 h-5 cursor-pointer"
-                  />
-                  <Trash
-                    color="#DE8224"
-                    onClick={() => setOpen(true)}
-                    className="w-5 h-5 cursor-pointer"
-                  />
+                <div className="flex items-center whitespace-nowrap space-x-2 opacity-75">
+                  <div
+                    className={`${
+                      !userAuthorities?.includes("EDIT_EMAIL") &&
+                      "cursor-not-allowed"
+                    }`}
+                    title={`${
+                      !userAuthorities?.includes("EDIT_EMAIL") &&
+                      "Not Authorized"
+                    }`}
+                  >
+                    <Button
+                      disabled={!userAuthorities?.includes("EDIT_EMAIL")}
+                      variant="outline"
+                      className="border-none"
+                      size="icon"
+                    >
+                      <Edit
+                        color="#06B6D4"
+                        onClick={() => {
+                          setInvoice(invoice);
+                          emailModal.onOpen();
+                        }}
+                        className="w-5 h-5 cursor-pointer"
+                      />
+                    </Button>
+                  </div>
+                  <div
+                    className={`${
+                      !userAuthorities?.includes("DELETE_EMAIL") &&
+                      "cursor-not-allowed"
+                    }`}
+                    title={`${
+                      !userAuthorities?.includes("DELETE_EMAIL") &&
+                      "Not Authorized"
+                    }`}
+                  >
+                    <Button
+                      disabled={!userAuthorities?.includes("DELETE_EMAIL")}
+                      variant="outline"
+                      className="border-none"
+                      size="icon"
+                    >
+                      <Trash
+                        color="#DE8224"
+                        onClick={() => setOpen(true)}
+                        className="w-5 h-5 cursor-pointer"
+                      />
+                    </Button>
+                  </div>
                 </div>
               </TableCell>
             </TableRow>

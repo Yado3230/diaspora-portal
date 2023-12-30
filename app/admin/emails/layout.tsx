@@ -1,15 +1,31 @@
-import { cn } from "@/lib/utils";
+"use client";
+import { Inter as FontSans } from "next/font/google";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const userAuthorities = localStorage.getItem("authorities");
+
+  useEffect(() => {
+    if (!userAuthorities?.includes("READ_EMAIL")) {
+      router.push("/admin");
+    }
+  }, [userAuthorities]);
+
   return (
-    <div className={cn("min-h-screen bg-background font-sans antialiased")}>
-      <div>
-        <div className="">{children}</div>
-      </div>
+    <div>
+      <div>{children}</div>
     </div>
   );
 }

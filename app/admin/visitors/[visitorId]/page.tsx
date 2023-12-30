@@ -21,7 +21,7 @@ const VisitorPage = ({ params }: { params: { visitorId: string } }) => {
 
   return (
     <div>
-      <AccountPreview data={accounts} />
+      <AccountPreview accounts={false} data={accounts} />
     </div>
   );
 };

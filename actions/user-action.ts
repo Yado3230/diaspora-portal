@@ -87,3 +87,34 @@ export const logUser = async (data: Login): Promise<LoginResponse> => {
     }
   }
 };
+
+type ChangePasswordProps = {
+  newPassword: string;
+  oldPassword: string;
+};
+
+export const changePassword = async (
+  values: ChangePasswordProps,
+  id: number
+): Promise<{
+  httpStatus: string;
+  message: string;
+}> => {
+  try {
+    const res = await fetch(
+      `${API_URL}api/v1/accounts/change-password?roleId=${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }
+    );
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

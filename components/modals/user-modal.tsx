@@ -146,14 +146,16 @@ export const UserModal = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {roles.map((role) => (
-                        <SelectItem
-                          key={role.roleId}
-                          value={role.roleId?.toString() || ""}
-                        >
-                          {role.roleName}
-                        </SelectItem>
-                      ))}
+                      {roles
+                        .filter((item) => item.roleName !== "SUPER-ADMIN")
+                        .map((role) => (
+                          <SelectItem
+                            key={role.id}
+                            value={role.id?.toString() || ""}
+                          >
+                            {role.roleName}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />

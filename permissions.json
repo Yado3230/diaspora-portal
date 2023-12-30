@@ -1,26 +1,26 @@
 [
   {
     "permissionId": "0.03655617905525155",
-    "permissionName": "Emails",
+    "permissionName": "User",
     "assignedTo": ["READ", "WRITE", "EDIT", "DELETE"],
     "createdAt": "2023-12-27"
   },
   {
     "permissionId": "0.03655617905525157",
     "permissionName": "Emails",
-    "assignedTo":["READ", "WRITE", "EDIT", "DELETE"],
+    "assignedTo": ["READ", "WRITE", "EDIT", "DELETE"],
     "createdAt": "2023-12-27"
   },
   {
     "permissionId": "0.3880762931031476",
     "permissionName": "Accounts",
-    "assignedTo":["READ", "WRITE", "EDIT", "DELETE"],
+    "assignedTo": ["READ", "WRITE", "EDIT", "DELETE"],
     "createdAt": "2023-12-27"
   },
   {
     "permissionId": "0.3880762931031479",
     "permissionName": "Visitors",
-    "assignedTo":["READ", "WRITE", "EDIT", "DELETE"],
+    "assignedTo": ["READ", "WRITE", "EDIT", "DELETE"],
     "createdAt": "2023-12-27"
   }
 ]

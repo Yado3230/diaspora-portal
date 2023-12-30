@@ -7,6 +7,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { Account, UserResponse } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import { useUserModal } from "@/hooks/use-user-modal";
+import { UserModal } from "@/components/modals/user-modal";
 // import { useSession } from "next-auth/react";
 
 interface UserClientProps {
@@ -19,6 +20,7 @@ const UserClient: React.FC<UserClientProps> = ({ data }) => {
 
   return (
     <>
+      {/* <UserModal /> */}
       <div className="flex border-b pb-2 items-center justify-between">
         <Heading title={`Users (${data.length})`} description="Manage users" />
         <div></div>

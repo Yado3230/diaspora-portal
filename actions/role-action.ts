@@ -22,7 +22,10 @@ export const getAllAuthorities = async (): Promise<PermissionTemplate[]> => {
     throw error;
   }
 };
-export const createRole = async (values: Role): Promise<Role> => {
+export const createRole = async (values: {
+  roleName: string;
+  authorities: PermissionTemplate[];
+}): Promise<Role> => {
   try {
     const res = await fetch(`${API_URL}api/v1/roles`, {
       method: "POST",
@@ -60,7 +63,7 @@ export const editRole = async (
   id: number
 ): Promise<Role> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/roles?roleId=${id}`, {
+    const res = await fetch(`${API_URL}api/v1/roles/${id}/set-authorities`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

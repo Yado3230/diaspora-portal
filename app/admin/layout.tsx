@@ -38,10 +38,10 @@ export default function RootLayout({
       return;
     }
 
-    // if (!accessToken) {
-    //   // Redirect to login page if not authenticated
-    //   router.push("/");
-    // }
+    if (!accessToken) {
+      // Redirect to login page if not authenticated
+      router.push("/");
+    }
   }, [mounted, accessToken, router]);
 
   if (!mounted) {

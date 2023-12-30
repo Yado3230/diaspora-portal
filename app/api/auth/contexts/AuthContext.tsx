@@ -7,6 +7,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import Jwt, { JwtPayload } from "jsonwebtoken";
 
 interface AuthContextType {
   accessToken: string | null;
@@ -33,9 +34,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = (access: string, refresh: string) => {
     setAccessToken(access);
     setRefreshToken(refresh);
+
+    const decodedData = Jwt.decode(access) as JwtPayload;
+    const authorities = decodedData.authorities;
     // Save tokens to LocalStorage or cookies
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
+    localStorage.setItem("authorities", authorities);
   };
 
   const logout = () => {
@@ -44,6 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Clear tokens from LocalStorage or cookies
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("authorities");
   };
 
   return (

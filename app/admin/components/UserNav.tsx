@@ -21,7 +21,7 @@ export function UserNav() {
   const { logout } = useAuth();
   // const { data: session } = useSession();
   return (
-    <div className="">
+    <div className="z-[1000]">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">

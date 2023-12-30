@@ -117,7 +117,29 @@ export const RoleModal: React.FC<PermissionProps> = ({
           ),
         },
       ];
-      if (updatedPermissions) setValue("authorities", updatedPermissions);
+
+      // Check if the action is "EDIT," "WRITE," or "DELETE" and "READ" is not already included
+      const readAction =
+        action === "EDIT" || action === "WRITE" || action === "DELETE"
+          ? "READ"
+          : null;
+
+      if (
+        readAction &&
+        !currentPermissions.some(
+          (auth) => auth.resource === resource && auth.action === readAction
+        )
+      ) {
+        const readPermission = authorities.find(
+          (auth) => auth.resource === resource && auth.action === readAction
+        );
+
+        if (readPermission) {
+          updatedPermissions.push(readPermission);
+        }
+      }
+
+      setValue("authorities", updatedPermissions);
     }
   };
 
@@ -127,7 +149,10 @@ export const RoleModal: React.FC<PermissionProps> = ({
       setLoading(true);
       invoice.id
         ? await editRole(values.authorities, invoice.id)
-        : await createRole(values);
+        : await createRole({
+            roleName: values.roleName,
+            authorities: values.authorities,
+          });
       roleModal.onClose();
       setUpdated(!updated);
       toast.success(invoice.id ? "Updated" : "Role Created");
