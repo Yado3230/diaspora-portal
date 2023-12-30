@@ -1,13 +1,7 @@
 "use client";
-import { Inter as FontSans } from "next/font/google";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export default function RootLayout({
   children,

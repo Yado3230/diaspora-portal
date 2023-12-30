@@ -61,7 +61,7 @@ export async function PATCH(req: Request) {
 
     const templates = await readTemplates();
     const index = templates.findIndex(
-      (template) => template.permissionId === body.id
+      (template) => template.id === body.id
     );
     if (index > -1) {
       templates[index] = body;
