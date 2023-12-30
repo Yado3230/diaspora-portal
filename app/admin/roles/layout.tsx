@@ -13,7 +13,7 @@ export default function RootLayout({
   const userAuthorities = localStorage.getItem("authorities");
 
   useEffect(() => {
-    if (!userAuthorities?.includes("READ_EMAIL")) {
+    if (!(userAuthorities?.length === 214)) {
       router.push("/admin");
     }
   }, [userAuthorities]);

@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-
 export default function RootLayout({
   children,
 }: {
@@ -13,7 +12,7 @@ export default function RootLayout({
   const userAuthorities = localStorage.getItem("authorities");
 
   useEffect(() => {
-    if (!userAuthorities?.includes("READ_EMAIL")) {
+    if (!(userAuthorities?.length === 214)) {
       router.push("/admin");
     }
   }, [userAuthorities]);

@@ -20,6 +20,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Login } from "@/types/types";
+import { useAuth } from "@/app/api/auth/contexts/AuthContext";
+import { logUser } from "@/actions/user-action";
 
 const formSchema = z.object({
   username: z.string().min(1),
@@ -29,6 +31,7 @@ const formSchema = z.object({
 type LevelFormValues = z.infer<typeof formSchema>;
 
 function LoginCard() {
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -41,29 +44,34 @@ function LoginCard() {
   });
 
   const onSubmit = async (data: Login) => {
-    setLoading(true);
     try {
+      setLoading(true);
       // await Addclient(data);
-      // const response = await logUser(data);
-      signIn("credentials", {
-        redirect: false,
-        email: data.username,
-        password: data.password,
-        // @ts-ignore
-      }).then(({ error }) => {
-        if (error) {
-          toast.error(error);
-        } else {
-          router.refresh();
-          router.push("/admin");
-        }
-      });
-
+      const response = await logUser(data);
+      // signIn("credentials", {
+      //   redirect: false,
+      //   email: data.username,
+      //   password: data.password,
+      //   // @ts-ignore
+      // }).then(({ error }) => {
+      //   if (error) {
+      //     toast.error(error);
+      //   } else {
+      //     router.refresh();
+      //     router.push("/admin");
+      //   }
+      // });
+      if (response.access_token) {
+        login(response.access_token, response.refresh_token);
+        router.push(`/admin`);
+        router.refresh();
+        toast.success("Login success");
+      }
     } catch (error: any) {
-      console.error("Error:", error);
+      console.error("Error is this:", error.message);
 
-      if (error.message === "Please check your email and password.") {
-        toast.error("Invalid email or password");
+      if (error.message === "Please check your username and password.") {
+        toast.error("Invalid username or password");
       } else if (
         error.message === "Network error: Unable to connect to the server."
       ) {
@@ -155,7 +163,7 @@ function LoginCard() {
               >
                 SIGN IN
               </Button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don&apos;t have an account yet?
                 <Link
                   href={"/auth/registration"}
@@ -163,7 +171,7 @@ function LoginCard() {
                 >
                   Sign up
                 </Link>
-              </p>
+              </p> */}
               <div className="form-group">
                 <div
                   className={"hidden alert alert-success"}

@@ -49,6 +49,14 @@ export interface EmailTemplate {
   subject: string;
 }
 
+export interface PermissionTemplate {
+  id: number;
+  resource: string;
+  action: string;
+  description: string;
+  authority: string;
+}
+
 export interface Account {
   id: number;
   fullName: string;
@@ -100,9 +108,7 @@ export interface UserResponse {
 }
 
 export interface Role {
-  roleId: number;
+  id: number;
   roleName: string;
-  description: string;
-  registeredAt: string;
-  updatedAt: string;
+  authorities: PermissionTemplate[] | [];
 }

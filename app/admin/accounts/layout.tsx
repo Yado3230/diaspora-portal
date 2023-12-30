@@ -13,7 +13,8 @@ export default function RootLayout({
   const userAuthorities = localStorage.getItem("authorities");
 
   useEffect(() => {
-    if (!userAuthorities?.includes("READ_EMAIL")) {
+    if (!userAuthorities?.includes("READ_ACCOUNT")) {
+      // Redirect to login page if not authenticated
       router.push("/admin");
     }
   }, [userAuthorities]);

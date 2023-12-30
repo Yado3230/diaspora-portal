@@ -21,7 +21,7 @@ const AccountPage = ({ params }: { params: { accountId: string } }) => {
 
   return (
     <div>
-      <AccountPreview data={accounts} />
+      <AccountPreview accounts={true} data={accounts} />
     </div>
   );
 };

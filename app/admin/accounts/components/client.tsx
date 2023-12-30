@@ -8,6 +8,12 @@ import { DataTable } from "@/components/ui/data-table";
 import { Account } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import exportDataToExcel from "@/components/exportDataToExcel";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ClientAccountProps {
   data: Account[];
@@ -17,6 +23,9 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ data }) => {
   // const clientModal = useClientModal();
   const params = useParams();
   const router = useRouter();
+
+  const userAuthorities = localStorage.getItem("authorities");
+
   return (
     <>
       <div className="flex border-b pb-2 items-center justify-between">
@@ -25,11 +34,20 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ data }) => {
           description="Manage Accounts"
         />
         <div></div>
-        <div>
+        <div
+          className={`${
+            !userAuthorities?.includes("READ_ACCOUNT") && "cursor-not-allowed"
+          }`}
+          title={`${
+            !userAuthorities?.includes("READ_ACCOUNT") && "Not Authorized"
+          }`}
+        >
           <Button
+            disabled={!userAuthorities?.includes("READ_ACCOUNT")}
             size="sm"
-            className="bg-cyan-500"
+            className={`bg-cyan-500`}
             onClick={() => exportDataToExcel("notfiltered", data)}
+            title="disabled"
           >
             <Download className="mr-2 h-4 w-4" />
             Export All
