@@ -7,4 +7,4 @@
   - horizontal
   - vertical
 
-Defaulting to \`${i}\`.`):null}};let c=l}};var r=require("../../../webpack-runtime.js");r.C(e);var t=e=>r(r.s=e),a=r.X(0,[271,635,827,273,929,36,953],()=>t(20840));module.exports=a})();
+Defaulting to \`${i}\`.`):null}};let c=l}};var r=require("../../../webpack-runtime.js");r.C(e);var t=e=>r(r.s=e),a=r.X(0,[271,635,827,273,929,36,694],()=>t(20840));module.exports=a})();

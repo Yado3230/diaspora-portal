@@ -1,15 +1,22 @@
 "use client";
 
 import { changeAccountStatus } from "@/actions/account-action";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Progress } from "@/components/ui/progress";
 import { Account } from "@/types/types";
 import { CheckCheck, X } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 interface PreviewProps {
   data: Account;
@@ -18,6 +25,25 @@ interface PreviewProps {
 const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
   const router = useRouter();
   const userAuthorities = localStorage.getItem("authorities");
+  const [loading, setLoading] = useState(false);
+  const [emailBody, setEmailBody] = useState({
+    to: data?.email,
+    name: data?.fullName,
+    title: "Rejection Notification",
+    subject: "Rejection of Your Account",
+    body: `<p>Dear <strong style="color: rgb(0, 102, 204);">{{name}}</strong>,</p><p><br></p><p><br></p><p><br></p><p><br></p><p>Best regards,</p><p>Diaspora Banking</p><p>Cooperative Bank of Oromia</p>`,
+    userId: btoa(data.id.toString()),
+    phoneNumber: data?.phone,
+    motherName: data?.motherName,
+    gender: data?.sex,
+    initialDeposit: data?.initialDeposit,
+    monthlyIncome: data?.monthlyIncome,
+    occupation: data?.occupation,
+    branch: data?.branch,
+    accountType: data?.accountType,
+    city: data?.city,
+    state: data?.state,
+  });
   const ImageCard: React.FC<{ src: string; label: string }> = ({
     src,
     label,
@@ -35,6 +61,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
   );
 
   const handleApproveClick = async () => {
+    setLoading(true);
     try {
       await changeAccountStatus(data.id.toString(), "APPROVED");
       router.refresh();
@@ -42,19 +69,33 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
-      // setLoading(false);
+      router.back();
+      setLoading(false);
     }
   };
 
   const handleRejectClick = async () => {
+    setLoading(true);
     try {
-      await changeAccountStatus(data.id.toString(), "REJECTED");
+      const response = await fetch("/api/sendemail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailBody),
+      });
+      if (response.ok) {
+        await changeAccountStatus(data.id.toString(), "REJECTED");
+        toast.success("Account rejected.");
+      } else {
+        console.error("Error sending email:", await response.json());
+      }
       router.refresh();
-      toast.success("Account rejected.");
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
-      // setLoading(false);
+      router.back();
+      setLoading(false);
     }
   };
 
@@ -200,7 +241,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   <span className="font-bold">Initial Deposit</span>
                   <span>
                     : $
-                    {data?.initialDeposit || (
+                    {data?.initialDeposit.toLocaleString() || (
                       <span className="text-red-400">Not Filled</span>
                     )}
                   </span>
@@ -209,7 +250,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   <span className="font-bold">Monthly Income</span>
                   <span>
                     : $
-                    {data?.monthlyIncome || (
+                    {data?.monthlyIncome.toLocaleString() || (
                       <span className="text-red-400">Not Filled</span>
                     )}
                   </span>
@@ -294,7 +335,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   ) && "Not Authorized"
                 }`}
               >
-                <Button
+                {/* <Button
                   disabled={
                     !(
                       userAuthorities?.includes("EDIT_ACCOUNT") ||
@@ -304,11 +345,92 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   className="ml-2 border"
                   size="sm"
                   variant="destructive"
-                  onClick={handleRejectClick}
+                  onClick={() => setShowEmailBox(true)}
                 >
                   <X className="mr-2 h-4 w-4" />
                   Reject
-                </Button>
+                </Button> */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    {/* <Button variant="outline">Open popover</Button> */}
+                    <Button
+                      disabled={
+                        !(
+                          userAuthorities?.includes("EDIT_ACCOUNT") ||
+                          userAuthorities?.includes("WRITE_ACCOUNT")
+                        ) ||
+                        loading ||
+                        data?.status === "REJECTED" ||
+                        data?.status === "APPROVED"
+                      }
+                      className="ml-2 border"
+                      size="sm"
+                      variant="destructive"
+                    >
+                      <X className="mr-2 h-4 w-4" />
+                      Reject
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[480px] mr-20 h-[420px]">
+                    <div className="flex flex-col justify-between h-full">
+                      <div className="h-full">
+                        <ReactQuill
+                          theme="snow"
+                          style={{
+                            height: "250px",
+                            // width: "620px",
+                            fontFamily: "Arial, sans-serif",
+                          }}
+                          modules={{
+                            toolbar: [
+                              [{ font: [] }],
+                              [{ header: [1, 2, 3] }],
+                              ["bold", "italic", "underline", "strike"],
+                              [{ color: [] }, { background: [] }],
+                              [{ script: "sub" }, { script: "super" }],
+                              ["blockquote", "code-block"],
+                              [{ list: "ordered" }, { list: "bullet" }],
+                              [
+                                { indent: "-1" },
+                                { indent: "+1" },
+                                { align: [] },
+                              ],
+                              ["link", "image", "video"],
+                              ["clean"],
+                            ],
+                          }}
+                          value={emailBody.body}
+                          onChange={(content) => {
+                            setEmailBody({
+                              ...emailBody,
+                              body: content,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className="self-end">
+                        <Button
+                          disabled={
+                            !(
+                              userAuthorities?.includes("EDIT_ACCOUNT") ||
+                              userAuthorities?.includes("WRITE_ACCOUNT")
+                            ) ||
+                            loading ||
+                            data?.status === "REJECTED" ||
+                            data?.status === "APPROVED"
+                          }
+                          className="ml-2 border"
+                          size="sm"
+                          variant="destructive"
+                          onClick={handleRejectClick}
+                        >
+                          <X className="mr-2 h-4 w-4" />
+                          Confirm Rejection
+                        </Button>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div
                 className={`${
@@ -329,7 +451,10 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                     !(
                       userAuthorities?.includes("EDIT_ACCOUNT") ||
                       userAuthorities?.includes("WRITE_ACCOUNT")
-                    )
+                    ) ||
+                    loading ||
+                    data?.status === "REJECTED" ||
+                    data?.status === "APPROVED"
                   }
                   className="ml-2 border bg-cyan-500"
                   size="sm"

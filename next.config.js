@@ -6,10 +6,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  https: {
-    key: "./.next/server/Coop_Server_Side_SSL_Cert.key",
-    cert: "./.next/server/Coop_Server_Side_SSL_Cert.crt",
-  },
 };
 
 module.exports = nextConfig;
