@@ -14,7 +14,7 @@ const VisitorPage = ({ params }: { params: { visitorId: string } }) => {
       setAccounts(res);
     };
     fetchData();
-  }, []);
+  }, [params.visitorId]);
   if (!accounts) {
     return null;
   }

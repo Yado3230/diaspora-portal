@@ -22,15 +22,6 @@ import {
   getReportMonthlyByYear,
 } from "@/actions/account-action";
 import { ReportType, ReportTypeByMonth } from "@/types/types";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const Overview = () => {
   const currentDate: Date = new Date();
@@ -55,7 +46,7 @@ const Overview = () => {
       setDateFilterByMonth2(res3);
     };
     fetchData();
-  }, []);
+  }, [currentDate]);
 
   const [years, setYears] = useState<number[]>([]);
 

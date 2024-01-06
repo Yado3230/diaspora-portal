@@ -5,18 +5,11 @@ import { cn } from "@/lib/utils";
 import {
   Activity,
   BookTemplate,
-  DollarSign,
-  DollarSignIcon,
-  Gamepad2,
   Key,
   LayoutDashboard,
   Lock,
-  LucideShovel,
   Mail,
-  Package,
   Settings,
-  User,
-  User2,
   Users,
 } from "lucide-react";
 import Link from "next/link";
@@ -139,8 +132,9 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
         className={cn("flex flex-col justify-center space-y-2 mt-3", className)}
       >
         <div className="font-semibold opacity-50">Menu</div>
-        {menuItems.map((route) => (
+        {menuItems.map((route, index) => (
           <div
+            key={index}
             className={`${!route.authorized && "cursor-not-allowed"}`}
             title={`${!route.authorized && "Not Authorized"}`}
           >
@@ -173,8 +167,9 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
         className={cn("flex flex-col justify-center space-y-2 mt-3", className)}
       >
         <div className="font-semibold opacity-50">Administration</div>
-        {AdministrationItems.map((route) => (
+        {AdministrationItems.map((route, index) => (
           <div
+            key={index}
             className={`${!route.authorized && "cursor-not-allowed"}`}
             title={`${!route.authorized && "Not Authorized"}`}
           >

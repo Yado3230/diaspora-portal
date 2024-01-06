@@ -1,20 +1,7 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/emails/route": "app/api/emails/route.js",
-  "/api/permissions/route": "app/api/permissions/route.js",
-  "/api/roles/route": "app/api/roles/route.js",
-  "/api/sendemail/route": "app/api/sendemail/route.js",
-  "/page": "app/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
   "/admin/page": "app/admin/page.js",
-  "/admin/settings/page": "app/admin/settings/page.js",
-  "/admin/accounts/page": "app/admin/accounts/page.js",
-  "/admin/accounts/[accountId]/page": "app/admin/accounts/[accountId]/page.js",
-  "/admin/emails/page": "app/admin/emails/page.js",
-  "/admin/users/page": "app/admin/users/page.js",
   "/admin/visitors/page": "app/admin/visitors/page.js",
-  "/admin/visitors/[visitorId]/page": "app/admin/visitors/[visitorId]/page.js",
-  "/admin/roles/page": "app/admin/roles/page.js",
-  "/admin/permissions/page": "app/admin/permissions/page.js"
+  "/admin/accounts/page": "app/admin/accounts/page.js"
 }

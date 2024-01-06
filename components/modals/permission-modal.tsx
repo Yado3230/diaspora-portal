@@ -132,7 +132,7 @@ export const PermissionModal: React.FC<PermissionProps> = ({
           <span>
             <span className="block">Warning!</span> By editing or adding the
             permission name, you might break the system permissions
-            functionality. Please ensure you're absolutely certain before
+            functionality. Please ensure you& apos;re absolutely certain before
             proceeding.
           </span>
         </div>
