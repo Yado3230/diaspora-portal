@@ -14,8 +14,18 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import { FC } from "react";
 
-export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
+type SidebarProps = {
+  className: any;
+  isOpened: boolean;
+  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export const MainNav: FC<SidebarProps> = ({
+  className,
+  isOpened,
+  setIsOpened,
+}) => {
   const pathname = usePathname();
   const params = useParams();
   const userAuthorities = localStorage.getItem("authorities");
@@ -148,7 +158,10 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
                   : "text-muted-foreground"
               )}
               key={route.href}
-              onClick={() => router.push(route.href)}
+              onClick={() => {
+                setIsOpened(!isOpened);
+                router.push(route.href);
+              }}
             >
               <span>{route?.icon}</span>
               <Link
@@ -183,7 +196,10 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
                   : "text-muted-foreground"
               )}
               key={route.href}
-              onClick={() => router.push(route.href)}
+              onClick={() => {
+                setIsOpened(!isOpened);
+                router.push(route.href);
+              }}
             >
               <span>{route?.icon}</span>
               <Link
@@ -200,4 +216,4 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
       </nav>
     </div>
   );
-}
+};

@@ -1,13 +1,17 @@
 "use client";
 import Logo from "@/app/admin/components/Logo";
 // import { ModeToggle } from "@/components/ThemeTogle";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { UserNav } from "./UserNav";
 
-const Navbar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+type NavbarProps = {
+  isOpened: boolean;
+  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Navbar: FC<NavbarProps> = ({ setIsOpened, isOpened }) => {
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsOpened(!isOpened);
   };
 
   return (

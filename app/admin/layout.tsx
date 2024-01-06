@@ -7,13 +7,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../api/auth/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [mounted, setMounted] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -39,8 +39,8 @@ export default function RootLayout({
   return (
     <div className={cn("min-h-screen bg-background font-sans antialiased")}>
       <div>
-        <Navbar />
-        <Sidebar />
+        <Navbar setIsOpened={setIsOpened} isOpened={isOpened} />
+        <Sidebar setIsOpened={setIsOpened} isOpened={isOpened} />
         <div className="m-8 md:ml-72 mt-16 pt-4">{children}</div>
       </div>
     </div>

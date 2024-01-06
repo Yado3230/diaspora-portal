@@ -46,7 +46,7 @@ const Overview = () => {
       setDateFilterByMonth2(res3);
     };
     fetchData();
-  }, [currentDate]);
+  }, []);
 
   const [years, setYears] = useState<number[]>([]);
 
@@ -421,7 +421,7 @@ const Overview = () => {
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
+        <Card className="col-span-4 md:col-span-2 lg:col-span-4">
           <CardHeader>
             {/* <CardTitle>Approved User accounts</CardTitle> */}
             <div className="flex items-center justify-between">
@@ -447,7 +447,7 @@ const Overview = () => {
             <Barchart dateFilterByMonth={dateFilterByMonth} />
           </CardContent>
         </Card>
-        <Card className="col-span-3">
+        <Card className="col-span-3 md:col-span-2 lg:col-span-3">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>

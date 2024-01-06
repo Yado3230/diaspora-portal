@@ -8,12 +8,6 @@ import { DataTable } from "@/components/ui/data-table";
 import { Account } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import exportDataToExcel from "@/components/exportDataToExcel";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 interface ClientAccountProps {
   data: Account[];

@@ -34,13 +34,13 @@ const ChangePassword = () => {
     <div>
       <div>
         <div className="mb-3 flex items-center justify-between">
-          <span className="text-xl">Change Password</span>
+          <span className="text-lg">Change Password</span>
         </div>
-        <Separator className="my-4" />
-        <div className="spaye-y-4 py-2 pb-4">
+        <Separator className="my-2" />
+        <div className="space-y-4 py-2 pb-4">
           <Form {...form}>
             <form>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
                 <FormField
                   name="currentPassword"
                   control={form.control}
@@ -49,8 +49,8 @@ const ChangePassword = () => {
                       <FormLabel>Current Password:</FormLabel>
                       <FormControl>
                         <Input
-                          type="current password"
-                          placeholder="current password"
+                          type="password"
+                          placeholder="Current Password"
                           {...field}
                         />
                       </FormControl>
@@ -66,8 +66,8 @@ const ChangePassword = () => {
                       <FormLabel>New Password:</FormLabel>
                       <FormControl>
                         <Input
-                          type="new password"
-                          placeholder="new password"
+                          type="password"
+                          placeholder="New Password"
                           {...field}
                         />
                       </FormControl>
@@ -83,8 +83,8 @@ const ChangePassword = () => {
                       <FormLabel>Confirm Password:</FormLabel>
                       <FormControl>
                         <Input
-                          type="confirm password"
-                          placeholder="confirm password"
+                          type="password"
+                          placeholder="Confirm Password"
                           {...field}
                         />
                       </FormControl>
@@ -94,11 +94,11 @@ const ChangePassword = () => {
                 />
               </div>
 
-              <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button variant="outline" type="button">
+              <div className="pt-4 space-y-2">
+                <Button variant="outline" type="button" className="w-full">
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-cyan-500">
+                <Button type="submit" className="w-full bg-cyan-500">
                   Continue
                 </Button>
               </div>

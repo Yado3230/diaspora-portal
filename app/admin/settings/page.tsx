@@ -42,7 +42,7 @@ const Page = () => {
   return (
     <div>
       <Tabs defaultValue="account" className="w-full">
-        <TabsList className="grid grid-cols-2 h-full w-[400px]">
+        <TabsList className="flex mb-4">
           <TabsTrigger value="account" className="py-2">
             <User className="w-5 h-5 mr-2" />
             Account
@@ -52,16 +52,16 @@ const Page = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <Card className="w-full p-5">
+          <Card className="w-full p-4">
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-xl">Profile Details</span>
+                <span className="text-lg">Profile Details</span>
                 <Avatar>
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </div>
-              <Separator className="my-4" />
-              <div className="spaye-y-4 py-2 pb-4 w-96">
+              <Separator className="my-2" />
+              <div className="space-y-4 py-2">
                 <Form {...form}>
                   <form>
                     <FormField
@@ -71,7 +71,7 @@ const Page = () => {
                         <FormItem>
                           <FormLabel>Full Name:</FormLabel>
                           <FormControl>
-                            <Input placeholder="fullname" {...field} />
+                            <Input placeholder="Full Name" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -86,7 +86,7 @@ const Page = () => {
                           <FormControl>
                             <Input
                               type="email"
-                              placeholder="email"
+                              placeholder="Email"
                               {...field}
                             />
                           </FormControl>
@@ -94,11 +94,15 @@ const Page = () => {
                         </FormItem>
                       )}
                     />
-                    <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                      <Button variant="outline" type="button">
+                    <div className="pt-4 space-y-2">
+                      <Button
+                        variant="outline"
+                        type="button"
+                        className="w-full"
+                      >
                         Cancel
                       </Button>
-                      <Button type="submit" className="bg-cyan-500">
+                      <Button type="submit" className="w-full bg-cyan-500">
                         Continue
                       </Button>
                     </div>
@@ -109,7 +113,7 @@ const Page = () => {
           </Card>
         </TabsContent>
         <TabsContent value="password">
-          <Card className="p-5">
+          <Card className="p-4">
             <ChangePassword />
           </Card>
         </TabsContent>

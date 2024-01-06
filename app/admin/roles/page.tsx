@@ -82,26 +82,22 @@ const CardWithForm = () => {
       <div className="mb-4">
         <Heading
           title={`Role Lists`}
-          description="A role provided access to predefined menus and features so that depending on assigned role an administrator can have access to what he need"
+          description="A role provided access to predefined menus and features so that depending on assigned role an administrator can have access to what he needs"
         />
       </div>
-      <div className="w-full grid grid-cols-3 gap-8">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {roles.map((item, index) => (
-          <Card key={index}>
+          <Card key={index} className="mb-4">
             <CardHeader>
               <CardDescription>
-                <div className="flex justify-between">
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <span>Total 4 Users</span>
-                    </div>
-                    <div>
-                      <div className="text-xl text-black my-1 font-bold">
-                        {item.roleName}
-                      </div>
+                <div className="flex flex-col">
+                  <div className="mb-2">
+                    <div className="text-lg text-black font-bold">
+                      {item.roleName}
                     </div>
                   </div>
-                  <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span>Total 4 Users</span>
                     {item.roleName !== "SUPER-ADMIN" ? (
                       <Button
                         size="icon"
@@ -119,28 +115,28 @@ const CardWithForm = () => {
                       </div>
                     )}
                   </div>
-                </div>
-                <div className="mt-1">
-                  <Button
-                    onClick={() => {
-                      setInvoice(item);
-                      roleModal.onOpen();
-                    }}
-                    variant="outline"
-                  >
-                    {item.roleName === "SUPER-ADMIN"
-                      ? "View Authorities"
-                      : "Edit Role"}
-                  </Button>
+                  <div>
+                    <Button
+                      onClick={() => {
+                        setInvoice(item);
+                        roleModal.onOpen();
+                      }}
+                      variant="outline"
+                    >
+                      {item.roleName === "SUPER-ADMIN"
+                        ? "View Authorities"
+                        : "Edit Role"}
+                    </Button>
+                  </div>
                 </div>
               </CardDescription>
             </CardHeader>
           </Card>
         ))}
-        <Card>
+        <Card className="mb-4">
           <CardHeader>
             <CardTitle>New Role</CardTitle>
-            <CardDescription>create new role.</CardDescription>
+            <CardDescription>Create a new role.</CardDescription>
           </CardHeader>
           <CardFooter>
             <Button

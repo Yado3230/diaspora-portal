@@ -1,6 +1,7 @@
 "use client";
+
 import React, { useCallback, useState } from "react";
-import { PieChart, Pie, Sector, Cell } from "recharts";
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
 const COLORS = ["#06B6D4", "#8080A9", "#DE8224", "#505050"];
 
@@ -77,6 +78,8 @@ const renderActiveShape = (props: any) => {
   );
 };
 
+// ... (your existing COLORS and renderActiveShape)
+
 interface PieChartProps {
   pending: number;
   visitors: number;
@@ -106,23 +109,25 @@ export default function PieChart2({
   );
 
   return (
-    <PieChart width={450} height={300}>
-      <Pie
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data}
-        cx={200}
-        cy={150}
-        innerRadius={60}
-        outerRadius={80}
-        fill="#06B6D4"
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-    </PieChart>
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={60}
+          outerRadius={80}
+          fill="#06B6D4"
+          dataKey="value"
+          onMouseEnter={onPieEnter}
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   );
 }

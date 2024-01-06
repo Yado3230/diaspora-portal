@@ -85,22 +85,21 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center py-4">
+      <div className="py-4">
         <Input
           placeholder="Search ..."
           value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(searchKey)?.setFilterValue(event.target.value)
           }
-          className="max-w-sm ml-2"
+          className="max-w-sm ml-2 mb-2 sm:ml-0"
         />
-        {/* {!clickable && ( */}
-        <div className="flex w-full items-center justify-between">
-          <div className="ml-2">
+        <div className="sm:flex items-center justify-between">
+          <div className="sm:ml-2 mb-2">
             <DataTableToolbar table={table} />
           </div>
           {table.getFilteredSelectedRowModel().rows.length > 0 && (
-            <div className="flex space-x-2">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
               <div className="flex items-center justify-center">
                 <div
                   className={`${
@@ -117,9 +116,8 @@ export function DataTable<TData, TValue>({
                   }`}
                 >
                   <Button
-                    className="ml-2 border"
+                    className="border"
                     size="sm"
-                    // onClick={handleProcessClick}
                     variant="destructive"
                     disabled={
                       loading ||
@@ -174,7 +172,6 @@ export function DataTable<TData, TValue>({
                       <Button
                         className="ml-2 border"
                         size="sm"
-                        // onClick={handleProcessClick}
                         variant="secondary"
                         disabled={
                           loading ||
@@ -224,25 +221,22 @@ export function DataTable<TData, TValue>({
             </div>
           )}
         </div>
-        {/* )} */}
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-x-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
