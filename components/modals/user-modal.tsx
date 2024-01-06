@@ -83,7 +83,7 @@ export const UserModal = () => {
       isOpen={userModal.isOpen}
       onClose={userModal.onClose}
     >
-      <div className="spaye-y-4 py-2 pb-4 w-96">
+      <div className="spaye-y-4 py-2 pb-4 w-72 md:w-96">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField

@@ -200,7 +200,10 @@ export function EmailButton({ customers }: any) {
           {isOtherSelected ? (
             <FormProvider {...methods}>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="w-[22rem] md:w-full"
+                >
                   <div className="m-1">
                     <div className="m-1">
                       <FormField
@@ -275,7 +278,7 @@ export function EmailButton({ customers }: any) {
                         )}
                       />
                     </div>
-                    <div className="w-full flex space-x-2 mt-24">
+                    <div className="w-full flex space-x-2 mt-28 md:mt-24">
                       <Button
                         onClick={() => {
                           setValue("");

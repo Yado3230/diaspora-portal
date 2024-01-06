@@ -127,7 +127,7 @@ export const PermissionModal: React.FC<PermissionProps> = ({
       isOpen={permissionModal.isOpen}
       onClose={permissionModal.onClose}
     >
-      <div className="spaye-y-4 py-2 pb-4 w-[500PX]">
+      <div className="spaye-y-4 py-2 pb-4 w-72 md:w-96">
         <div className="my-2 p-2 border rounded bg-red-100">
           <span>
             <span className="block">Warning!</span> By editing or adding the

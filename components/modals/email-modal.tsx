@@ -129,7 +129,7 @@ export const EmailModal: React.FC<EmailProps> = ({
       isOpen={emailModal.isOpen}
       onClose={emailModal.onClose}
     >
-      <div className="spaye-y-4 py-2 pb-4">
+      <div className="spaye-y-4 py-2 pb-4 w-72 md:w-[550px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
@@ -195,7 +195,7 @@ export const EmailModal: React.FC<EmailProps> = ({
               )}
             />
             <DialogFooter>
-              <div className="pt-6 space-x-2 flex items-center justify-end w-full mt-12">
+              <div className="pt-6 space-x-2 flex items-center justify-end w-full mt-24 md:mt-12">
                 <Button
                   variant="outline"
                   type="button"

@@ -228,7 +228,7 @@ export const RoleModal: React.FC<PermissionProps> = ({
       isOpen={roleModal.isOpen}
       onClose={roleModal.onClose}
     >
-      <div className="spaye-y-4 py-2 pb-4 w-[550px]">
+      <div className="space-y-4 py-2 pb-4 max-w-full w-72 md:w-[550px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
@@ -238,7 +238,7 @@ export const RoleModal: React.FC<PermissionProps> = ({
                 <FormItem>
                   <FormLabel>Role Name:</FormLabel>
                   <FormControl>
-                    <Input placeholder="name" {...field} />
+                    <Input placeholder="Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -248,65 +248,59 @@ export const RoleModal: React.FC<PermissionProps> = ({
               <Separator />
             </div>
             <div>
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Role Permissions</h2>
-                {Object.entries(groupedAuthorities).map(
-                  ([resource, authorities], index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between border-t border-b py-2"
-                    >
-                      <div>{resource}</div>
-                      <div className="flex space-x-5 whitespace-nowrap">
-                        {["READ", "WRITE", "EDIT", "DELETE"].map((action) => (
-                          <div
-                            key={action}
-                            className="flex items-center space-x-2"
+              <h2 className="text-lg font-semibold mb-2">Role Permissions</h2>
+              {Object.entries(groupedAuthorities).map(
+                ([resource, authorities], index) => (
+                  <div key={index} className="border-t border-b py-2">
+                    <div>{resource}</div>
+                    <div className="grid grid-cols-2 md:grid-cols-4">
+                      {["READ", "WRITE", "EDIT", "DELETE"].map((action) => (
+                        <div
+                          key={action}
+                          className="flex items-center space-x-2"
+                        >
+                          <Checkbox
+                            disabled={
+                              invoice.roleName === "SUPER-ADMIN" ? true : false
+                            }
+                            id={`${resource.toLowerCase()}-${action}`}
+                            value={action.toLowerCase()}
+                            checked={groupedAuthoritiesUser[resource]?.some(
+                              (auth) => auth.action === action
+                            )}
+                            onClick={(e) => {
+                              handleCheckboxSelect(resource, action);
+                              roleModal.onClose();
+                              roleModal.onOpen();
+                            }}
+                          />
+                          <label
+                            htmlFor={`${resource.toLowerCase()}-${action}`}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                           >
-                            <Checkbox
-                              disabled={
-                                invoice.roleName === "SUPER-ADMIN"
-                                  ? true
-                                  : false
-                              }
-                              id={`${resource.toLowerCase()}-${action}`}
-                              value={action.toLowerCase()}
-                              checked={groupedAuthoritiesUser[resource]
-                                ?.map((auth) => auth.action === action)
-                                .includes(true)}
-                              onClick={(e) => {
-                                handleCheckboxSelect(resource, action);
-                                roleModal.onClose();
-                                roleModal.onOpen();
-                              }}
-                            />
-                            <label
-                              htmlFor={`${resource.toLowerCase()}-${action}`}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {action.charAt(0).toUpperCase() + action.slice(1)}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
+                            {action.charAt(0).toUpperCase() + action.slice(1)}
+                          </label>
+                        </div>
+                      ))}
                     </div>
-                  )
-                )}
-              </div>
+                  </div>
+                )
+              )}
             </div>
             <DialogFooter>
-              <div className="pt-6 space-x-2 flex items-center justify-end w-full mt-12">
+              <div className="pt-4 space-y-2 flex flex-col md:flex-row items-center justify-center w-full mt-4">
                 <Button
                   variant="outline"
                   type="button"
                   onClick={roleModal.onClose}
+                  className="w-full md:w-auto"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={loading || invoice.roleName === "SUPER-ADMIN"}
-                  className="bg-cyan-500"
+                  className="w-full md:w-auto bg-cyan-500"
                 >
                   {invoice.id !== 0 ? "Update" : "Add"}
                 </Button>
