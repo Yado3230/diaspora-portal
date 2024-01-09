@@ -25,6 +25,7 @@ const Page = () => {
     email: item.email,
     status: item.status,
     registeredBy: item.registeredBy,
+    passwordChanged: item.passwordChanged,
     lastLoggedIn: item.registeredBy,
     registeredAt: format(new Date(item.registeredAt), "MMMM do, yyyy"),
     updatedAt: format(new Date(item.updatedAt), "MMMM do, yyyy"),

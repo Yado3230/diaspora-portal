@@ -17,7 +17,10 @@ export default function RootLayout({
   const useChangePassword = useChangePasswordModal();
   const [mounted, setMounted] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
-  const passwordChanged = localStorage.getItem("passwordChanged");
+  const passwordChanged: string =
+    (typeof window !== "undefined"
+      ? localStorage.getItem("passwordChanged")
+      : "") || "";
 
   useEffect(() => {
     setMounted(true);
