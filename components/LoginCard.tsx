@@ -65,6 +65,7 @@ function LoginCard() {
         const res = await getMe(response.access_token);
         if (res) {
           localStorage.setItem("fullname", res.fullName);
+          localStorage.setItem("email", res.email);
           localStorage.setItem(
             "passwordChanged",
             res.passwordChanged ? "TRUE" : "FALSE"

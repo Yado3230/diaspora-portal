@@ -15,6 +15,10 @@ import {
 // import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
+const fullName: string =
+  (typeof window !== "undefined" ? localStorage.getItem("fullName") : "") || "";
+const email: string =
+  (typeof window !== "undefined" ? localStorage.getItem("email") : "") || "";
 
 export function UserNav() {
   const router = useRouter();
@@ -36,10 +40,10 @@ export function UserNav() {
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
                 {/* {data?.user?.name} */}
-                Coop Admin
+                {fullName}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
-                john@gmail.com
+                {email}
               </p>
             </div>
           </DropdownMenuLabel>

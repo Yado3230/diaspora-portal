@@ -50,6 +50,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("authorities");
+    localStorage.removeItem("passwordChanged");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("email");
   };
 
   return (
