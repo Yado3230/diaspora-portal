@@ -6,14 +6,18 @@ import Navbar from "@/app/admin/components/Navbar";
 import { useEffect, useState } from "react";
 import { useAuth } from "../api/auth/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import { ChangePasswordProvider } from "@/providers/change-password-provider";
+import { useChangePasswordModal } from "@/hooks/use-change-password-modal";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const useChangePassword = useChangePasswordModal();
   const [mounted, setMounted] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
+  const passwordChanged = localStorage.getItem("passwordChanged");
 
   useEffect(() => {
     setMounted(true);
@@ -28,21 +32,28 @@ export default function RootLayout({
     }
 
     if (!accessToken) {
-      // Redirect to login page if not authenticated
       router.push("/");
     }
-  }, [mounted, accessToken, router]);
+
+    if (passwordChanged === "TRUE") {
+      useChangePassword.passwordChanged();
+    }
+  }, [mounted, accessToken, router, passwordChanged]);
 
   if (!mounted) {
     return null;
   }
+
   return (
-    <div className={cn("min-h-screen bg-background font-sans antialiased")}>
-      <div>
-        <Navbar setIsOpened={setIsOpened} isOpened={isOpened} />
-        <Sidebar setIsOpened={setIsOpened} isOpened={isOpened} />
-        <div className="m-8 md:ml-72 mt-16 pt-4">{children}</div>
+    <>
+      <ChangePasswordProvider />
+      <div className={cn("min-h-screen bg-background font-sans antialiased")}>
+        <div>
+          <Navbar setIsOpened={setIsOpened} isOpened={isOpened} />
+          <Sidebar setIsOpened={setIsOpened} isOpened={isOpened} />
+          <div className="m-8 md:ml-72 mt-16 pt-4">{children}</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

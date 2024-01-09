@@ -45,6 +45,55 @@ export const createUser = async (data: UserRequest): Promise<UserResponse> => {
   }
 };
 
+export const resetPassword = async (
+  password: String,
+  access_token: string | null
+): Promise<UserResponse> => {
+  try {
+    const response = await fetch(`${API_URL}api/v1/accounts/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: JSON.stringify(password),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
+
+export const getMe = async (
+  access_token: string | null
+): Promise<UserResponse> => {
+  try {
+    const response = await fetch(`${API_URL}api/v1/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
+
 export const deleteUser = async (id: string): Promise<Boolean> => {
   try {
     const res = await fetch(`${API_URL}api/v1/users/${id}`, {

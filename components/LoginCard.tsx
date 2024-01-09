@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Login } from "@/types/types";
 import { useAuth } from "@/app/api/auth/contexts/AuthContext";
-import { logUser } from "@/actions/user-action";
+import { getMe, logUser } from "@/actions/user-action";
 
 const formSchema = z.object({
   username: z.string().min(1),
@@ -62,10 +62,18 @@ function LoginCard() {
       //   }
       // });
       if (response.access_token) {
-        login(response.access_token, response.refresh_token);
-        router.push(`/admin`);
-        router.refresh();
-        toast.success("Login success");
+        const res = await getMe(response.access_token);
+        if (res) {
+          localStorage.setItem("fullname", res.fullName);
+          localStorage.setItem(
+            "passwordChanged",
+            res.passwordChanged ? "TRUE" : "FALSE"
+          );
+          login(response.access_token, response.refresh_token);
+          router.push(`/admin`);
+          router.refresh();
+          toast.success("Login success");
+        }
       }
     } catch (error: any) {
       console.error("Error is this:", error.message);

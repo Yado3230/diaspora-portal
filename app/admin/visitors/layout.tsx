@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useChangePasswordModal } from "@/hooks/use-change-password-modal";
 
 export default function RootLayout({
   children,

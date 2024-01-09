@@ -104,6 +104,7 @@ export interface UserResponse {
   registeredBy: string;
   lastLoggedIn: string;
   registeredAt: string;
+  passwordChanged: boolean;
   updatedAt: string;
 }
 
