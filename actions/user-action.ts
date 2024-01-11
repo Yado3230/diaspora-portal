@@ -51,12 +51,14 @@ export const resetPassword = async (
 ): Promise<UserResponse> => {
   try {
     const response = await fetch(`${API_URL}api/v1/accounts/reset-password`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
       },
-      body: JSON.stringify(password),
+      body: JSON.stringify({
+        password: password,
+      }),
     });
 
     if (!response.ok) {

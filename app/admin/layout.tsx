@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-
 import Sidebar from "@/app/admin/components/Sidebar";
 import Navbar from "@/app/admin/components/Navbar";
 import { useEffect, useState } from "react";
@@ -17,10 +16,7 @@ export default function RootLayout({
   const useChangePassword = useChangePasswordModal();
   const [mounted, setMounted] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
-  const passwordChanged: string =
-    (typeof window !== "undefined"
-      ? localStorage.getItem("passwordChanged")
-      : "") || "";
+  const [passwordChanged, setPasswordChanged] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -42,6 +38,14 @@ export default function RootLayout({
       useChangePassword.passwordChanged();
     }
   }, [mounted, accessToken, router, passwordChanged]);
+
+  useEffect(() => {
+    const storedPasswordChanged =
+      (typeof window !== "undefined"
+        ? localStorage.getItem("passwordChanged")
+        : "") || "";
+    setPasswordChanged(storedPasswordChanged);
+  }, []);
 
   if (!mounted) {
     return null;

@@ -47,12 +47,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setAccessToken("");
     setRefreshToken("");
     // Clear tokens from LocalStorage or cookies
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("authorities");
     localStorage.removeItem("passwordChanged");
     localStorage.removeItem("fullName");
     localStorage.removeItem("email");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("authorities");
   };
 
   return (

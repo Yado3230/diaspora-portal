@@ -12,20 +12,27 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-// import { useRouter } from "next/navigation";
-const fullName: string =
-  (typeof window !== "undefined" ? localStorage.getItem("fullName") : "") || "";
-const email: string =
-  (typeof window !== "undefined" ? localStorage.getItem("email") : "") || "";
+import { useEffect, useState } from "react";
 
 export function UserNav() {
   const router = useRouter();
   const { logout } = useAuth();
-  // const { data: session } = useSession();
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    setFullName(
+      (typeof window !== "undefined" ? localStorage.getItem("fullName") : "") ||
+        ""
+    );
+    setEmail(
+      (typeof window !== "undefined" ? localStorage.getItem("email") : "") || ""
+    );
+  }, []);
+
   return (
-    <div className="z-[1000]">
+    <div className="">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -35,13 +42,10 @@ export function UserNav() {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuContent className="w-56 mt-4" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {/* {data?.user?.name} */}
-                {fullName}
-              </p>
+              <p className="text-sm font-medium leading-none">{fullName}</p>
               <p className="text-xs leading-none text-muted-foreground">
                 {email}
               </p>

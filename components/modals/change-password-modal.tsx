@@ -122,12 +122,8 @@ export const ChangePasswordModal = () => {
             />
 
             <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-              <Button
-                variant="outline"
-                type="button"
-                onClick={useChangePassword.onClose}
-              >
-                Cancel
+              <Button variant="outline" type="button" onClick={() => logout()}>
+                Logout
               </Button>
               <Button type="submit" disabled={loading} className="bg-cyan-500">
                 Continue
