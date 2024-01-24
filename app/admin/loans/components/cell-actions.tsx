@@ -64,12 +64,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className="mr-2 h-4 w-4" />
             Copy ID
           </DropdownMenuItem>
-          {/* <DropdownMenuItem
+          <DropdownMenuItem
             onClick={() => router.push(`/admin/loans/${data.id.toString()}`)}
           >
             <Backpack className="mr-2 h-4 w-4" />
             Preview
-          </DropdownMenuItem> */}
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" />
             Delete

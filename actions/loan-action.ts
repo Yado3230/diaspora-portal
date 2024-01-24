@@ -1,4 +1,4 @@
-import { Loan } from "@/types/types";
+import { Loan, LoanById } from "@/types/types";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -15,7 +15,7 @@ export const getAllLoans = async (): Promise<Loan[]> => {
   }
 };
 
-export const getLoanById = async (id: string): Promise<Loan> => {
+export const getLoanById = async (id: string): Promise<LoanById> => {
   try {
     const res = await fetch(`${API_URL}api/v1/loans/${id}`);
     return res.json();

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import {
   Activity,
   BookTemplate,
+  DollarSign,
   Key,
   LayoutDashboard,
   Lock,
@@ -66,6 +67,18 @@ export const MainNav: FC<SidebarProps> = ({
         <Activity
           size={15}
           color={`${pathname === `/admin/visitors` ? "#0EB8D5" : "#707E94"}`}
+        />
+      ),
+    },
+    {
+      href: `/admin/loans`,
+      label: "Loans",
+      active: pathname === `/admin/loans`,
+      authorized: true,
+      icon: (
+        <DollarSign
+          size={15}
+          color={`${pathname === `/admin/loans` ? "#0EB8D5" : "#707E94"}`}
         />
       ),
     },

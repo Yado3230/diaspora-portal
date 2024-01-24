@@ -126,3 +126,55 @@ export interface Loan {
   addedAt: Date;
   updatedAt: Date;
 }
+
+export interface LoanType {
+  id: number;
+  loanType: string;
+  status: boolean;
+  addedAt: Date;
+  updatedAt: Date;
+}
+
+export interface LoanSchedule {
+  id: number;
+  loanSchedule: string;
+  status: boolean;
+  addedAt: Date;
+  updatedAt: Date;
+}
+
+export interface Branch {
+  id: number;
+  branchName: string;
+  status: boolean;
+  addedAt: Date;
+  updatedAt: Date;
+}
+
+export interface loanDocument {
+  id: number;
+  documentName: string;
+  documentType: string;
+  documentUrl: string;
+  addedAt: Date;
+  updatedAt: Date;
+}
+
+export interface LoanById {
+  id: number;
+  fullName: string;
+  email: string;
+  phone: string;
+  accountType: string;
+  accountNumber: string;
+  country: string;
+  sourcesOfIncome: string;
+  loanAmount: number;
+  loanType: LoanType;
+  loanSchedule: LoanSchedule;
+  branch: Branch;
+  loanDocuments: loanDocument[];
+  status: string;
+  addedAt: Date;
+  updatedAt: Date;
+}

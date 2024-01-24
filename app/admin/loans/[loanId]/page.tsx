@@ -1,27 +1,27 @@
 "use client";
 
-import { getAccountById } from "@/actions/account-action";
-import { Account } from "@/types/types";
+import { LoanById } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import AccountPreview from "../../components/AccountPreview";
+import { getLoanById } from "@/actions/loan-action";
+import LoanPreview from "../../components/LoanPreview";
 
-const VisitorPage = ({ params }: { params: { visitorId: string } }) => {
-  const [accounts, setAccounts] = useState<Account>();
+const VisitorPage = ({ params }: { params: { loanId: string } }) => {
+  const [loan, setLoan] = useState<LoanById>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getAccountById(params.visitorId);
-      setAccounts(res);
+      const res = await getLoanById(params.loanId);
+      setLoan(res);
     };
     fetchData();
-  }, [params.visitorId]);
-  if (!accounts) {
+  }, [params.loanId]);
+  if (!loan) {
     return null;
   }
 
   return (
     <div>
-      <AccountPreview accounts={false} data={accounts} />
+      <LoanPreview data={loan} />
     </div>
   );
 };
