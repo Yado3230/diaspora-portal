@@ -54,7 +54,7 @@ export const RoleModal: React.FC<PermissionProps> = ({
       z.object({
         id: z.number().default(0),
         resource: z.string().default(""),
-        action: z.string().default(""),
+        authorityAction: z.string().default(""),
         description: z.string().default(""),
         authority: z.string().default(""),
       })
@@ -93,13 +93,14 @@ export const RoleModal: React.FC<PermissionProps> = ({
     setValue("authorities", defaultValues?.authorities ?? []);
   }, [defaultValues]);
 
-  const handleCheckboxSelect = (resource: string, action: string) => {
+  const handleCheckboxSelect = (resource: string, authorityAction: string) => {
     const { setValue, getValues } = form;
     const currentPermissions = getValues("authorities");
 
     // Check if the selected authority already exists
     const existingIndex = currentPermissions.findIndex(
-      (auth) => auth.resource === resource && auth.action === action
+      (auth) =>
+        auth.resource === resource && auth.authorityAction === authorityAction
     );
 
     if (existingIndex !== -1) {
@@ -113,25 +114,31 @@ export const RoleModal: React.FC<PermissionProps> = ({
         ...currentPermissions,
         {
           ...authorities.find(
-            (auth) => auth.resource === resource && auth.action === action
+            (auth) =>
+              auth.resource === resource &&
+              auth.authorityAction === authorityAction
           ),
         },
       ];
 
       // Check if the action is "EDIT," "WRITE," or "DELETE" and "READ" is not already included
       const readAction =
-        action === "EDIT" || action === "WRITE" || action === "DELETE"
+        authorityAction === "EDIT" ||
+        authorityAction === "WRITE" ||
+        authorityAction === "DELETE"
           ? "READ"
           : null;
 
       if (
         readAction &&
         !currentPermissions.some(
-          (auth) => auth.resource === resource && auth.action === readAction
+          (auth) =>
+            auth.resource === resource && auth.authorityAction === readAction
         )
       ) {
         const readPermission = authorities.find(
-          (auth) => auth.resource === resource && auth.action === readAction
+          (auth) =>
+            auth.resource === resource && auth.authorityAction === readAction
         );
 
         if (readPermission) {
@@ -162,6 +169,7 @@ export const RoleModal: React.FC<PermissionProps> = ({
       setLoading(false);
     }
   };
+
   React.useEffect(() => {
     let isMounted = true;
 
@@ -254,34 +262,40 @@ export const RoleModal: React.FC<PermissionProps> = ({
                   <div key={index} className="border-t border-b py-2">
                     <div>{resource}</div>
                     <div className="grid grid-cols-2 md:grid-cols-4">
-                      {["READ", "WRITE", "EDIT", "DELETE"].map((action) => (
-                        <div
-                          key={action}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            disabled={
-                              invoice.roleName === "SUPER-ADMIN" ? true : false
-                            }
-                            id={`${resource.toLowerCase()}-${action}`}
-                            value={action.toLowerCase()}
-                            checked={groupedAuthoritiesUser[resource]?.some(
-                              (auth) => auth.action === action
-                            )}
-                            onClick={(e) => {
-                              handleCheckboxSelect(resource, action);
-                              roleModal.onClose();
-                              roleModal.onOpen();
-                            }}
-                          />
-                          <label
-                            htmlFor={`${resource.toLowerCase()}-${action}`}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      {["READ", "WRITE", "EDIT", "DELETE"].map(
+                        (authorityAction) => (
+                          <div
+                            key={authorityAction}
+                            className="flex items-center space-x-2"
                           >
-                            {action.charAt(0).toUpperCase() + action.slice(1)}
-                          </label>
-                        </div>
-                      ))}
+                            <Checkbox
+                              disabled={
+                                invoice.roleName === "SUPER-ADMIN"
+                                  ? true
+                                  : false
+                              }
+                              id={`${resource.toLowerCase()}-${authorityAction}`}
+                              value={authorityAction.toLowerCase()}
+                              checked={groupedAuthoritiesUser[resource]?.some(
+                                (auth) =>
+                                  auth.authorityAction === authorityAction
+                              )}
+                              onClick={(e) => {
+                                handleCheckboxSelect(resource, authorityAction);
+                                roleModal.onClose();
+                                roleModal.onOpen();
+                              }}
+                            />
+                            <label
+                              htmlFor={`${resource.toLowerCase()}-${authorityAction}`}
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              {authorityAction.charAt(0).toUpperCase() +
+                                authorityAction.slice(1)}
+                            </label>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 )

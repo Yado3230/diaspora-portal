@@ -52,7 +52,7 @@ export interface EmailTemplate {
 export interface PermissionTemplate {
   id: number;
   resource: string;
-  action: string;
+  authorityAction: string;
   description: string;
   authority: string;
 }
@@ -112,4 +112,17 @@ export interface Role {
   id: number;
   roleName: string;
   authorities: PermissionTemplate[] | [];
+}
+
+export interface Loan {
+  id: number;
+  fullName: string;
+  country: string;
+  loanAmount: number;
+  loanType: string;
+  loanSchedule: string;
+  branch: string;
+  status: string;
+  addedAt: Date;
+  updatedAt: Date;
 }
