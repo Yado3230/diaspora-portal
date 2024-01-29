@@ -6,12 +6,16 @@ import {
   Activity,
   BookTemplate,
   DollarSign,
+  Globe,
+  Globe2,
   Key,
   LayoutDashboard,
   Lock,
   Mail,
   Settings,
   Users,
+  WholeWord,
+  WholeWordIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -42,7 +46,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <LayoutDashboard
           size={15}
-          color={`${pathname === `/admin` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin` ? "#fff" : "#707E94"}`}
         />
       ),
     },
@@ -52,9 +56,23 @@ export const MainNav: FC<SidebarProps> = ({
       active: pathname === `/admin/accounts`,
       authorized: userAuthorities?.includes("READ_ACCOUNT"),
       icon: (
-        <BookTemplate
+        <Globe
           size={15}
-          color={`${pathname === `/admin/accounts` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/accounts` ? "#fff" : "#707E94"}`}
+        />
+      ),
+    },
+    {
+      href: `/admin/offlineaccounts`,
+      label: "Offline Accounts",
+      active: pathname === `/admin/offlineaccounts`,
+      authorized: userAuthorities?.includes("READ_ACCOUNT"),
+      icon: (
+        <Globe2
+          size={15}
+          color={`${
+            pathname === `/admin/offlineaccounts` ? "#fff" : "#707E94"
+          }`}
         />
       ),
     },
@@ -66,7 +84,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <Activity
           size={15}
-          color={`${pathname === `/admin/visitors` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/visitors` ? "#fff" : "#707E94"}`}
         />
       ),
     },
@@ -78,7 +96,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <DollarSign
           size={15}
-          color={`${pathname === `/admin/loans` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/loans` ? "#fff" : "#707E94"}`}
         />
       ),
     },
@@ -94,7 +112,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <Key
           size={15}
-          color={`${pathname === `/admin/permissions` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/permissions` ? "#fff" : "#707E94"}`}
         />
       ),
     },
@@ -107,7 +125,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <Lock
           size={15}
-          color={`${pathname === `/admin/roles` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/roles` ? "#fff" : "#707E94"}`}
         />
       ),
     },
@@ -119,11 +137,10 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <Users
           size={15}
-          color={`${pathname === `/admin/users` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/users` ? "#fff" : "#707E94"}`}
         />
       ),
     },
-
     {
       href: `/admin/emails`,
       label: "Emails",
@@ -132,7 +149,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <Mail
           size={15}
-          color={`${pathname === `/admin/emails` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/emails` ? "#fff" : "#707E94"}`}
         />
       ),
     },
@@ -144,7 +161,7 @@ export const MainNav: FC<SidebarProps> = ({
       icon: (
         <Settings
           size={15}
-          color={`${pathname === `/admin/settings` ? "#0EB8D5" : "#707E94"}`}
+          color={`${pathname === `/admin/settings` ? "#fff" : "#707E94"}`}
         />
       ),
     },

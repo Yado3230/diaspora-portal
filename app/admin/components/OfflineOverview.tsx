@@ -22,15 +22,16 @@ import {
   getReportMonthlyByYear,
 } from "@/actions/account-action";
 import { ReportType, ReportTypeByMonth } from "@/types/types";
-import { getOfflineAccountsDashboardReports } from "@/actions/offline-account-action";
+import {
+  getOfflineAccountsDashboardReports,
+  getOfflineAccountsReportMonthlyByYear,
+} from "@/actions/offline-account-action";
 
-const Overview = () => {
+const OfflineOverview = () => {
   const currentDate: Date = new Date();
   const currentYear: number = currentDate.getFullYear();
 
   const [dashboardData, setDashboardData] = useState<ReportType[]>();
-  const [offlineDashboardData, setOfflineDashboardData] =
-    useState<ReportType[]>();
   const [dateFilterByMonth, setDateFilterByMonth] =
     useState<ReportTypeByMonth[]>();
   const [dateFilterByMonth2, setDateFilterByMonth2] =
@@ -40,12 +41,10 @@ const Overview = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDashboardReports("");
-      const res11 = await getOfflineAccountsDashboardReports("");
-      const res2 = await getDashboardReports(currentYear);
-      const res3 = await getReportMonthlyByYear(currentYear);
+      const res = await getOfflineAccountsDashboardReports("");
+      const res2 = await getOfflineAccountsDashboardReports(currentYear);
+      const res3 = await getOfflineAccountsReportMonthlyByYear(currentYear);
       setDashboardData(res);
-      setOfflineDashboardData(res11);
       setDashboardDataByYear(res2);
       setDateFilterByMonth(res3);
       setDateFilterByMonth2(res3);
@@ -496,4 +495,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default OfflineOverview;

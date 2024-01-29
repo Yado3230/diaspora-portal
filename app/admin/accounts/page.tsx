@@ -1,10 +1,11 @@
 "use client";
 
-import { Account } from "@/types/types";
+import { Account, OfflineAccount } from "@/types/types";
 import ClientAccount from "./components/client";
 import { useEffect, useState } from "react";
 import { getAllAccounts } from "@/actions/account-action";
 import { format } from "date-fns";
+import { getAllOfflineAccounts } from "@/actions/offline-account-action";
 
 const Page = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -18,7 +19,7 @@ const Page = () => {
     fetchData();
   }, []);
 
-  const formattedclients: Account[] = accounts.map((item) => ({
+  const onlineformattedclients: Account[] = accounts.map((item) => ({
     id: item.id,
     fullName: item.fullName,
     surname: item.surname,
@@ -48,9 +49,10 @@ const Page = () => {
     createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
     updatedAt: format(new Date(item.updatedAt), "MMMM do, yyyy"),
   }));
+
   return (
     <div>
-      <ClientAccount data={formattedclients} />
+      <ClientAccount onlineData={onlineformattedclients} />
     </div>
   );
 };

@@ -14,7 +14,7 @@ interface LoginResponse {
 
 export const getAllUsers = async (): Promise<UserResponse[]> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/users`);
+    const res = await fetch(`${API_URL}api/v1/users?size=1000`);
     const responseData = await res.json();
     return responseData;
   } catch (error) {

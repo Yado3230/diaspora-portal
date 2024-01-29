@@ -94,7 +94,7 @@ const ChangePassword = () => {
                 />
               </div>
 
-              <div className="pt-4 space-y-2">
+              <div className="flex items-center mt-2 justify-end space-x-2">
                 <Button variant="outline" type="button" className="w-full">
                   Cancel
                 </Button>

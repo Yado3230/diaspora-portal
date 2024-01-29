@@ -17,20 +17,17 @@ import {
   UserRoundX,
 } from "lucide-react";
 import PieCharts from "./PieChart";
-import {
-  getDashboardReports,
-  getReportMonthlyByYear,
-} from "@/actions/account-action";
 import { ReportType, ReportTypeByMonth } from "@/types/types";
-import { getOfflineAccountsDashboardReports } from "@/actions/offline-account-action";
+import {
+  getLoanDashboardReports,
+  getLoanReportMonthlyByYear,
+} from "@/actions/loan-action";
 
-const Overview = () => {
+const LoanOverview = () => {
   const currentDate: Date = new Date();
   const currentYear: number = currentDate.getFullYear();
 
   const [dashboardData, setDashboardData] = useState<ReportType[]>();
-  const [offlineDashboardData, setOfflineDashboardData] =
-    useState<ReportType[]>();
   const [dateFilterByMonth, setDateFilterByMonth] =
     useState<ReportTypeByMonth[]>();
   const [dateFilterByMonth2, setDateFilterByMonth2] =
@@ -40,12 +37,10 @@ const Overview = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDashboardReports("");
-      const res11 = await getOfflineAccountsDashboardReports("");
-      const res2 = await getDashboardReports(currentYear);
-      const res3 = await getReportMonthlyByYear(currentYear);
+      const res = await getLoanDashboardReports("");
+      const res2 = await getLoanDashboardReports(currentYear);
+      const res3 = await getLoanReportMonthlyByYear(currentYear);
       setDashboardData(res);
-      setOfflineDashboardData(res11);
       setDashboardDataByYear(res2);
       setDateFilterByMonth(res3);
       setDateFilterByMonth2(res3);
@@ -57,7 +52,7 @@ const Overview = () => {
 
   useEffect(() => {
     const currentYear: number = new Date().getFullYear();
-    const yearRange: number = 10; // Adjust the range as needed
+    const yearRange: number = 10;
 
     const yearArray: number[] = Array.from(
       { length: yearRange },
@@ -67,14 +62,14 @@ const Overview = () => {
   }, []);
 
   const handleYearChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const res2 = await getDashboardReports(e.target.value);
+    const res2 = await getLoanDashboardReports(e.target.value);
     setDashboardDataByYear(res2);
   };
 
   const handleYearChangeLineChart = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const res2 = await getReportMonthlyByYear(e.target.value);
+    const res2 = await getLoanReportMonthlyByYear(e.target.value);
     setDateFilterByMonth(res2);
   };
 
@@ -117,6 +112,9 @@ const Overview = () => {
   }
 
   const previousMonthName: string = getMonthName(previousMonth - 1); // Subtract 1 to get the correct index
+
+  console.log(`Current Month: ${currentMonthName}`);
+  console.log(`Previous Month: ${previousMonthName}`);
 
   const approvedObject = dateFilterByMonth2?.find(
     (item) => item.status === "APPROVED"
@@ -395,7 +393,7 @@ const Overview = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-lg font-medium text-[#505050]">
-              Visitors
+              Initiated
             </CardTitle>
             <Activity color="#505050" />
           </CardHeader>
@@ -425,10 +423,9 @@ const Overview = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4 md:col-span-2 lg:col-span-4">
           <CardHeader>
-            {/* <CardTitle>Approved User accounts</CardTitle> */}
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Account Analytics</CardTitle>
+                <CardTitle>Loan Analytics</CardTitle>
                 <CardDescription>12 months data.</CardDescription>
               </div>
               <div>
@@ -496,4 +493,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default LoanOverview;

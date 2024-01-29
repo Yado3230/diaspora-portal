@@ -16,42 +16,53 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, User } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ChangePassword from "./ChangePassword";
 
-const formSchema = z.object({
-  fullName: z.string().min(1),
-  email: z.string().default(""),
-  password: z.string().default(""),
-  roleId: z.string(),
-});
-
 const Page = () => {
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  useEffect(() => {
+    const storedFullName =
+      typeof window !== "undefined" ? localStorage.getItem("fullname") : "";
+    const storedEmail =
+      typeof window !== "undefined" ? localStorage.getItem("email") : "";
+
+    setFullName(storedFullName || "");
+    setEmail(storedEmail || "");
+  }, []);
+
+  const formSchema = z.object({
+    fullName: z.string().min(1).default(fullName),
+    email: z.string().default(email),
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      roleId: "",
+      fullName: fullName || "",
+      email: email || "",
     },
   });
 
   return (
     <div>
-      <Tabs defaultValue="account" className="w-full">
+      <Tabs
+        defaultValue="account"
+        className="flex flex-col items-start justify-center w-full"
+      >
         <TabsList className="flex mb-4">
-          <TabsTrigger value="account" className="py-2">
+          <TabsTrigger value="account" className="">
             <User className="w-5 h-5 mr-2" />
             Account
           </TabsTrigger>
-          <TabsTrigger value="password" className="py-2">
+          <TabsTrigger value="password" className="">
             <Lock className="w-5 h-5 mr-2" /> Security
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="account">
+        <TabsContent value="account" className="w-full">
           <Card className="w-full p-4">
             <div>
               <div className="mb-3 flex items-center justify-between">
@@ -94,15 +105,20 @@ const Page = () => {
                         </FormItem>
                       )}
                     />
-                    <div className="pt-4 space-y-2">
+                    <div className="flex items-center mt-2 justify-end space-x-2">
                       <Button
                         variant="outline"
                         type="button"
+                        disabled
                         className="w-full"
                       >
                         Cancel
                       </Button>
-                      <Button type="submit" className="w-full bg-cyan-500">
+                      <Button
+                        disabled
+                        type="submit"
+                        className="w-full bg-cyan-500"
+                      >
                         Continue
                       </Button>
                     </div>
@@ -112,7 +128,7 @@ const Page = () => {
             </div>
           </Card>
         </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="password" className="w-full">
           <Card className="p-4">
             <ChangePassword />
           </Card>

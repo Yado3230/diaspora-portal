@@ -42,6 +42,17 @@ export interface ReportTypeByMonth {
   };
 }
 
+export interface OfflineAccount {
+  id: number;
+  fullName: string;
+  email: string;
+  emailVerified: true;
+  file: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface EmailTemplate {
   id: string;
   title: string;

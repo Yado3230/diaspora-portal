@@ -11,10 +11,10 @@ import exportDataToExcel from "@/components/exportDataToExcel";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ClientAccountProps {
-  onlineData: Account[];
+  offlineData: OfflineAccount[];
 }
 
-const ClientAccount: React.FC<ClientAccountProps> = ({ onlineData }) => {
+const ClientAccount: React.FC<ClientAccountProps> = ({ offlineData }) => {
   // const clientModal = useClientModal();
   const params = useParams();
   const router = useRouter();
@@ -25,8 +25,8 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ onlineData }) => {
     <>
       <div className="flex border-b pb-2 items-center justify-between">
         <Heading
-          title={`Accounts (${onlineData.length})`}
-          description="Manage Accounts"
+          title={`Offline Accounts (${offlineData.length})`}
+          description="Manage Offline Accounts"
         />
         <div></div>
         <div
@@ -41,7 +41,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ onlineData }) => {
             disabled={!userAuthorities?.includes("READ_ACCOUNT")}
             size="sm"
             className={`bg-cyan-500`}
-            onClick={() => exportDataToExcel("notfiltered", onlineData)}
+            onClick={() => exportDataToExcel("notfiltered", offlineData)}
             title="disabled"
           >
             <Download className="mr-2 h-4 w-4" />
@@ -53,7 +53,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ onlineData }) => {
         searchKey="fullName"
         clickable={true}
         columns={columns}
-        data={onlineData}
+        data={offlineData}
       />
     </>
   );

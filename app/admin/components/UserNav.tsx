@@ -23,7 +23,7 @@ export function UserNav() {
 
   useEffect(() => {
     setFullName(
-      (typeof window !== "undefined" ? localStorage.getItem("fullName") : "") ||
+      (typeof window !== "undefined" ? localStorage.getItem("fullname") : "") ||
         ""
     );
     setEmail(

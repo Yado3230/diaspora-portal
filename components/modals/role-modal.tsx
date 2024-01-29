@@ -259,7 +259,10 @@ export const RoleModal: React.FC<PermissionProps> = ({
               <h2 className="text-lg font-semibold mb-2">Role Permissions</h2>
               {Object.entries(groupedAuthorities).map(
                 ([resource, authorities], index) => (
-                  <div key={index} className="border-t border-b py-2">
+                  <div
+                    key={index}
+                    className="border-t border-b md:flex md:justify-between py-2"
+                  >
                     <div>{resource}</div>
                     <div className="grid grid-cols-2 md:grid-cols-4">
                       {["READ", "WRITE", "EDIT", "DELETE"].map(
@@ -302,19 +305,19 @@ export const RoleModal: React.FC<PermissionProps> = ({
               )}
             </div>
             <DialogFooter>
-              <div className="pt-4 space-y-2 flex flex-col md:flex-row items-center justify-center w-full mt-4">
+              <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                 <Button
                   variant="outline"
                   type="button"
                   onClick={roleModal.onClose}
-                  className="w-full md:w-auto"
+                  className="md:w-auto"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={loading || invoice.roleName === "SUPER-ADMIN"}
-                  className="w-full md:w-auto bg-cyan-500"
+                  className="md:w-auto bg-cyan-500"
                 >
                   {invoice.id !== 0 ? "Update" : "Add"}
                 </Button>
