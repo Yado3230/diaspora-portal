@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import fs from "fs";
-import { sendEmail } from "@/actions/email.action";
+// import { sendEmail } from "@/actions/email.action";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -77,8 +77,9 @@ export async function POST(req: Request) {
   );
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.coopbankoromiasc.com",
-    port: 587,
+    // host: "smtp.coopbankoromiasc.com",
+    service: "gmail",
+    // port: 587,
     auth: {
       user: process.env.NEXT_PUBLIC_EMAIL,
       pass: process.env.NEXT_PUBLIC_APP_PASSWORD,
@@ -86,7 +87,7 @@ export async function POST(req: Request) {
   });
 
   const mailOptions = {
-    from: "noreply_diaspora@coopbankoromiasc.com",
+    from: "coopbankdiaspora@gmail.com",
     to,
     subject,
     html: linkReplace11,

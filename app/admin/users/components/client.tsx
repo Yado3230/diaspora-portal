@@ -37,6 +37,7 @@ const UserClient: React.FC<UserClientProps> = ({ data }) => {
         </div>
       </div>
       <DataTable
+        type="users"
         searchKey="fullName"
         clickable={false}
         columns={columns}

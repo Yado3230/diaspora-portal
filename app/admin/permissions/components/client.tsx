@@ -65,6 +65,7 @@ const PermissionClient: React.FC<PermissionClientProps> = ({ data }) => {
       </div>
       <Separator />
       <DataTable
+        type="permission"
         searchKey="permissionName"
         clickable={true}
         columns={columns}
