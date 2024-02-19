@@ -1,65 +1,88 @@
-// import fs from "fs";
+import { EmailRequest, EmailResponse, SendEmail } from "@/types/types";
 
-// interface EmailTemplate {
-//   id: string;
-//   title: string;
-//   body: string;
-//   subject: string;
-// }
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-// export const readTemplates = async (): Promise<EmailTemplate[]> => {
-//   try {
-//     const data = await fs.promises.readFile("email.json", "utf8");
-//     return JSON.parse(data) as EmailTemplate[];
-//   } catch (error) {
-//     console.error(error);
-//     return [];
-//   }
-// };
+export const getAllEmails = async (): Promise<EmailResponse[]> => {
+  try {
+    let url = `${API_URL}api/v1/email-templates`;
+    // Add more parameters as needed
+    const res = await fetch(url);
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
 
-// export const createTemplate = async (
-//   newTemplate: EmailTemplate
-// ): Promise<void> => {
-//   try {
-//     const templates = await readTemplates();
-//     newTemplate.id = Math.random().toString(); // Generate unique ID
-//     templates.push(newTemplate);
-//     await fs.promises.writeFile("email.json", JSON.stringify(templates));
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+export const createEmail = async (
+  values: EmailRequest
+): Promise<EmailRequest> => {
+  try {
+    const res = await fetch(`${API_URL}api/v1/email-templates`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
-// export const updateTemplate = async (
-//   updatedTemplate: EmailTemplate
-// ): Promise<void> => {
-//   try {
-//     const templates = await readTemplates();
-//     const index = templates.findIndex(
-//       (template) => template.id === updatedTemplate.id
-//     );
-//     if (index > -1) {
-//       templates[index] = updatedTemplate;
-//       await fs.promises.writeFile("email.json", JSON.stringify(templates));
-//     } else {
-//       console.error(`Template with ID ${updatedTemplate.id} not found`);
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+export const editEmail = async (
+  id: number,
+  values: EmailRequest
+): Promise<EmailResponse> => {
+  try {
+    const res = await fetch(`${API_URL}api/v1/email-templates/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
-// export const deleteTemplate = async (id: string): Promise<void> => {
-//   try {
-//     const templates = await readTemplates();
-//     const index = templates.findIndex((template) => template.id === id);
-//     if (index > -1) {
-//       templates.splice(index, 1);
-//       await fs.promises.writeFile("email.json", JSON.stringify(templates));
-//     } else {
-//       console.error(`Template with ID ${id} not found`);
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+export const deleteEmail = async (id: number): Promise<Boolean> => {
+  try {
+    const res = await fetch(`${API_URL}api/v1/email-templates/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error(`Request failed with status: ${res.status}`);
+    }
+    const responseData = res.ok;
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
+
+export const sendEmail = async (values: SendEmail): Promise<EmailRequest> => {
+  try {
+    const res = await fetch(`${API_URL}api/v1/services/send-email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

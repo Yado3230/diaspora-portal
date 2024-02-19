@@ -16,6 +16,7 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import { Account, Loan } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { deleteAccount } from "@/actions/account-action";
+import { deleteLoan } from "@/actions/loan-action";
 
 interface CellActionProps {
   data: Loan;
@@ -32,9 +33,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await deleteAccount(data.id.toString());
+      await deleteLoan(data.id.toString());
       router.refresh();
-      toast.success("Account deleted.");
+      toast.success("Loan deleted.");
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {

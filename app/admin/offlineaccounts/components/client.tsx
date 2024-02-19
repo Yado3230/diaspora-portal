@@ -9,16 +9,13 @@ import { Account, OfflineAccount } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import exportDataToExcel from "@/components/exportDataToExcel";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import exportOfflineDataToExcel from "@/components/exportOfflineDataToExcel";
 
 interface ClientAccountProps {
   offlineData: OfflineAccount[];
 }
 
 const ClientAccount: React.FC<ClientAccountProps> = ({ offlineData }) => {
-  // const clientModal = useClientModal();
-  const params = useParams();
-  const router = useRouter();
-
   const userAuthorities = localStorage.getItem("authorities");
 
   return (
@@ -41,7 +38,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ offlineData }) => {
             disabled={!userAuthorities?.includes("READ_ACCOUNT")}
             size="sm"
             className={`bg-cyan-500`}
-            onClick={() => exportDataToExcel("notfiltered", offlineData)}
+            onClick={() => exportOfflineDataToExcel("notfiltered", offlineData)}
             title="disabled"
           >
             <Download className="mr-2 h-4 w-4" />
@@ -50,6 +47,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ offlineData }) => {
         </div>
       </div>
       <DataTable
+        type="offline"
         searchKey="fullName"
         clickable={true}
         columns={columns}

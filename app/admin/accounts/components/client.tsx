@@ -50,6 +50,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({ onlineData }) => {
         </div>
       </div>
       <DataTable
+        type="account"
         searchKey="fullName"
         clickable={true}
         columns={columns}

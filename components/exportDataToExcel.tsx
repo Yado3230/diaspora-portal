@@ -69,7 +69,7 @@ const exportDataToExcel = (filtered: string, data: any) => {
   XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
 
   // Save the workbook to a file
-  XLSX.writeFile(wb, "output.xlsx", { bookSST: true });
+  XLSX.writeFile(wb, "accounts.xlsx", { bookSST: true });
 };
 
 export default exportDataToExcel;

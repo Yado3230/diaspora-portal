@@ -35,6 +35,7 @@ const VisitorClient: React.FC<VisitorClientProps> = ({ data }) => {
         </div>
       </div>
       <DataTable
+        type="account"
         searchKey="fullName"
         clickable={false}
         columns={columns}

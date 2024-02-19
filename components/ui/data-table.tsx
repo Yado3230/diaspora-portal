@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
+  type: string;
   clickable: boolean;
 }
 
@@ -47,6 +48,7 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
   clickable,
+  type,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -134,12 +136,23 @@ export function DataTable<TData, TValue>({
                 <Button
                   className="ml-2 border"
                   size="sm"
-                  onClick={() =>
-                    exportDataToExcel(
-                      "filtered",
-                      table.getFilteredSelectedRowModel().rows
-                    )
-                  }
+                  onClick={() => {
+                    type === "loan"
+                      ? exportDataToExcel(
+                          "filtered",
+                          table.getFilteredSelectedRowModel().rows
+                        )
+                      : type === "account"
+                      ? exportDataToExcel(
+                          "filtered",
+                          table.getFilteredSelectedRowModel().rows
+                        )
+                      : type === "offline" &&
+                        exportDataToExcel(
+                          "filtered",
+                          table.getFilteredSelectedRowModel().rows
+                        );
+                  }}
                   variant="secondary"
                   disabled={loading}
                 >

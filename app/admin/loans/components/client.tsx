@@ -7,6 +7,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { Loan } from "@/types/types";
 import { Heading } from "@/components/ui/heading";
 import exportDataToExcel from "@/components/exportDataToExcel";
+import exportLoanDataToExcel from "@/components/exportLoanDataToExcel";
 
 interface LoanClientProps {
   data: Loan[];
@@ -27,7 +28,7 @@ const LoanClient: React.FC<LoanClientProps> = ({ data }) => {
           <Button
             size="sm"
             className="bg-cyan-500"
-            onClick={() => exportDataToExcel("notfiltered", data)}
+            onClick={() => exportLoanDataToExcel("notfiltered", data)}
           >
             <Download className="mr-2 h-4 w-4" />
             Export All
@@ -35,6 +36,7 @@ const LoanClient: React.FC<LoanClientProps> = ({ data }) => {
         </div>
       </div>
       <DataTable
+        type="loan"
         searchKey="fullName"
         clickable={false}
         columns={columns}

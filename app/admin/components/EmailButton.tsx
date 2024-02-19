@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { EmailTemplate } from "@/types/types";
+import { EmailResponse } from "@/types/types";
 import { z } from "zod";
 import { Form, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,12 +30,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import toast from "react-hot-toast";
-// import ReactQuill from "react-quill";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
+import { getAllEmails } from "@/actions/email.action";
 
 const formSchema = z.object({
-  id: z.string().default(""),
+  id: z.coerce.number().default(0),
   title: z.string().default(""),
   subject: z.string().default(""),
   body: z.string().default(""),
@@ -47,14 +47,16 @@ export function EmailButton({ customers }: any) {
   const [value, setValue] = React.useState("");
   const isOtherSelected = value.length > 0;
   const [selectedLabel, setSelectedLabel] = React.useState<
-    EmailTemplate | undefined
+    EmailResponse | undefined
   >(undefined);
 
-  const [selectedEmail, setSelectedEmail] = React.useState<EmailTemplate>({
-    id: "",
+  const [selectedEmail, setSelectedEmail] = React.useState<EmailResponse>({
+    id: 0,
     title: "",
     subject: "",
     body: "",
+    addedAt: new Date(),
+    updatedAt: new Date(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,7 +64,7 @@ export function EmailButton({ customers }: any) {
     defaultValues: selectedEmail
       ? selectedEmail
       : {
-          id: "",
+          id: 0,
           title: "",
           subject: "",
           body: "",
@@ -102,16 +104,12 @@ export function EmailButton({ customers }: any) {
     setValue("body", defaultValues?.body ?? "");
   }, [defaultValues]);
 
-  const [emails, setEmails] = React.useState<EmailTemplate[]>([]);
+  const [emails, setEmails] = React.useState<EmailResponse[]>([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("/api/emails");
-      if (!res.ok) {
-        throw new Error(`Request failed with status: ${res.status}`);
-      }
-      const responseData = await res.json();
-      const data = responseData instanceof Array ? responseData : [];
+      const res = await getAllEmails();
+      const data = res instanceof Array ? res : [];
       setEmails(data);
     };
     fetchData();
@@ -326,10 +324,12 @@ export function EmailButton({ customers }: any) {
                 value="other"
                 onSelect={(currentValue) => {
                   setSelectedEmail({
-                    id: "",
+                    id: 0,
                     title: "other",
                     body: "",
                     subject: "",
+                    addedAt: new Date(),
+                    updatedAt: new Date(),
                   });
                   setValue(currentValue === value ? "" : currentValue);
                   setOpen(value.length ? false : true);

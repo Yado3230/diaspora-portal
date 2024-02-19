@@ -23,21 +23,18 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import { DialogFooter } from "../ui/dialog";
 import dynamic from "next/dynamic";
+import { EmailResponse } from "@/types/types";
+import { createEmail, editEmail } from "@/actions/email.action";
 
 const formSchema = z.object({
-  id: z.string().default(""),
+  id: z.coerce.number().default(0),
   title: z.string().default(""),
   subject: z.string().default(""),
   body: z.string().default(""),
 });
 
 interface EmailProps {
-  invoice: {
-    id: string;
-    title: string;
-    body: string;
-    subject: string;
-  };
+  invoice: EmailResponse;
   updated: boolean;
   setUpdated: (updated: boolean) => void;
 }
@@ -55,7 +52,7 @@ export const EmailModal: React.FC<EmailProps> = ({
     defaultValues: invoice
       ? invoice
       : {
-          id: "",
+          id: 0,
           title: "",
           subject: "",
           body: "",
@@ -90,31 +87,16 @@ export const EmailModal: React.FC<EmailProps> = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      const response = invoice.id.length
-        ? await fetch("/api/emails", {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: invoice.id,
-              subject: values.subject,
-              title: values.title,
-              body: values.body,
-            }),
+      const response = invoice.id
+        ? await editEmail(invoice.id, {
+            subject: values.subject,
+            title: values.title,
+            body: values.body,
           })
-        : await fetch("/api/emails", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-          });
+        : await createEmail(values);
       emailModal.onClose();
-      const data = await response.json();
       setUpdated(!updated);
-      toast.success(invoice.id.length ? "Updated" : "Saved");
-      return data;
+      toast.success(invoice.id ? "Updated" : "Saved");
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
@@ -208,7 +190,7 @@ export const EmailModal: React.FC<EmailProps> = ({
                   disabled={loading}
                   className="bg-cyan-500"
                 >
-                  {invoice.id.length ? "Update" : "Add"}
+                  {invoice.id ? "Update" : "Add"}
                 </Button>
               </div>
             </DialogFooter>

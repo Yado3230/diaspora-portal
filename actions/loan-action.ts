@@ -5,7 +5,6 @@ const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export const getAllLoans = async (): Promise<Loan[]> => {
   try {
     let url = `${API_URL}api/v1/loans?size=1000&sortBy=loanAmount&sortDirection=desc`;
-    // Add more parameters as needed
     const res = await fetch(url);
     const responseData = await res.json();
     return responseData;

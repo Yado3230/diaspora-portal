@@ -189,3 +189,25 @@ export interface LoanById {
   addedAt: Date;
   updatedAt: Date;
 }
+
+export interface EmailResponse {
+  id: number;
+  subject: string;
+  title: string;
+  body: string;
+  addedAt: Date;
+  updatedAt: Date;
+}
+
+export interface EmailRequest {
+  subject: string;
+  title: string;
+  body: string;
+}
+
+export interface SendEmail {
+  subject: string;
+  // title: string;
+  to: string;
+  text: string;
+}

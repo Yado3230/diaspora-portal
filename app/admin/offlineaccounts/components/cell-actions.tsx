@@ -16,6 +16,7 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import { Account, OfflineAccount } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { deleteAccount } from "@/actions/account-action";
+import { deleteOfflineAccount } from "@/actions/offline-account-action";
 
 interface CellActionProps {
   data: OfflineAccount;
@@ -32,7 +33,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await deleteAccount(data.id.toString());
+      await deleteOfflineAccount(data.id.toString());
       router.refresh();
       toast.success("Account deleted.");
     } catch (error) {

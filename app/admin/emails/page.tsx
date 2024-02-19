@@ -17,54 +17,52 @@ import {
 import { useEmailModal } from "@/hooks/use-email-modal";
 import { Edit, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { EmailTemplate } from "@/types/types";
+import { EmailResponse, EmailTemplate } from "@/types/types";
+import { deleteEmail, getAllEmails } from "@/actions/email.action";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const EmailPage = () => {
   const emailModal = useEmailModal();
 
-  const [emails, setEmails] = useState<EmailTemplate[]>([]);
+  const [emails, setEmails] = useState<EmailResponse[]>([]);
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("/api/emails");
-      if (!res.ok) {
-        throw new Error(`Request failed with status: ${res.status}`);
-      }
-      const responseData = await res.json();
-      const data = responseData instanceof Array ? responseData : [];
-      setEmails(data);
+      const res = await getAllEmails();
+      setEmails(res);
     };
     fetchData();
   }, [updated]);
 
   const [loading, setLoading] = useState(false);
-  const [invoice, setInvoice] = useState<{
-    id: string;
-    title: string;
-    body: string;
-    subject: string;
-  }>({
-    id: "",
+  const router = useRouter();
+  const [invoice, setInvoice] = useState<EmailResponse>({
+    id: 0,
     title: "",
     body: "",
     subject: "",
+    addedAt: new Date(),
+    updatedAt: new Date(),
   });
   const [open, setOpen] = useState(false);
 
   const onDelete = async () => {
-    // try {
-    //   setLoading(true);
-    //   await deleteAccount(data.id.toString());
-    //   router.refresh();
-    //   toast.success("Account deleted.");
-    // } catch (error) {
-    //   toast.error("Something went wrong!");
-    // } finally {
-    //   setLoading(false);
-    //   setOpen(false);
-    // }
+    try {
+      setLoading(true);
+      await deleteEmail(invoice.id);
+      router.refresh();
+      toast.success("Email deleted.");
+      setUpdated(!updated);
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
   };
+
   const keys = [
     "name",
     "account-id",
@@ -111,10 +109,12 @@ const EmailPage = () => {
             className="bg-cyan-500"
             onClick={() => {
               setInvoice({
-                id: "",
+                id: 0,
                 title: "",
                 body: "",
                 subject: "",
+                addedAt: new Date(),
+                updatedAt: new Date(),
               });
               emailModal.onOpen();
             }}
@@ -188,7 +188,10 @@ const EmailPage = () => {
                     >
                       <Trash
                         color="#DE8224"
-                        onClick={() => setOpen(true)}
+                        onClick={() => {
+                          setInvoice(invoice);
+                          setOpen(true);
+                        }}
                         className="w-5 h-5 cursor-pointer"
                       />
                     </Button>
@@ -203,7 +206,10 @@ const EmailPage = () => {
         <h1 className="text-xl font-semibold mb-4">Replacement Keys</h1>
         <ul className="grid md:grid-cols-3 gap-x-4">
           {keys.map((key) => (
-            <li key={key} className="mb-2 flex items-center justify-between border p-1 rounded-md">
+            <li
+              key={key}
+              className="mb-2 flex items-center justify-between border p-1 rounded-md"
+            >
               <span>for {key}</span>:
               <span>
                 <strong>{`{{${key}}}`}</strong>

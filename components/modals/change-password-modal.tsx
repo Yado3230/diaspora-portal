@@ -33,7 +33,7 @@ const formSchema = z
       .min(6)
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, {
         message:
-          "Password must contain at least one uppercase, one lowercase, and one numerical character",
+          "Password must contain at least one uppercase, one lowercase, and one numerical character, but no special characters",
       }),
     confirmPassword: z
       .string()
