@@ -26,8 +26,8 @@ export const getLoanById = async (id: string): Promise<LoanById> => {
 
 export const deleteLoan = async (id: string): Promise<Boolean> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/loans/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${API_URL}api/v1/loans/delete/${id}`, {
+      method: "POST",
     });
     if (!res.ok) {
       throw new Error(`Request failed with status: ${res.status}`);

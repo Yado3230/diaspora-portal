@@ -49,8 +49,8 @@ export interface OfflineAccount {
   emailVerified: true;
   file: string;
   status: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface EmailTemplate {
@@ -134,8 +134,8 @@ export interface Loan {
   loanSchedule: string;
   branch: string;
   status: string;
-  addedAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface LoanType {
@@ -186,8 +186,8 @@ export interface LoanById {
   branch: Branch;
   loanDocuments: loanDocument[];
   status: string;
-  addedAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface EmailResponse {

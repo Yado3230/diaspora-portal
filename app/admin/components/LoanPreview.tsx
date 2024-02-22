@@ -32,7 +32,7 @@ const PreviewPage: FC<PreviewProps> = ({ data }) => {
     loanAmount,
     loanDocuments,
     status,
-    addedAt,
+    createdAt: addedAt,
   } = data;
 
   const getStatusColor = (status: any) => {

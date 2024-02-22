@@ -74,8 +74,8 @@ export const getOfflineAccountById = async (
 
 export const deleteOfflineAccount = async (id: string): Promise<Boolean> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/offline-accounts/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${API_URL}api/v1/offline-accounts/delete/${id}`, {
+      method: "POST",
     });
     if (!res.ok) {
       throw new Error(`Request failed with status: ${res.status}`);
@@ -94,9 +94,9 @@ export const changeOfflineAccountStatus = async (
 ): Promise<Boolean> => {
   try {
     const res = await fetch(
-      `${API_URL}api/v1/offline-accounts/${id}/update-status?status=${status}`,
+      `${API_URL}api/v1/offline-accounts/update/${id}/update-status?status=${status}`,
       {
-        method: "PUT",
+        method: "POST",
       }
     );
     if (!res.ok) {

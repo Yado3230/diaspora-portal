@@ -45,8 +45,8 @@ const Page = () => {
     signature: item.signature,
     accountType: item.accountType,
     status: item.status,
-    createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
-    updatedAt: format(new Date(item.updatedAt), "MMMM do, yyyy"),
+    createdAt: new Date(item.createdAt).toISOString().split("T")[0],
+    updatedAt: new Date(item.updatedAt).toISOString().split("T")[0],
   }));
   return (
     <div>

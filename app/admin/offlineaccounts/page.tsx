@@ -25,8 +25,8 @@ const Page = () => {
       file: item.file,
       status: item.status,
       emailVerified: item.emailVerified,
-      createdAt: item.createdAt,
-      updatedAt: item.updatedAt,
+      createdAt: new Date(item.createdAt).toISOString().split("T")[0],
+      updatedAt: new Date(item.updatedAt).toISOString().split("T")[0],
     })
   );
 

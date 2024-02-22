@@ -39,8 +39,8 @@ export const editEmail = async (
   values: EmailRequest
 ): Promise<EmailResponse> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/email-templates/${id}`, {
-      method: "PUT",
+    const res = await fetch(`${API_URL}api/v1/email-templates/update/${id}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -56,8 +56,8 @@ export const editEmail = async (
 
 export const deleteEmail = async (id: number): Promise<Boolean> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/email-templates/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${API_URL}api/v1/email-templates/delete/${id}`, {
+      method: "POST",
     });
     if (!res.ok) {
       throw new Error(`Request failed with status: ${res.status}`);

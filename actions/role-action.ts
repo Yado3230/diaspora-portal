@@ -44,8 +44,8 @@ export const createRole = async (values: {
 
 export const deleteRole = async (id: number): Promise<[]> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/roles/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${API_URL}api/v1/roles/delete/${id}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -64,7 +64,7 @@ export const editRole = async (
 ): Promise<Role> => {
   try {
     const res = await fetch(`${API_URL}api/v1/roles/${id}/set-authorities`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

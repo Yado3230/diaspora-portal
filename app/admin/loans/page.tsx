@@ -27,7 +27,7 @@ const Page = () => {
     loanSchedule: item.loanSchedule,
     branch: item.branch,
     status: item.status,
-    addedAt: item.addedAt,
+    createdAt: item.createdAt,
     updatedAt: item.updatedAt,
   }));
   return (

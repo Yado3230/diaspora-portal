@@ -48,7 +48,14 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
     src,
     label,
   }) => (
-    <div className="bg-white p-4 border rounded">
+    <div
+      className={`bg-white p-4 border rounded ${
+        src.length > 0 ? "cursor-pointer" : ""
+      }`}
+      onClick={() => {
+        src?.length > 0 && window.open(src, "_blank");
+      }}
+    >
       <Image
         src={src}
         width={200}
@@ -102,7 +109,14 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
   return (
     <div className="container mx-auto">
       <div className="max-w-full mx-auto bg-white p-8 border rounded shadow-lg">
-        <div className="flex flex-col items-center mb-6">
+        <div
+          className={`flex flex-col items-center mb-6 ${
+            data?.photo?.length > 0 ? "cursor-pointer" : ""
+          }`}
+          onClick={() => {
+            data?.photo?.length > 0 && window.open(data?.photo, "_blank");
+          }}
+        >
           <img
             src={data?.photo}
             alt="Profile Photo"
@@ -241,7 +255,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   <span className="font-bold">Initial Deposit</span>
                   <span>
                     : $
-                    {data?.initialDeposit.toLocaleString() || (
+                    {data?.initialDeposit?.toLocaleString() || (
                       <span className="text-red-400">Not Filled</span>
                     )}
                   </span>
@@ -250,7 +264,7 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   <span className="font-bold">Monthly Income</span>
                   <span>
                     : $
-                    {data?.monthlyIncome.toLocaleString() || (
+                    {data?.monthlyIncome?.toLocaleString() || (
                       <span className="text-red-400">Not Filled</span>
                     )}
                   </span>
@@ -302,11 +316,13 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
           />
           <ImageCard
             src={data?.signature || ""}
-            label={`${data?.passport ? "Signature" : "Not Uploaded"}`}
+            label={`${data?.signature ? "Signature" : "Not Uploaded"}`}
           />
           <ImageCard
             src={data?.confirmationForm || ""}
-            label={`${data?.passport ? "Confirmation Form" : "Not Uploaded"}`}
+            label={`${
+              data?.confirmationForm ? "Confirmation Form" : "Not Uploaded"
+            }`}
           />
         </div>
 
@@ -335,21 +351,6 @@ const AccountPreview: React.FC<PreviewProps> = ({ data, accounts }) => {
                   ) && "Not Authorized"
                 }`}
               >
-                {/* <Button
-                  disabled={
-                    !(
-                      userAuthorities?.includes("EDIT_ACCOUNT") ||
-                      userAuthorities?.includes("WRITE_ACCOUNT")
-                    )
-                  }
-                  className="ml-2 border"
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => setShowEmailBox(true)}
-                >
-                  <X className="mr-2 h-4 w-4" />
-                  Reject
-                </Button> */}
                 <Popover>
                   <PopoverTrigger asChild>
                     {/* <Button variant="outline">Open popover</Button> */}

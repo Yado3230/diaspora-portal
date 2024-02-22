@@ -98,8 +98,8 @@ export const getMe = async (
 
 export const deleteUser = async (id: string): Promise<Boolean> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/users/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${API_URL}api/v1/users/delete/${id}`, {
+      method: "POST",
     });
     if (!res.ok) {
       throw new Error(`Request failed with status: ${res.status}`);

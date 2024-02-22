@@ -71,8 +71,8 @@ export const getAccountById = async (id: string): Promise<Account> => {
 
 export const deleteAccount = async (id: string): Promise<Boolean> => {
   try {
-    const res = await fetch(`${API_URL}api/v1/accounts/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${API_URL}api/v1/accounts/delete/${id}`, {
+      method: "POST",
     });
     if (!res.ok) {
       throw new Error(`Request failed with status: ${res.status}`);
@@ -91,9 +91,9 @@ export const changeAccountStatus = async (
 ): Promise<Boolean> => {
   try {
     const res = await fetch(
-      `${API_URL}api/v1/accounts/${id}/update-status?status=${status}`,
+      `${API_URL}api/v1/accounts/update/${id}/update-status?status=${status}`,
       {
-        method: "PUT",
+        method: "POST",
       }
     );
     if (!res.ok) {
